@@ -1,0 +1,3 @@
+# Preface {.unnumbered}
+
+I didn't originally set out to write a book. This was supposed to be a series of blog posts that explored machine learning models and natural language processing. The idea was simple, to explain machine learning by incrementally changing a model using the same data set. I wanted to do away with math equations and proofs and focus on intuitive understanding of machine learning with programming examples from scratch. Inspiration came from the [fastai course](https://course.fast.ai/) which takes a similar approach. My motivation was to better understand the algorithms I use in practice while developing the learning materials I wish I had. Practical examples with real data that explains algorithms with code step by step. I hope you find this useful.

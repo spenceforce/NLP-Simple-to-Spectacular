@@ -1,0 +1,13 @@
+# Introduction {.unnumbered}
+
+As somebody who's a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to "implement" the algorithm using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any "mathy" stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.
+
+The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.
+
+This book is written entirely in [jupyter notebooks](https://github.com/spenceforce/nlp_simple_to_spectacular) so you can run the code. Each chapter lives in it's own directory. A conda environment file is provided at the root of the project with everything you need to run each chapter in this book.
+
+## Asking for help
+
+I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what's going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn't essential to the post I'll note it in the margin. Check out the right margin to see what I mean[Hi I'm a note in the right margin, ok you can go back to the main text now.]{.aside}.
+
+However, if you have questions about the concepts I go over or find my explanations confusing, don't be afraid to drop me an email at [smitchell556[at]gmail.com](mailto:smitchell556@gmail.com). If you're confused by what I write, somebody else probably is to and I can update the post to be more clear.

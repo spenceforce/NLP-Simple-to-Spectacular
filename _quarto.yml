@@ -1,0 +1,22 @@
+project:
+  type: book
+
+book:
+  title: "NLP: From Simple to Spectacular"
+  author: "Spencer Mitchell"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 01_data/data.ipynb
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-line-numbers: true
+  pdf:
+    documentclass: scrreprt
+
+email-obfuscation: javascript
