@@ -21,3 +21,6 @@ format:
 #    documentclass: scrreprt
 
 email-obfuscation: javascript
+
+execute:
+  freeze: auto
