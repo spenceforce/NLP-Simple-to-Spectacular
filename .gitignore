@@ -164,6 +164,7 @@ cython_debug/
 # Quarto
 /.quarto/
 /_book/
+/docs/
 
 # Data
 aclImdb/
