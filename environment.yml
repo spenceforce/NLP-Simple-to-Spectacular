@@ -1,0 +1,11 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- ipython=8.26.0
+- jupyter=1.0.0
+- python=3.12.4
+- scikit-learn=1.5.1
+- seaborn=0.13.2
+- tqdm=4.66.5
+name: nlp_simple_to_spectacular
