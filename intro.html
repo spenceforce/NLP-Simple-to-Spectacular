@@ -141,6 +141,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link active" data-scroll-target="#asking-for-help">Asking for help</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   </ul>
 </nav>
     </div>
@@ -166,9 +167,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
+<p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
 <p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
-<p>This book is written entirely in <a href="https://github.com/spenceforce/nlp_simple_to_spectacular">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A conda environment file is provided at the root of the project with everything you need to run each chapter in this book.</p>
+<p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
 <section id="asking-for-help" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
 <div class="page-columns page-full"><p>I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what’s going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn’t essential to the post I’ll note it in the margin. Check out the right margin to see what I mean.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Hi I’m a note in the right margin, ok you can go back to the main text now.</span></div></div>
@@ -178,6 +179,22 @@ h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x73;&#x
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x73;&#x6d;&#x69;&#116;&#x63;&#104;&#x65;&#108;&#108;&#x35;&#x35;&#54;&#x5b;&#x61;&#116;&#x5d;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;'+'<\/'+'a'+'>');
 // -->
 </script><noscript>smitchell556[at]gmail.com (smitchell556 at gmail dot com)</noscript>. If you’re confused by what I write, somebody else probably is to and I can update the post to be more clear.</p>
+</section>
+<section id="prerequisites" class="level1">
+<h1>Prerequisites</h1>
+<p>Familiarity with Python and how to use external packages as I’ve already mentioned. There are a few packages we will rely on for machine learning adjacent tasks.</p>
+<ul>
+<li><a href="https://pandas.pydata.org/docs/">pandas</a></li>
+<li><a href="https://numpy.org/doc/stable/">numpy</a></li>
+<li><a href="https://seaborn.pydata.org/index.html">seaborn</a></li>
+</ul>
+<p>I recommend at least walking through the introductory tutorials for these if you’re not familiar with them.</p>
+<p>Separately, there’s some machine learning packages we will use throughout the book.</p>
+<ul>
+<li><a href="https://scikit-learn.org/stable/">scikit-learn</a></li>
+<li><a href="https://pytorch.org/docs/stable/index.html">pytorch</a></li>
+</ul>
+<p>These libraries are fundamental for machine learning and deep learning. You don’t need to know anything about them because we will cover them.</p>
 
 
 </section>
