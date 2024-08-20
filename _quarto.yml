@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: docs
 
 book:
   title: "NLP: From Simple to Spectacular"
@@ -16,7 +17,7 @@ format:
   html:
     theme: cosmo
     code-line-numbers: true
-  pdf:
-    documentclass: scrreprt
+#  pdf:
+#    documentclass: scrreprt
 
 email-obfuscation: javascript
