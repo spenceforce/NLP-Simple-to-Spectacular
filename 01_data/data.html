@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NLP: From Simple to Spectacular - 1&nbsp; Machine learning needs data</title>
+<title>1&nbsp; Machine learning needs data – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -135,13 +135,13 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01_data/data.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -479,10 +479,9 @@ div.csl-indent {
 <span id="cb12-2"><a href="#cb12-2"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -540,7 +539,6 @@ div.csl-indent {
 </div>
 </div>
 </div>
-</div>
 <p>Those look like reviews! Now that we have data in hand to play with, what questions can we answer about it? Maybe we should verify the information provided by the curators of this dataset.</p>
 <ul>
 <li>Are there 25k reviews in the train set?</li>
@@ -570,10 +568,9 @@ memory usage: 1.1+ MB</code></pre>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>train_df.describe(include<span class="op">=</span>[<span class="bu">object</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -608,7 +605,6 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 </div>
 </div>
-</div>
 <p>The <code>include=[object]</code> argument tells <code>describe</code> to look at columns with the <code>object</code> data type instead of numeric data types. Strings fall under the <code>object</code> type in <code>pandas</code>.</p>
 <p>The <code>movie_id</code> column shows the most frequent movie ID shows up 30 times. So we know there’s at most 30 reviews for a given movie in this dataset.</p>
 <p>The <code>review</code> column has a count of 25k, but 24,904 unique entries which means there’s 96 duplicate reviews. From a training perspective, it doesn’t make sense to have duplicate items in the train set, but before we drop the duplicate reviews, let’s take a peek at them to see if they belong to the same movie and have the same ratings and labels.</p>
@@ -623,10 +619,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb17-2"><a href="#cb17-2"></a>duplicate_nunique.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -671,7 +666,6 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 </div>
 </div>
-</div>
 <p><code>groupby</code> is grouping rows with the same <code>review</code> column together into their own dataframes. The return value of this operation is a <code>DataFrameGroupBy</code>. This special dataframe type performs operations on each group as if they were their own dataframe instead of all rows in the dataframe. <code>agg</code> performs an operation on the entire dataframe, but since this is a <code>DataFrameGroupBy</code> object, the <code>agg</code> method is applied to each group. In this case it counts the number of unique values in each column.</p>
 <p>It turns out there are duplicate reviews for different movie IDs. It’s possible duplicate reviews with different ratings or labels but since we only looked at the first three rows we can’t say if that’s true or not. Let’s inspect the two reviews above that have multiple movie IDs.</p>
 <div id="cb7587f1-fedc-4d0f-8567-92f185d8abba" class="cell" data-execution_count="16">
@@ -679,10 +673,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb18-2"><a href="#cb18-2"></a>duplicate_reviews[is_first2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -732,7 +725,6 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="page-columns page-full"><p>Remember we are provided a URL for the comments section of each review which is where we extract the movie ID from. This means we can go backwards from movie ID to movie URL. One review is for movies at the URLs <a href="http://www.imdb.com/title/tt0223119/reviews">http://www.imdb.com/title/tt0223119/reviews</a> and <a href="http://www.imdb.com/title/tt0118939/reviews">http://www.imdb.com/title/tt0118939/reviews</a> and the other at <a href="http://www.imdb.com/title/tt0163806/review">http://www.imdb.com/title/tt0163806/reviews</a> and <a href="http://www.imdb.com/title/tt0043224/reviews">http://www.imdb.com/title/tt0043224/reviews</a>. When I click on each pair one gets redirected to the other. Movie IDs tt0223119 and tt0118939 are for <a href="https://www.imdb.com/title/tt0118939/"><em>Dead Letter Office</em></a>, and tt0163806 and tt0043224 are for <a href="https://www.imdb.com/title/tt0043224/"><em>The Red Skelton Hour</em></a>. Although they have different movie IDs, they are reviews for the <em>same movie</em> and therefore are truly duplicate reviews. This is a one-to-many relationship; one movie can have many IDs.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I checked these links in August 2024. The URL endpoints may have changed in the future.</span></div></div>
 <p>While it’s not incredibly important, <em>The Red Skelton Hour</em> is actually a TV show. It turns out this dataset contains reviews for movies <em>and tv shows</em>. See what a little digging can turn up?</p>
 <p>We could check every single movie ID for duplicate reviews manually (or have an intern do it) because it’s possible there are duplicate reviews for different movies, but our task is to predict a label (positive or negative) given a review. Our models don’t need to see the same review over and over again in order to make predictions about them…unless duplicate reviews have different labels! Why would we want to train on both examples in this case? If the same review can be positive or negative, then training a machine learning model with both examples will teach the model to be uncertain about some reviews where the language is more ambiguous.</p>
@@ -742,10 +734,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb19-2"><a href="#cb19-2"></a>duplicate_nunique[different_labels]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -766,7 +757,6 @@ memory usage: 1.1+ MB</code></pre>
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
@@ -796,10 +786,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb20-22"><a href="#cb20-22"></a>train_df.groupby(<span class="st">'label'</span>).describe(include<span class="op">=</span><span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -858,7 +847,6 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div id="080f527c-8cd1-49ce-b76a-f58770f00134" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>train_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
@@ -871,10 +859,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb23-2"><a href="#cb23-2"></a>test_df.groupby(<span class="st">'label'</span>).describe(include<span class="op">=</span><span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -930,7 +917,6 @@ memory usage: 1.1+ MB</code></pre>
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
@@ -1112,10 +1098,9 @@ Name: count, dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>test_df[test_df[<span class="st">'review'</span>].isin(train_df[<span class="st">'review'</span>])]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="35">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1141,15 +1126,13 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div id="61dd8597-6a1c-4f5d-9c8a-123df2d0815d" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>train_df[train_df[<span class="st">'review'</span>].isin(test_df[<span class="st">'review'</span>])]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1172,7 +1155,6 @@ Name: count, dtype: int64</code></pre>
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
@@ -1293,18 +1275,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1336,7 +1307,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1344,7 +1337,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
