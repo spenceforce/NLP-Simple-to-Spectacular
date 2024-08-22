@@ -90,6 +90,16 @@
     ]
   },
   {
+    "objectID": "intro.html#things-you-dont-need-but-should-know",
+    "href": "intro.html#things-you-dont-need-but-should-know",
+    "title": "Introduction",
+    "section": "Things you don’t need but should know",
+    "text": "Things you don’t need but should know\nWhile you don’t need to know anything about conda or jupyter to read this book, I highly recommend using them if you’re serious about machine learning.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
