@@ -28,3 +28,7 @@ Separately, there's some machine learning packages we will use throughout the bo
 - [pytorch](https://pytorch.org/docs/stable/index.html)
 
 These libraries are fundamental for machine learning and deep learning. You don't need to know anything about them because we will cover them.
+
+## Things you don't need but should know
+
+While you don't need to know anything about [conda](https://docs.conda.io/en/latest/) or [jupyter](https://docs.jupyter.org/en/latest/) to read this book, I highly recommend using them if you're serious about machine learning.
