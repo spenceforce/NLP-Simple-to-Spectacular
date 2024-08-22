@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_data/data.html" rel="next">
+<link href="./chapter/01_data/data.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -120,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01_data/data.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span></a>
   </div>
 </li>
@@ -150,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction</h1>
+<div class="quarto-title-block"><div><h1 class="title">Introduction</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -169,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
 <p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
-<p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
+<p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
 <section id="asking-for-help" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
 <div class="page-columns page-full"><p>I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what’s going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn’t essential to the post I’ll note it in the margin. Check out the right margin to see what I mean.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Hi I’m a note in the right margin, ok you can go back to the main text now.</span></div></div>
@@ -196,6 +230,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x7
 </ul>
 <p>These libraries are fundamental for machine learning and deep learning. You don’t need to know anything about them because we will cover them.</p>
 
+
+<!-- -->
 
 </section>
 
@@ -289,6 +325,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -627,11 +714,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_data/data.html" class="pagination-link" aria-label="Machine learning needs data">
+      <a href="./chapter/01_data/data.html" class="pagination-link" aria-label="Machine learning needs data">
         <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu"># Introduction {.unnumbered}</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>As somebody who's a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to "implement" the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any "mathy" stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>This book is written entirely in <span class="co">[</span><span class="ot">jupyter notebooks</span><span class="co">](https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter)</span> so you can run the code. Each chapter lives in it's own directory. A <span class="co">[</span><span class="ot">conda environment file</span><span class="co">](https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml)</span> is provided at the root of the project with everything you need to run each chapter in this book.</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">## Asking for help</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what's going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn't essential to the post I'll note it in the margin. Check out the right margin to see what I mean<span class="co">[</span><span class="ot">Hi I'm a note in the right margin, ok you can go back to the main text now.</span><span class="co">]</span>{.aside}.</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>However, if you have questions about the concepts I go over or find my explanations confusing, don't be afraid to drop me an email at <span class="co">[</span><span class="ot">smitchell556[at]gmail.com</span><span class="co">](mailto:smitchell556@gmail.com)</span>. If you're confused by what I write, somebody else probably is to and I can update the post to be more clear.</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="fu"># Prerequisites</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>Familiarity with Python and how to use external packages as I've already mentioned. There are a few packages we will rely on for machine learning adjacent tasks.</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="ss">- </span><span class="co">[</span><span class="ot">pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="ss">- </span><span class="co">[</span><span class="ot">numpy</span><span class="co">](https://numpy.org/doc/stable/)</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="ss">- </span><span class="co">[</span><span class="ot">seaborn</span><span class="co">](https://seaborn.pydata.org/index.html)</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a></span>
+<span id="cb1-23"><a href="#cb1-23"></a>I recommend at least walking through the introductory tutorials for these if you're not familiar with them.</span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a>Separately, there's some machine learning packages we will use throughout the book.</span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="ss">- </span><span class="co">[</span><span class="ot">scikit-learn</span><span class="co">](https://scikit-learn.org/stable/)</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="ss">- </span><span class="co">[</span><span class="ot">pytorch</span><span class="co">](https://pytorch.org/docs/stable/index.html)</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a></span>
+<span id="cb1-30"><a href="#cb1-30"></a>These libraries are fundamental for machine learning and deep learning. You don't need to know anything about them because we will cover them.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
