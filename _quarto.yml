@@ -10,7 +10,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - chapters/01_data/data.ipynb
+    - chapter/01_data/data.ipynb
     - references.qmd
 
 bibliography: references.bib
