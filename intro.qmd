@@ -22,6 +22,8 @@ Familiarity with Python and how to use external packages as I've already mention
 
 I recommend at least walking through the introductory tutorials for these if you're not familiar with them.
 
+## Fundamental AI packages we'll learn about
+
 Separately, there's some machine learning packages we will use throughout the book.
 
 - [scikit-learn](https://scikit-learn.org/stable/)
