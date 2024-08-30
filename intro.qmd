@@ -4,7 +4,7 @@ As somebody who's a programmer and not a mathematician, I always struggle with b
 
 The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.
 
-This book is written entirely in [jupyter notebooks](https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter) so you can run the code. Each chapter lives in it's own directory. A [conda environment file](https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml) is provided at the root of the project with everything you need to run each chapter in this book.
+This book is written entirely in [jupyter notebooks](chapter) so you can run the code. Each chapter lives in it's own directory. A [conda environment file](https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml) is provided at the root of the project with everything you need to run each chapter in this book.
 
 ## Asking for help
 
