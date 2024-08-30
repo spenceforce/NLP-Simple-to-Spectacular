@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../references.html" rel="next">
+<link href="../../chapter/bonus/cleaning_data.html" rel="next">
 <link href="../../intro.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -183,6 +183,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapter/bonus/cleaning_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cleaning data {.unnumbered}</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -198,7 +204,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#quality-vs.-quantity" id="toc-quality-vs.-quantity" class="nav-link active" data-scroll-target="#quality-vs.-quantity"><span class="header-section-number">1.1</span> Quality vs.&nbsp;quantity</a></li>
-  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data"><span class="header-section-number">1.2</span> Getting the data</a>
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset"><span class="header-section-number">1.2</span> The dataset</a>
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">1.2.1</span> Overview</a></li>
   <li><a href="#dataset-specifics" id="toc-dataset-specifics" class="nav-link" data-scroll-target="#dataset-specifics"><span class="header-section-number">1.2.2</span> Dataset specifics</a></li>
@@ -454,9 +460,24 @@ div.csl-indent {
 <p>That’s night and day compared to two data points. Even when <code>noise = 1.0</code> the machine learning model does a good job of finding the line. This is because there’s more information to learn from and the machine learning model can separate the noise and zero in on the truth.</p>
 <p>The lesson here is data quality is important, but so is data <em>quantity</em>. Sometimes the answer is a better machine learning model, but that’s not always true, you might just need more data. On the other hand, if you can’t get enough data, you may need better <em>quality</em> data. If you’re stuck with a small amount of low quality data, then machine learning may not be the answer to your problem.</p>
 </section>
-<section id="getting-the-data" class="level2 page-columns page-full" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="getting-the-data"><span class="header-section-number">1.2</span> Getting the data</h2>
-<p>Our models will be using a dataset of movie reviews from IMDB <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. There are several ways to get your hands on a dataset, you can curate them yourself or rely on the work of others. This dataset can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>, but for simplicities sake it’s downloadable from this <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/releases/tag/aclImdb_dataset">github repo</a>.</p>
+<section id="the-dataset" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="the-dataset"><span class="header-section-number">1.2</span> The dataset</h2>
+<p>Our models will be using a dataset of movie reviews from IMDB <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. The original dataset can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>. I’ve taken the liberty of further cleaning the data and making it accessible through a Python API.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One of the most important chapters in this book is about cleaning data. It’s a bonus chapter at the end. It walks through the steps and analysis I performed to clean and prepare the dataset for this book. At this point it’s not important. The focus should be on building models as fast as possible and iterating on them. By the end of this book, you should feel comfortable with machine learning, at which point understanding where data comes from and how it’s prepared becomes useful. After all we want to apply te things learned here to the real world, and that starts with real world data.</p>
+<p>It is still a bonus chapter and not required for understanding machine learning, but I found some suprising things when I cleaned this dataset. If you make it to the end, you really should read it.</p>
+</div>
+</div>
+<p>There are several ways to get your hands on a dataset, you can curate them yourself or rely on the work of others. , but for simplicities sake it’s downloadable from this <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/releases/tag/aclImdb_dataset">github repo</a>.</p>
 <p>Let’s grab the data!</p>
 <div id="87b50502-6d27-407a-bec6-90f809ae122f" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> tarfile</span>
@@ -1781,8 +1802,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/bonus/cleaning_data.html" class="pagination-link" aria-label="Cleaning data {.unnumbered}">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cleaning data {.unnumbered}</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
