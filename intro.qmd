@@ -1,5 +1,11 @@
 # Introduction {.unnumbered}
 
+## What is NLP?
+
+Natural language processing (or NLP) is a subfield of artificial intelligence focused on applying learning algorithms to natural language. There's many ways to use such algorithms, for understanding language, text generation, and speech recognition to name a few. In a nutshell, an NLP model accepts a string of text, infers some understanding of it, and outputs it's understanding as numbers. The process of creating such a model is what this book focuses on.
+
+## What this book is
+
 As somebody who's a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to "implement" the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any "mathy" stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.
 
 The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.
