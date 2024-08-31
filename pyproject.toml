@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nlpbook"
+version = "0.0.1"
+authors = [
+  {name="Spencer Mitchell", email="smitchell556@gmail.com"},
+]
+description = "Helper code for the book _NLP: From Simple to Spectacular_"
+requires-python = ">=3.8"
+dependencies = [
+  "pandas>=2.2",
+  "requests>=2.32"
+]
+
+[project.urls]
+Homepage = "https://github.com/spenceforce/NLP-Simple-to-Spectacular"
+Issues = "https://github.com/spenceforce/NLP-Simple-to-Spectacular/issues"
+Book = "https://nlpbook.spenceforce.io/"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["nlpbook"]
