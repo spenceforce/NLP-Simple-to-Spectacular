@@ -29,7 +29,7 @@ def data_dir():
                     f.write(chunk)
 
         with tarfile.open(tar_path) as tar:
-            tar.extractall(filter="data")
+            tar.extractall(path=tar_path.parent, filter="data")
 
         # Ensure the movie ID mapping is present, download it if it's not there.
         movie_map_path = data_path.parent / "all_movie_ids.csv"
@@ -82,8 +82,8 @@ def get_review_data(reviews_dir, urls_file, dedup=False):
     with urls_file.open() as f:
         movie_ids = {i: url.split("/")[4] for i, url in enumerate(f.readlines())}
 
-    data_path = data_dir
-    movie_id_map = dict(pd.read_csv(data_dir.parent / "all_movie_ids.csv").values)
+    data_path = data_dir()
+    movie_id_map = dict(pd.read_csv(data_path.parent / "all_movie_ids.csv").values)
 
     data = []
     for p in (reviews_dir).iterdir():
