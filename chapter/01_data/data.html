@@ -585,7 +585,7 @@ Name: count, dtype: int64</code></pre>
 <section id="unsupervised-dataset" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="unsupervised-dataset"><span class="header-section-number">1.4</span> Unsupervised dataset</h2>
 <p>The train/test sets above have labels, 0 or 1, which allows them to be used in a <em>supervised</em> learning fashion. In supervised learning we have real outputs, the review labels in this case, to compare to our machine learning model outputs. We can supervise the models learning by comparing it’s outputs to the labels and let the model know how it’s doing.</p>
-<p>Unsupervised learning is just input data. There’s no label to use as a comparator. Instead the model must learn from the data without knowing whether it is right or wrong. This kind of learning is less about predicting some property and more about learning general properties of the data.</p>
+<p>Unsupervised learning is just input data. There’s no label to use as a comparator. Instead the model must learn from the data without knowing whether it is right or wrong. This kind of learning is less about predicting a specific property and more about learning general properties of the data.</p>
 <p>This dataset is available through <code>get_unsup_data</code>. Let’s inspect it with <code>DataFrame.info()</code>.</p>
 <div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
