@@ -8,4 +8,6 @@ dependencies:
 - scikit-learn=1.5.1
 - seaborn=0.13.2
 - tqdm=4.66.5
+- pip:
+  - git+https://github.com/spenceforce/NLP-Simple-to-Spectacular
 name: nlp_simple_to_spectacular
