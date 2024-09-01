@@ -11,6 +11,7 @@ book:
     - index.qmd
     - intro.qmd
     - chapter/01_data/data.ipynb
+    - chapter/02_baseline/baseline_classifier.ipynb
     - chapter/bonus/cleaning_data.ipynb
     - references.qmd
 
