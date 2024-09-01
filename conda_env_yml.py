@@ -23,6 +23,8 @@ def extract_no_build_deps(deps):
             if dep.split("=")[0] in dependencies:
                 rv.append(dep)
 
+    if not any(x.startswith("pip") for x in rv):
+        rv.append("pip")
     rv.append({"pip": ["git+https://github.com/spenceforce/NLP-Simple-to-Spectacular"]})
 
     return rv
