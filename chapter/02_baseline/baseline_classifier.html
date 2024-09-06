@@ -102,11 +102,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -186,13 +189,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-machine-learning" id="toc-what-is-machine-learning" class="nav-link active" data-scroll-target="#what-is-machine-learning"><span class="header-section-number">2.1</span> What is machine learning?</a></li>
-  <li><a href="#the-learning-process" id="toc-the-learning-process" class="nav-link" data-scroll-target="#the-learning-process"><span class="header-section-number">2.2</span> The learning process</a></li>
+  <li><a href="#what-is-machine-learning" id="toc-what-is-machine-learning" class="nav-link active" data-scroll-target="#what-is-machine-learning"><span class="header-section-number">2.1</span> What is machine learning?</a>
+  <ul class="collapse">
+  <li><a href="#the-learning-process" id="toc-the-learning-process" class="nav-link" data-scroll-target="#the-learning-process"><span class="header-section-number">2.1.1</span> The learning process</a></li>
+  </ul></li>
+  <li><a href="#the-simplest-of-models" id="toc-the-simplest-of-models" class="nav-link" data-scroll-target="#the-simplest-of-models"><span class="header-section-number">2.2</span> The simplest of models</a>
+  <ul class="collapse">
+  <li><a href="#train-vs.-test-datasets" id="toc-train-vs.-test-datasets" class="nav-link" data-scroll-target="#train-vs.-test-datasets"><span class="header-section-number">2.2.1</span> Train vs.&nbsp;test datasets</a></li>
+  </ul></li>
+  <li><a href="#metrics-metrics-metrics" id="toc-metrics-metrics-metrics" class="nav-link" data-scroll-target="#metrics-metrics-metrics"><span class="header-section-number">2.3</span> Metrics, metrics, metrics</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -219,40 +229,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Machine learning is a field of artificial intelligence focused on algorithms that 1) learn from data and 2) generalize to unseen data. There are three main components to machine learning, data, models, and algorithms. Machine learning models are the things that do the learning and the algorithms direct the models learning. The lines blur at times between models and algorithms and some algorithms only work for some models. At their core, models are functions. They take an input, process them in some way, and return an output. Models have learnable parameters and machine learning algorithms focus on adjusting these parameters to make the model produce better outputs.</p>
 <p>Conceptually, models are simple. Take the equation for a line, <code>f(x) = m*x + b</code>. This is a model where <code>m</code> and <code>b</code> are constant values indicating the slope and y-intercept of the line. <code>x</code> is an input value and the output is <code>f(x) = y</code>. If we know <code>m</code> and <code>b</code> we can compute <code>y</code> for any <code>x</code>. If we don’t know <code>m</code> and <code>b</code>, this is where machine learning comes in. Assuming we have a bunch of <code>(x, y)</code> points, a machine learning algorithm can guess what good values for <code>m</code> and <code>b</code> are based on those points. Then we freeze those values and the model can predict <code>y</code> for any <code>x</code>.</p>
 <p>Models can be giant equations and it’s easy to get lost in the details, but remember <em>it’s still just an equation!</em> The learning algorithm will find the right constant terms for us. It’s our job to set up the problem for the algorithm and model and then get out of the way so the machine can learn.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In machine learning, the constant terms of the equation are called parameters or weights. During training they are not constant as the learning algorithm is trying to find their optimal values, but once training is done these values become constant and you’re left with a normal equation.</p>
+</div>
+</div>
+<section id="the-learning-process" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="the-learning-process"><span class="header-section-number">2.1.1</span> The learning process</h3>
+<p>At it’s core the learning process iterates through prediction, comparison, and tweaking the model parameters. The training data is used in this process. We initialize the model, then use it as is to predict the outputs on the training data. These outputs are compared to the actual outputs, or targets, of the training data. If we are happy with the comparison training is done. Otherwise the model parameters are adjusted and the process begins again. This whole process is outlined below.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  B[Predict output for train data] --&gt; C[Compare predictions to targets]
+  C --&gt; D{Predictions good enough?}
+  D -- No --&gt; E[Update model weights]
+  D -- Yes --&gt; F[Freeze model for production]
+  E --&gt; B
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </section>
-<section id="the-learning-process" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="the-learning-process"><span class="header-section-number">2.2</span> The learning process</h2>
-<ol type="1">
-<li>Prepare data</li>
-<li>Make predictions</li>
-<li>Compare predictions to targets</li>
-<li>Update model based on comparison</li>
-<li>Go back to step 2 and repeat until satisfied.</li>
-</ol>
-<p># TODO: Make flowchart, maybe try https://github.com/cdfmlr/pyflowchart</p>
-<div id="64d41ba4-cf47-4989-9585-adae96071b3c" class="cell" data-execution_count="1">
+</section>
+<section id="the-simplest-of-models" class="level2 page-columns page-full" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-simplest-of-models"><span class="header-section-number">2.2</span> The simplest of models</h2>
+<p>Turning our attention back to our model, the simplest thing we can do is predict the same thing for every input. This may seem silly, but it gives us a measuring stick to compare to other models. If we use the latest and greatest techniques in deep learning, it should outperform this model. The only way we’ll know it outperforms it is by building the model and testing it. If it doesn’t outperform this model, that raises cause for concern and the results should be investigated. So we start simple and incrementally improve until we are satisfied.</p>
+<section id="train-vs.-test-datasets" class="level3 page-columns page-full" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="train-vs.-test-datasets"><span class="header-section-number">2.2.1</span> Train vs.&nbsp;test datasets</h3>
+<div class="page-columns page-full"><p>Now that we have a model in mind, we need to train it and test it. While training a model is the fun part, that’s not really what we care about. We want to know how well our model works which is why we have a test set. The test set is used exclusively to benchmark the performance of the model and is not used in the training process. This comes back to making models that generalize to unseen data. Models generally perform better on data they’re trained on because that data is what the model is optimized to predict for. If we use that same data to test the model, then we’ll likely be overconfident in our models predictions. When we deploy the model and it is used on new data it hasn’t seen we’ll be in for a rude awakening. So we separate our dataset into training and testing datasets. In practice care should go into how these datasets are curated, but we won’t worry about that here since I’ve already cleaned our datasets.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I highly recommend this <a href="https://www.fast.ai/posts/2017-11-13-validation-sets.html">blog post</a> on the dangers of blindly splitting your data. It is about validation sets, but the same concepts apply to test sets. It’s ok if some of the content is over your head as we’ll revisit this in a later chapter.</span></div></div>
+<p>Let’s train our model and predict the labels of the test set.</p>
+<div id="2a0b1c18-8045-4f2e-9c87-5343ad51237c" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.utils.validation <span class="im">import</span> check_array</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb1-9"><a href="#cb1-9"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X) <span class="op">==</span> <span class="bu">len</span>(y)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>        y <span class="op">=</span> check_array(y, ensure_2d<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a>        <span class="va">self</span>.classes_, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-12"><a href="#cb1-12"></a>        <span class="va">self</span>.proba_ <span class="op">=</span> counts <span class="op">/</span> <span class="bu">len</span>(y)</span>
-<span id="cb1-13"><a href="#cb1-13"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb1-16"><a href="#cb1-16"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.classes_[np.argmax(<span class="va">self</span>.proba_)])</span>
-<span id="cb1-17"><a href="#cb1-17"></a></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb1-21"><a href="#cb1-21"></a>e <span class="op">=</span> BaselineClassifier().fit(train_df[[<span class="st">'review'</span>]], train_df[<span class="st">'label'</span>])</span>
-<span id="cb1-22"><a href="#cb1-22"></a>e.score(test_df[[<span class="st">'review'</span>]], test_df[<span class="st">'label'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-5"><a href="#cb1-5"></a>X_train, y_train <span class="op">=</span> train_df[[<span class="st">'review'</span>]], train_df[<span class="st">'label'</span>]</span>
+<span id="cb1-6"><a href="#cb1-6"></a>predicted_output <span class="op">=</span> y_train.value_counts().idxmax()</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># `predicted_output` is the most common label in the train set.</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>pred <span class="op">=</span> np.full(<span class="bu">len</span>(test_df), predicted_output)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>array([1, 1, 1, ..., 1, 1, 1])</code></pre>
+</div>
+</div>
+<p>Our predictions on the test set are all 1 because that’s the most common label in the train set. Now how do we measure this model’s performance?</p>
+</section>
+</section>
+<section id="metrics-metrics-metrics" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="metrics-metrics-metrics"><span class="header-section-number">2.3</span> Metrics, metrics, metrics</h2>
+<div id="64d41ba4-cf47-4989-9585-adae96071b3c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sklearn.utils.validation <span class="im">import</span> check_array</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb3-9"><a href="#cb3-9"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X) <span class="op">==</span> <span class="bu">len</span>(y)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>        y <span class="op">=</span> check_array(y, ensure_2d<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-11"><a href="#cb3-11"></a>        <span class="va">self</span>.classes_, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-12"><a href="#cb3-12"></a>        <span class="va">self</span>.proba_ <span class="op">=</span> counts <span class="op">/</span> <span class="bu">len</span>(y)</span>
+<span id="cb3-13"><a href="#cb3-13"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a></span>
+<span id="cb3-15"><a href="#cb3-15"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb3-16"><a href="#cb3-16"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.classes_[np.argmax(<span class="va">self</span>.proba_)])</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb3-21"><a href="#cb3-21"></a>e <span class="op">=</span> BaselineClassifier().fit(train_df[[<span class="st">'review'</span>]], train_df[<span class="st">'label'</span>])</span>
+<span id="cb3-22"><a href="#cb3-22"></a>e.score(test_df[[<span class="st">'review'</span>]], test_df[<span class="st">'label'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.5011190233977619</code></pre>
 </div>

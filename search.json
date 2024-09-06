@@ -70,11 +70,31 @@
     ]
   },
   {
-    "objectID": "chapter/02_baseline/baseline_classifier.html#the-learning-process",
-    "href": "chapter/02_baseline/baseline_classifier.html#the-learning-process",
+    "objectID": "chapter/02_baseline/baseline_classifier.html#what-is-machine-learning",
+    "href": "chapter/02_baseline/baseline_classifier.html#what-is-machine-learning",
     "title": "2  Baseline: gotta start somewhere",
-    "section": "2.2 The learning process",
-    "text": "2.2 The learning process\n\nPrepare data\nMake predictions\nCompare predictions to targets\nUpdate model based on comparison\nGo back to step 2 and repeat until satisfied.\n\n# TODO: Make flowchart, maybe try https://github.com/cdfmlr/pyflowchart\n\nimport numpy as np\nfrom sklearn.base import BaseEstimator, ClassifierMixin\nfrom sklearn.utils.validation import check_array\n\nfrom nlpbook import get_train_test_data\n\nclass BaselineClassifier(ClassifierMixin, BaseEstimator):\n    def fit(self, X, y):\n        assert len(X) == len(y)\n        y = check_array(y, ensure_2d=False)\n        self.classes_, counts = np.unique(y, return_counts=True)\n        self.proba_ = counts / len(y)\n        return self\n\n    def predict(self, X):\n        return np.full(len(X), self.classes_[np.argmax(self.proba_)])\n\nfrom nlpbook import get_train_test_data\n\ntrain_df, test_df = get_train_test_data()\ne = BaselineClassifier().fit(train_df[['review']], train_df['label'])\ne.score(test_df[['review']], test_df['label'])\n\n0.5011190233977619",
+    "section": "",
+    "text": "Note\n\n\n\nIn machine learning, the constant terms of the equation are called parameters or weights. During training they are not constant as the learning algorithm is trying to find their optimal values, but once training is done these values become constant and you’re left with a normal equation.\n\n\n\n2.1.1 The learning process\nAt it’s core the learning process iterates through prediction, comparison, and tweaking the model parameters. The training data is used in this process. We initialize the model, then use it as is to predict the outputs on the training data. These outputs are compared to the actual outputs, or targets, of the training data. If we are happy with the comparison training is done. Otherwise the model parameters are adjusted and the process begins again. This whole process is outlined below.\n\n\n\n\n\nflowchart TB\n  B[Predict output for train data] --&gt; C[Compare predictions to targets]\n  C --&gt; D{Predictions good enough?}\n  D -- No --&gt; E[Update model weights]\n  D -- Yes --&gt; F[Freeze model for production]\n  E --&gt; B",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baseline: gotta start somewhere</span>"
+    ]
+  },
+  {
+    "objectID": "chapter/02_baseline/baseline_classifier.html#the-simplest-of-models",
+    "href": "chapter/02_baseline/baseline_classifier.html#the-simplest-of-models",
+    "title": "2  Baseline: gotta start somewhere",
+    "section": "2.2 The simplest of models",
+    "text": "2.2 The simplest of models\nTurning our attention back to our model, the simplest thing we can do is predict the same thing for every input. This may seem silly, but it gives us a measuring stick to compare to other models. If we use the latest and greatest techniques in deep learning, it should outperform this model. The only way we’ll know it outperforms it is by building the model and testing it. If it doesn’t outperform this model, that raises cause for concern and the results should be investigated. So we start simple and incrementally improve until we are satisfied.\n\n2.2.1 Train vs. test datasets\nNow that we have a model in mind, we need to train it and test it. While training a model is the fun part, that’s not really what we care about. We want to know how well our model works which is why we have a test set. The test set is used exclusively to benchmark the performance of the model and is not used in the training process. This comes back to making models that generalize to unseen data. Models generally perform better on data they’re trained on because that data is what the model is optimized to predict for. If we use that same data to test the model, then we’ll likely be overconfident in our models predictions. When we deploy the model and it is used on new data it hasn’t seen we’ll be in for a rude awakening. So we separate our dataset into training and testing datasets. In practice care should go into how these datasets are curated, but we won’t worry about that here since I’ve already cleaned our datasets.I highly recommend this blog post on the dangers of blindly splitting your data. It is about validation sets, but the same concepts apply to test sets. It’s ok if some of the content is over your head as we’ll revisit this in a later chapter.\nLet’s train our model and predict the labels of the test set.\n\nimport numpy as np\nfrom nlpbook import get_train_test_data\n\ntrain_df, test_df = get_train_test_data()\nX_train, y_train = train_df[['review']], train_df['label']\npredicted_output = y_train.value_counts().idxmax()\n# `predicted_output` is the most common label in the train set.\npred = np.full(len(test_df), predicted_output)\npred\n\narray([1, 1, 1, ..., 1, 1, 1])\n\n\nOur predictions on the test set are all 1 because that’s the most common label in the train set. Now how do we measure this model’s performance?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baseline: gotta start somewhere</span>"
+    ]
+  },
+  {
+    "objectID": "chapter/02_baseline/baseline_classifier.html#metrics-metrics-metrics",
+    "href": "chapter/02_baseline/baseline_classifier.html#metrics-metrics-metrics",
+    "title": "2  Baseline: gotta start somewhere",
+    "section": "2.3 Metrics, metrics, metrics",
+    "text": "2.3 Metrics, metrics, metrics\n\nimport numpy as np\nfrom sklearn.base import BaseEstimator, ClassifierMixin\nfrom sklearn.utils.validation import check_array\n\nfrom nlpbook import get_train_test_data\n\nclass BaselineClassifier(ClassifierMixin, BaseEstimator):\n    def fit(self, X, y):\n        assert len(X) == len(y)\n        y = check_array(y, ensure_2d=False)\n        self.classes_, counts = np.unique(y, return_counts=True)\n        self.proba_ = counts / len(y)\n        return self\n\n    def predict(self, X):\n        return np.full(len(X), self.classes_[np.argmax(self.proba_)])\n\nfrom nlpbook import get_train_test_data\n\ntrain_df, test_df = get_train_test_data()\ne = BaselineClassifier().fit(train_df[['review']], train_df['label'])\ne.score(test_df[['review']], test_df['label'])\n\n0.5011190233977619",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Baseline: gotta start somewhere</span>"
     ]
