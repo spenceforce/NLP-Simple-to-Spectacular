@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -132,8 +132,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/bonus/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+  <a href="./chapter/03_one_r/one_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -192,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="what-this-book-is" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-book-is">What this book is</h2>
 <p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
-<p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
+<p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. Where possible, each chapter will start with the quickest way to get the model up and running with <code>scikit-learn</code>, <code>pytorch</code>, or some other framework, followed by implementations from scratch. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
 <p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
 </section>
 <section id="asking-for-help" class="level2 page-columns page-full">
@@ -220,6 +232,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x7
 <ul>
 <li><a href="https://scikit-learn.org/stable/">scikit-learn</a></li>
 <li><a href="https://pytorch.org/docs/stable/index.html">pytorch</a></li>
+<li><a href="https://huggingface.co/docs/transformers/en/index">transformers</a></li>
 </ul>
 <p>These libraries are fundamental for machine learning and deep learning. You don’t need to know anything about them because we will cover them.</p>
 </section>
@@ -314,8 +327,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -426,7 +437,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

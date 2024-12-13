@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,10 +91,10 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -189,8 +189,20 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/bonus/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+  <a href="../../chapter/03_one_r/one_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -209,11 +221,9 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#quality-vs.-quantity" id="toc-quality-vs.-quantity" class="nav-link active" data-scroll-target="#quality-vs.-quantity"><span class="header-section-number">1.1</span> Quality vs.&nbsp;quantity</a></li>
-  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset"><span class="header-section-number">1.2</span> The dataset</a></li>
-  <li><a href="#classification-dataset" id="toc-classification-dataset" class="nav-link" data-scroll-target="#classification-dataset"><span class="header-section-number">1.3</span> Classification dataset</a></li>
-  <li><a href="#unsupervised-dataset" id="toc-unsupervised-dataset" class="nav-link" data-scroll-target="#unsupervised-dataset"><span class="header-section-number">1.4</span> Unsupervised dataset</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">1.5</span> Conclusion</a></li>
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link active" data-scroll-target="#the-dataset"><span class="header-section-number">1.1</span> The dataset</a></li>
+  <li><a href="#classification-dataset" id="toc-classification-dataset" class="nav-link" data-scroll-target="#classification-dataset"><span class="header-section-number">1.2</span> Classification dataset</a></li>
+  <li><a href="#unsupervised-dataset" id="toc-unsupervised-dataset" class="nav-link" data-scroll-target="#unsupervised-dataset"><span class="header-section-number">1.3</span> Unsupervised dataset</a></li>
   </ul>
 </nav>
     </div>
@@ -240,220 +250,8 @@ div.csl-indent {
 
 
 <p>Without data, machine learning is nothing. After all what will it learn if it has nothing to learn from. Think about everything you’ve learned throughout your life. All the books you’ve read, the movies you’ve watched, the experiences you’ve lived. Everything you’ve touched, tasted, heard, felt, smelled. It all comes together to shape who you are and what you know. Our brains adapt and change to all of this input. Our brains <em>learn</em>. Take away all of the memories and experiences and what are we left with? Thoughts maybe, but of what? Without the context of our life there isn’t much to think about. Machine learning models work like our brain, but simpler. They take data and try to make sense of it, or <em>learn</em> from it. The more data, the easier it is to learn from, at least in theory.</p>
-<section id="quality-vs.-quantity" class="level2 page-columns page-full" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="quality-vs.-quantity"><span class="header-section-number">1.1</span> Quality vs.&nbsp;quantity</h2>
-<p>While we will dive into many algorithms over the course of this book, I want to drive home that machine learning models <em>need</em> data to learn. We can have the fanciest neural network on the best GPU cluster in the world, but without data, it’s all pointless. To drive this point home let’s see some machine learning in action.</p>
-<p>We’ll start with a line. Nothing special, just the equation <code>f(x) = x + 1</code>.</p>
-<div id="c4a0b951-9d1e-4856-aa10-4fe2d903bba4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>sns.set_theme(style<span class="op">=</span><span class="st">"darkgrid"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">def</span> f(x):</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    <span class="co">"""Function that applies `x + 1` to `x`."""</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="cf">return</span> x <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">def</span> get_y(xs):</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    <span class="co">"""Return `y` for every `x` in the list `xs`."""</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(f, xs))</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a>x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb1-16"><a href="#cb1-16"></a>y <span class="op">=</span> get_y(x)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>sns.lineplot(x<span class="op">=</span>x, y<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="page-columns page-full"><p>This line is the ground truth. It is real. But let’s imagine we don’t have the line. We just have a couple random points on the line.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I love <a href="https://seaborn.pydata.org/"><code>seaborn</code></a> for rapid data visualization. It can’t do everything perfectly, but it does the common things beautifully.</span></div></div>
-<div id="7856c388-a970-4c9a-8501-0e22015f7517" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> random</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a>random.seed(<span class="dv">100392</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="kw">def</span> random_x(n):</span>
-<span id="cb2-8"><a href="#cb2-8"></a>    <span class="co">"""Return `n` random values from -1 to 1."""</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="cf">return</span> [random.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a>xs <span class="op">=</span> random_x(<span class="dv">2</span>)</span>
-<span id="cb2-13"><a href="#cb2-13"></a>ys <span class="op">=</span> get_y(xs)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>sns.scatterplot(x<span class="op">=</span>xs, y<span class="op">=</span>ys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Visually, we could draw a line from dot to dot and we’d get the same line in the previous plot. But we’re not interested in figuring out the line ourselves. We’re here to have machine learning do it for us. This is already integrated into <code>seaborn</code> so there’s not much code for us to write. The <a href="https://seaborn.pydata.org/generated/seaborn.regplot.html"><code>regplot</code></a> function will plot our data points and use machine learning to fit a line to those data points.</p>
-<div id="28aacf5f-c69e-428f-9fdf-482b3e1ac88c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>sns.regplot(x<span class="op">=</span>xs, y<span class="op">=</span>ys, truncate<span class="op">=</span><span class="va">False</span>, ci<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Will you look at that! The line was perfectly predicted based on the data points.</p>
-<p>But real world data isn’t this simple or this <em>clean</em>. There’s usually some amount of noise in the data that can affect the quality of predictions. Noise is randomness introduced to the data. It can come from many places like imprecise measurements, mislabelling, or unaccounted variables to name a few.</p>
-<p>Now let’s imagine we don’t have points on the line, but points close to the line. How will this change the predicted line?</p>
-<div id="fc1c37b7-49af-4b13-819b-1b95eef6a831" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Add noise to the data points to simulate noisy data.</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">def</span> noisy_process(xs, noise):</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="co">"""Return `f(x)` with noise."""</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="cf">return</span> [</span>
-<span id="cb4-5"><a href="#cb4-5"></a>        y <span class="op">+</span> random.uniform(<span class="op">-</span>noise, noise)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>        <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(xs, get_y(xs))</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    ]</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a>ys_noisy <span class="op">=</span> noisy_process(xs, <span class="fl">0.25</span>)</span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a>ax <span class="op">=</span> sns.regplot(</span>
-<span id="cb4-13"><a href="#cb4-13"></a>    x<span class="op">=</span>xs,</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    y<span class="op">=</span>ys,</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-16"><a href="#cb4-16"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb4-18"><a href="#cb4-18"></a>)</span>
-<span id="cb4-19"><a href="#cb4-19"></a>sns.regplot(</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    x<span class="op">=</span>xs,</span>
-<span id="cb4-21"><a href="#cb4-21"></a>    y<span class="op">=</span>ys_noisy,</span>
-<span id="cb4-22"><a href="#cb4-22"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-23"><a href="#cb4-23"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-24"><a href="#cb4-24"></a>    ax<span class="op">=</span>ax,</span>
-<span id="cb4-25"><a href="#cb4-25"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb4-26"><a href="#cb4-26"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="page-columns page-full"><p>Hmm, that doesn’t look so bad. The predicted line in orange is pretty close to the real line in blue and has the same slope. But what if we just got lucky and the random noise happened to be low? Maybe we should run it a few more times to be sure.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="https://pandas.pydata.org/docs/"><code>pandas</code></a> is another great library we’ll use over and over again. We’ll get to more on that later.</span></div></div>
-<div id="9e6f27d3-159b-4a50-b4e0-27c01ec05c68" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">def</span> simulate_n(n, n_points, noise):</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co">"""</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">    Return a `pd.DataFrame` with `n` separate simulations</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">    of `n_points`.</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">    """</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>    data <span class="op">=</span> []</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    real_x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb5-11"><a href="#cb5-11"></a>    real_y <span class="op">=</span> get_y(real_x)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>    <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(real_x, real_y):</span>
-<span id="cb5-13"><a href="#cb5-13"></a>        data.append(</span>
-<span id="cb5-14"><a href="#cb5-14"></a>            {</span>
-<span id="cb5-15"><a href="#cb5-15"></a>                <span class="st">"x"</span>: x,</span>
-<span id="cb5-16"><a href="#cb5-16"></a>                <span class="st">"y"</span>: y,</span>
-<span id="cb5-17"><a href="#cb5-17"></a>                <span class="st">"simulation"</span>: <span class="st">"Ground Truth"</span>,</span>
-<span id="cb5-18"><a href="#cb5-18"></a>                <span class="st">"noise"</span>: noise,</span>
-<span id="cb5-19"><a href="#cb5-19"></a>            }</span>
-<span id="cb5-20"><a href="#cb5-20"></a>        )</span>
-<span id="cb5-21"><a href="#cb5-21"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb5-22"><a href="#cb5-22"></a>        xs <span class="op">=</span> random_x(n_points)</span>
-<span id="cb5-23"><a href="#cb5-23"></a>        ys <span class="op">=</span> noisy_process(xs, noise)</span>
-<span id="cb5-24"><a href="#cb5-24"></a>        <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(xs, ys):</span>
-<span id="cb5-25"><a href="#cb5-25"></a>            data.append(</span>
-<span id="cb5-26"><a href="#cb5-26"></a>                {</span>
-<span id="cb5-27"><a href="#cb5-27"></a>                    <span class="st">"x"</span>: x,</span>
-<span id="cb5-28"><a href="#cb5-28"></a>                    <span class="st">"y"</span>: y,</span>
-<span id="cb5-29"><a href="#cb5-29"></a>                    <span class="st">"simulation"</span>: i <span class="op">+</span> <span class="dv">1</span>,</span>
-<span id="cb5-30"><a href="#cb5-30"></a>                    <span class="st">"noise"</span>: noise,</span>
-<span id="cb5-31"><a href="#cb5-31"></a>                }</span>
-<span id="cb5-32"><a href="#cb5-32"></a>            )</span>
-<span id="cb5-33"><a href="#cb5-33"></a>    <span class="cf">return</span> pd.DataFrame(data)</span>
-<span id="cb5-34"><a href="#cb5-34"></a></span>
-<span id="cb5-35"><a href="#cb5-35"></a></span>
-<span id="cb5-36"><a href="#cb5-36"></a>df <span class="op">=</span> simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, <span class="fl">0.25</span>)</span>
-<span id="cb5-37"><a href="#cb5-37"></a><span class="co"># `lmplot` is a fancier version of `regplot` that can handle</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a><span class="co"># multiple lines.</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a>sns.lmplot(</span>
-<span id="cb5-40"><a href="#cb5-40"></a>    df,</span>
-<span id="cb5-41"><a href="#cb5-41"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb5-42"><a href="#cb5-42"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb5-43"><a href="#cb5-43"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-44"><a href="#cb5-44"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb5-45"><a href="#cb5-45"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-46"><a href="#cb5-46"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb5-47"><a href="#cb5-47"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb5-48"><a href="#cb5-48"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Most of these look pretty close to the blue line, the ground truth, but what’s going on with simulation 4? The noise confused the machine learning model. It only has two points to work with and given two points it can figure out a line that perfectly lies on those two points. These two points imperfectly represent the real line and so the machine learned the line of this imperfect representation. And it gets worse with more noise.</p>
-<div id="accd66e7-c505-49b1-a7ed-f9754905cf05" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>df <span class="op">=</span> pd.concat(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    [simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]]</span>
-<span id="cb6-3"><a href="#cb6-3"></a>)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>sns.lmplot(</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    df,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-11"><a href="#cb6-11"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
-<span id="cb6-12"><a href="#cb6-12"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb6-13"><a href="#cb6-13"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb6-14"><a href="#cb6-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Yup, that’s a mess. At <code>noise = 0.5</code> the lines start to drift from the real line and at <code>noise = 1.0</code> most of them aren’t even close. But all is not lost, there is a way to learn from noisy data. Use more of it! Let’s try a hundred points per simulation.</p>
-<div id="1d022a47-28ff-443b-a955-f6a6875f58d9" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>df <span class="op">=</span> pd.concat(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    [simulate_n(<span class="dv">4</span>, <span class="dv">100</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]]</span>
-<span id="cb7-3"><a href="#cb7-3"></a>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>sns.lmplot(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    df,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb7-9"><a href="#cb7-9"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb7-13"><a href="#cb7-13"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb7-14"><a href="#cb7-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="data_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>That’s night and day compared to two data points. Even when <code>noise = 1.0</code> the machine learning model does a good job of finding the line. This is because there’s more information to learn from and the machine learning model can separate the noise and zero in on the truth.</p>
-<p>The lesson here is data quality is important, but so is data <em>quantity</em>. Sometimes the answer is a better machine learning model, but that’s not always true, you might just need more data. On the other hand, if you can’t get enough data, you may need better <em>quality</em> data. If you’re stuck with a small amount of low quality data, then machine learning may not be the answer to your problem.</p>
-</section>
-<section id="the-dataset" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="the-dataset"><span class="header-section-number">1.2</span> The dataset</h2>
+<section id="the-dataset" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="the-dataset"><span class="header-section-number">1.1</span> The dataset</h2>
 <p>Our models will be using datasets of movie reviews from IMDB <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. The original datasets can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -471,20 +269,20 @@ Note
 </div>
 <p>I’ve taken the liberty of further cleaning the data and making it accessible through a Python API so we can get right to work on machine learning and NLP.</p>
 <p>This book provides a conda environment file (see the <a href="intro.qmd#what-this-book-is">introduction</a>) with everything you need to run the code. If you want to access the dataset without setting up the conda environment, you can get access to it through <code>pip</code>. If you’re just following along through the book website then there’s nothing you need to do.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install git+https://github.com/spenceforce/NLP-Simple-to-Spectacular</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install git+https://github.com/spenceforce/NLP-Simple-to-Spectacular</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Let’s get a feel for the datasets before we move on to machine learning. There are two movie review datasets available. One for classification and the other for unsupervised learning.</p>
 </section>
-<section id="classification-dataset" class="level2 page-columns page-full" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="classification-dataset"><span class="header-section-number">1.3</span> Classification dataset</h2>
+<section id="classification-dataset" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="classification-dataset"><span class="header-section-number">1.2</span> Classification dataset</h2>
 <p>This dataset contains movie reviews and labels indicating if the review is positive (label 1) or negative (label 0). It is intended for benchmarking sentiment classification tasks. Sentiment classification is about predicting the feeling a text conveys. Like emotions such as happy, sad, or angry. In this case it’s predicting whether a review says if a movie is good or bad.</p>
 <p>This dataset is split into a set for training and a set for testing. We can access both the train and test sets with <code>get_train_test_data</code>, which returns a <code>DataFrame</code> object for each set. The <code>DataFrame</code> class is a staple of <a href="https://pandas.pydata.org/docs/"><code>pandas</code></a>. Dataframes are tables and they are not unique to <code>pandas</code>, but <code>pandas</code> is a de facto Python library for working with dataframes. You can think of dataframes as the programmatic version of an excel spreadsheet.</p>
-<div id="026e61c9-afc6-4ddf-880a-b635d005c406" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb9-2"><a href="#cb9-2"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="026e61c9-afc6-4ddf-880a-b635d005c406" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb2-2"><a href="#cb2-2"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>train_df</code> and <code>test_df</code> have the same format, so we’ll just inspect <code>train_df</code>. We can see how many rows are in the dataframe and information about the columns with <code>DataFrame.info()</code>.</p>
-<div id="9b853f6c-6d5a-48a4-8d23-a608224cb0f1" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>train_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9b853f6c-6d5a-48a4-8d23-a608224cb0f1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>train_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 Index: 24904 entries, 0 to 12499
@@ -511,9 +309,9 @@ memory usage: 1.1+ MB</code></pre>
 </ul>
 <p>The columns we’re interested in are <code>review</code>, <code>label</code>, and to a lesser extend, <code>rating</code>. <code>review</code> will be the input to all models as this is the natural language we are trying to process. <code>label</code> and <code>rating</code> are what we’re trying to predict! We will mainly be predicting <code>label</code>, but we will also use <code>rating</code> to show how to scale binary classification (predicting two labels) to multiple labels (predicting three or more labels).</p>
 <p>Let’s inspect a few reviews with <code>DataFrame.head()</code>.</p>
-<div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -577,9 +375,9 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 <p>The <code>review</code> column looks like natural language and the <code>label</code> and <code>rating</code> columns have numeric values just like <code>DataFrame.info()</code> said.</p>
 <p>We can also see how this dataset is split by label.</p>
-<div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>train_df.value_counts(<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>train_df.value_counts(<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>label
 1    12472
 0    12432
@@ -588,15 +386,15 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>There are 12,472 positive labels and 12,432 negative labels. That’s almost a 50/50 split.</p>
 </section>
-<section id="unsupervised-dataset" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="unsupervised-dataset"><span class="header-section-number">1.4</span> Unsupervised dataset</h2>
+<section id="unsupervised-dataset" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="unsupervised-dataset"><span class="header-section-number">1.3</span> Unsupervised dataset</h2>
 <p>The train/test sets above have labels, 0 or 1, which allows them to be used in a <em>supervised</em> learning fashion. In supervised learning we have real outputs, the review labels in this case, to compare to our machine learning model outputs. We can supervise the models learning by comparing it’s outputs to the labels and let the model know how it’s doing.</p>
 <p>Unsupervised learning is just input data. There’s no label to use as a comparator. Instead the model must learn from the data without knowing whether it is right or wrong. This kind of learning is less about predicting a specific property and more about learning general properties of the data.</p>
 <p>This dataset is available through <code>get_unsup_data</code>. Let’s inspect it with <code>DataFrame.info()</code>.</p>
-<div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
-<span id="cb15-2"><a href="#cb15-2"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
-<span id="cb15-3"><a href="#cb15-3"></a>unsup_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
+<span id="cb8-2"><a href="#cb8-2"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
+<span id="cb8-3"><a href="#cb8-3"></a>unsup_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 Index: 49507 entries, 0 to 49999
@@ -611,11 +409,7 @@ memory usage: 1.5+ MB</code></pre>
 </div>
 </div>
 <p>As you can see, there is no <code>label</code> or <code>rating</code> columns. It’s just reviews and nothing else.</p>
-</section>
-<section id="conclusion" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.5</span> Conclusion</h2>
-<p>In this chapter we made our first machine learning model which predicted the equation <code>f(x) = x + 1</code>. We saw the tradeoff between data quality and quantity. Then we inspected the datasets we will use throughout this book.</p>
-<p>The next chapter will focus on building our first model from scratch.</p>
+<p>The next chapter will focus on building our first model. It will be simple and not very good.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -708,8 +502,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -820,7 +612,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
