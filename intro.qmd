@@ -8,7 +8,7 @@ Natural language processing (or NLP) is a subfield of artificial intelligence fo
 
 As somebody who's a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to "implement" the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any "mathy" stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.
 
-The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.
+The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. Where possible, each chapter will start with the quickest way to get the model up and running with `scikit-learn`, `pytorch`, or some other framework, followed by implementations from scratch. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.
 
 This book is written entirely in [jupyter notebooks](https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter) so you can run the code. Each chapter lives in it's own directory. A [conda environment file](https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml) is provided at the root of the project with everything you need to run each chapter in this book.
 
@@ -34,6 +34,7 @@ Separately, there's some machine learning packages we will use throughout the bo
 
 - [scikit-learn](https://scikit-learn.org/stable/)
 - [pytorch](https://pytorch.org/docs/stable/index.html)
+- [transformers](https://huggingface.co/docs/transformers/en/index)
 
 These libraries are fundamental for machine learning and deep learning. You don't need to know anything about them because we will cover them.
 
