@@ -12,7 +12,9 @@ book:
     - intro.qmd
     - chapter/01_data/data.ipynb
     - chapter/02_baseline/baseline_classifier.ipynb
-    - chapter/bonus/cleaning_data.ipynb
+    - chapter/03_one_r/one_r.ipynb
+    - chapter/bonus/cleaning_data/cleaning_data.ipynb
+    - chapter/bonus/quality_vs_quantity/quality_vs_quantity.ipynb
     - references.qmd
 
 bibliography: references.bib
