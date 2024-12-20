@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -159,8 +213,27 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#features" id="toc-features" class="nav-link active" data-scroll-target="#features"><span class="header-section-number">3.1</span> Features</a>
+  <ul class="collapse">
+  <li><a href="#id" id="toc-id" class="nav-link" data-scroll-target="#id"><span class="header-section-number">3.1.1</span> <code>id</code></a></li>
+  <li><a href="#movie_id" id="toc-movie_id" class="nav-link" data-scroll-target="#movie_id"><span class="header-section-number">3.1.2</span> <code>movie_id</code></a></li>
+  <li><a href="#rating" id="toc-rating" class="nav-link" data-scroll-target="#rating"><span class="header-section-number">3.1.3</span> <code>rating</code></a></li>
+  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review"><span class="header-section-number">3.1.4</span> <code>review</code></a></li>
+  <li><a href="#label" id="toc-label" class="nav-link" data-scroll-target="#label"><span class="header-section-number">3.1.5</span> <code>label</code></a></li>
+  </ul></li>
+  <li><a href="#feature-types" id="toc-feature-types" class="nav-link" data-scroll-target="#feature-types"><span class="header-section-number">3.2</span> Feature Types</a>
+  <ul class="collapse">
+  <li><a href="#categorical" id="toc-categorical" class="nav-link" data-scroll-target="#categorical"><span class="header-section-number">3.2.1</span> Categorical</a></li>
+  <li><a href="#numeric" id="toc-numeric" class="nav-link" data-scroll-target="#numeric"><span class="header-section-number">3.2.2</span> Numeric</a></li>
+  </ul></li>
+  <li><a href="#oner-algorithm" id="toc-oner-algorithm" class="nav-link" data-scroll-target="#oner-algorithm"><span class="header-section-number">3.3</span> OneR algorithm</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -184,8 +257,180 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Moving beyond the <a href="../../chapter/02_baseline/baseline_classifier.html">simplest model</a>, the next step is a deep neural network. Just kidding, the next step is something slightly more complex but still very simple. OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> is such a model, but before we can get to the nitty gritty details, we need to learn about features and feature engineering, an important concept that is integral to machine learning.</p>
+<section id="features" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="features"><span class="header-section-number">3.1</span> Features</h2>
+<p>Features are just inputs to our model, so our data naturally contains features. Our data also contains observations that we want the model to predict; these are not features. There may be additional information in the data that aren’t used by our model.</p>
+<div id="31ee622c-fd81-4f2c-a708-7e2be3dde2fa" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-4"><a href="#cb1-4"></a>train_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>Index(['id', 'movie_id', 'rating', 'review', 'label'], dtype='object')</code></pre>
+</div>
+</div>
+<p>There are five columns in our dataframe, which ones are features? Which ones are observations? Which are additional information that won’t be used for training?</p>
+<p>Let’s break it down column by column.</p>
+<section id="id" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="id"><span class="header-section-number">3.1.1</span> <code>id</code></h3>
+<p>This is the review ID. It is not useful as a feature. Since each ID is unique there is no information a model can learn.</p>
+</section>
+<section id="movie_id" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="movie_id"><span class="header-section-number">3.1.2</span> <code>movie_id</code></h3>
+<p>Here things get tricky. The movie ID indicates what movie the review is for. Depending on your goal, this could be a feature. Recommendation systems may include a bias for each movie since not all movies are created equal. For example, <em>Die Hard</em> is a highly rated action movie and it makes sense to recommend that movie to fans of the action genre over other, lower rated action movies.</p>
+<p>We are interested in classifying the sentiment based on the content of the review. In this case, the movie ID can unfairly influence the model to ignore the review and classify the sentiment based on the movie (eg. all <em>Die Hard</em> reviews are positive). In theory that sounds fine, but how will your model handle a movie it’s not trained on? If the model learns to ignore the review and base it’s output on the movie ID, then it will be terrible at predicting the sentiment of a review for movies not seen in the training data. We will exclude <code>movie_id</code> as a feature for the sentiment classification task.</p>
+</section>
+<section id="rating" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="rating"><span class="header-section-number">3.1.3</span> <code>rating</code></h3>
+<p>For multiclass classification, this is the value the model is predicting, making it an observation, not a feature.</p>
+<p>But what about when we are trying to predict <code>label</code>? Could this be a feature? Unfortunately no, it turns out the <code>label</code> column is computed from the rating. Any model worth its salt will figure that out and make predictions based on the rating instead of the review.</p>
+</section>
+<section id="review" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="review"><span class="header-section-number">3.1.4</span> <code>review</code></h3>
+<p>This is our input, therefore it’s a feature.</p>
+</section>
+<section id="label" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="label"><span class="header-section-number">3.1.5</span> <code>label</code></h3>
+<p>In the binary classification problem, this is what we expect the model to predict, so it is an observation, not a feature.</p>
+</section>
+</section>
+<section id="feature-types" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="feature-types"><span class="header-section-number">3.2</span> Feature Types</h2>
+<section id="categorical" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="categorical"><span class="header-section-number">3.2.1</span> Categorical</h3>
+<p>Categorical features can be grouped by a value. Movie genre is such an example, where the genre falls into categories like action, horror, comedy, etc. Order doesn’t matter, uniqueness does. We can think of the <code>review</code> column as such a feature. It’s a <code>str</code> type so each unique review is a category value. Integers can also be used as category values.</p>
+</section>
+<section id="numeric" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="numeric"><span class="header-section-number">3.2.2</span> Numeric</h3>
+<p>As the name suggests, these features are numbers. They are continuous values where order matters, like age or income.</p>
+</section>
+</section>
+<section id="oner-algorithm" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="oner-algorithm"><span class="header-section-number">3.3</span> OneR algorithm</h2>
+<p>Now we can get to business and build a new model! Last chapter, the model always predicted the most common label in the training set. This model predicts the most common label for each <em>category</em>.</p>
+<div id="d5e66303-7784-4baf-9915-f327a3f21cf4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb3-7"><a href="#cb3-7"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> {}</span>
+<span id="cb3-9"><a href="#cb3-9"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>        <span class="cf">for</span> x <span class="kw">in</span> np.unique(X):</span>
+<span id="cb3-11"><a href="#cb3-11"></a>            is_x <span class="op">=</span> X <span class="op">==</span> x</span>
+<span id="cb3-12"><a href="#cb3-12"></a>            <span class="va">self</span>.predictors_[x] <span class="op">=</span> DummyClassifier().fit(X[is_x], y[is_x])</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb3-17"><a href="#cb3-17"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb3-19"><a href="#cb3-19"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>.predictors_[x].predict([x])[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> X])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok, our model is ready to train. Let’s grab our feature and label and get to it.</p>
+<div id="a23d7e34-93f6-44da-b8d5-81645085a6d5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>feature <span class="op">=</span> <span class="st">"review"</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>X_train, y_train <span class="op">=</span> train_df[feature], train_df[label]</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>oner <span class="op">=</span> OneR().fit(X_train, y_train)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>oner.score(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<p>That’s 100% accurate! Well it’s 100% accurate on our <em>training data</em>, which we don’t really care about. How does it perform on our test data?</p>
+<div id="d1596ae5-1036-477b-ac2f-0bf5d0300874" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>X_test, y_test <span class="op">=</span> test_df[feature], test_df[label]</span>
+<span id="cb6-2"><a href="#cb6-2"></a>oner.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[4], line 2</span>
+<span class="ansi-green-fg ansi-bold">      1</span> X_test, y_test <span style="color:rgb(98,98,98)">=</span> test_df[feature], test_df[label]
+<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">oner</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">score</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X_test</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">y_test</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/base.py:764</span>, in <span class="ansi-cyan-fg">ClassifierMixin.score</span><span class="ansi-blue-fg">(self, X, y, sample_weight)</span>
+<span class="ansi-green-fg ansi-bold">    739</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
+<span class="ansi-green-fg ansi-bold">    740</span> <span style="font-style:italic;color:rgb(175,0,0)">Return the mean accuracy on the given test data and labels.</span>
+<span class="ansi-green-fg ansi-bold">    741</span> 
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-fg ansi-bold">    760</span> <span style="font-style:italic;color:rgb(175,0,0)">    Mean accuracy of ``self.predict(X)`` w.r.t. `y`.</span>
+<span class="ansi-green-fg ansi-bold">    761</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
+<span class="ansi-green-fg ansi-bold">    762</span> <span style="font-weight:bold;color:rgb(0,135,0)">from</span> <span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">metrics</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> accuracy_score
+<span class="ansi-green-fg">--&gt; 764</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> accuracy_score(y, <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">predict</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">)</span>, sample_weight<span style="color:rgb(98,98,98)">=</span>sample_weight)
+
+Cell <span class="ansi-green-fg">In[2], line 19</span>, in <span class="ansi-cyan-fg">OneR.predict</span><span class="ansi-blue-fg">(self, X)</span>
+<span class="ansi-green-fg ansi-bold">     17</span> <span style="font-style:italic;color:rgb(175,0,0)">"""Predict the labels for inputs `X`."""</span>
+<span class="ansi-green-fg ansi-bold">     18</span> X <span style="color:rgb(98,98,98)">=</span> np<span style="color:rgb(98,98,98)">.</span>array(X)
+<span class="ansi-green-fg">---&gt; 19</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> np<span style="color:rgb(98,98,98)">.</span>array([<span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">predictors_</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">x</span><span class="ansi-yellow-bg">]</span><span style="color:rgb(98,98,98)">.</span>predict([x])[<span style="color:rgb(98,98,98)">0</span>] <span style="font-weight:bold;color:rgb(0,135,0)">for</span> x <span style="font-weight:bold;color:rgb(175,0,255)">in</span> X])
+
+<span class="ansi-red-fg">KeyError</span>: "1st watched 2/9/2008, 4 out of 10(Dir-J.S. Cardone): Sexual political thriller that doesn't really succeed in any of these areas very well except early on where there are some interesting soft-core scenes. The movie starts off portraying a couple exploring their sexual fantasies amidst their work environments or wherever and whatever suits their fancy. The couple takes an excursion to a retreat and bathhouse where they run into a woman that's willing to be a part of a three-some and fulfill some of their fantasies. At this point, we only know that this couple is well off but we don't know until they return that the fiancé is part of a well-to-do political family. The man hopes to be on the rise to the point of possibly getting a congressional seat after the marriage. They then receive a package in the mail from an anonymous source with explicit pictures of their encounter at the bath house and their qwest begins as to how and why they were filmed, who sent the package, what they want, and how to clear their names before any of this gets out. This qwest becomes an obsession that leads them deeper into seedier worlds and takes a lot of their time, to the point where their friends &amp; family wonder what they're doing all day and why they look rundown all the time. This movie is interesting at times but drifts into ridiculousness as they personally seek out the problem instead of getting the police involved early on because of their pride. This mistake, of course, keeps the movie going. The performances are fine despite the no-name cast but the lunacy of the situation overrides and the movie starts to become ho-hum about ½ the way through. And of course, they throw in a twist at the end that defies and challenges everything that happened prior(as is the norm these days when they don't know what else to do to spice up the movie). This doesn't help this movie one bit, though."</pre>
+</div>
+</div>
+</div>
+<p>Uh oh, there’s an error! We’ve treated each unique review as a category and there are reviews in the test set that aren’t in the train set. We need a way to handle missing categories. Let’s use the baseline classifier as a fallback.</p>
+<div id="fcdcf049-402e-4c27-9165-fcfa6313c639" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb7-7"><a href="#cb7-7"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> {}</span>
+<span id="cb7-9"><a href="#cb7-9"></a>        <span class="va">self</span>.fallback_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb7-10"><a href="#cb7-10"></a>        <span class="co"># Added fallback for missing categories.</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb7-12"><a href="#cb7-12"></a>        <span class="cf">for</span> x <span class="kw">in</span> np.unique(X):</span>
+<span id="cb7-13"><a href="#cb7-13"></a>            is_x <span class="op">=</span> X <span class="op">==</span> x</span>
+<span id="cb7-14"><a href="#cb7-14"></a>            <span class="va">self</span>.predictors_[x] <span class="op">=</span> DummyClassifier().fit(X[is_x], y[is_x])</span>
+<span id="cb7-15"><a href="#cb7-15"></a></span>
+<span id="cb7-16"><a href="#cb7-16"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a></span>
+<span id="cb7-18"><a href="#cb7-18"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb7-19"><a href="#cb7-19"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb7-21"><a href="#cb7-21"></a>        rv <span class="op">=</span> []</span>
+<span id="cb7-22"><a href="#cb7-22"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb7-23"><a href="#cb7-23"></a>            <span class="cf">try</span>:</span>
+<span id="cb7-24"><a href="#cb7-24"></a>                rv.append(<span class="va">self</span>.predictors_[x].predict([x])[<span class="dv">0</span>])</span>
+<span id="cb7-25"><a href="#cb7-25"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb7-26"><a href="#cb7-26"></a>                rv.append(<span class="va">self</span>.fallback_.predict([x])[<span class="dv">0</span>])</span>
+<span id="cb7-27"><a href="#cb7-27"></a>                <span class="co"># Use the fallback when the category isn't in `self.predictors_`.</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>        <span class="cf">return</span> np.array(rv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5dcb6783-706f-414c-a7a6-4698fb81a6d9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>oner <span class="op">=</span> OneR().fit(X_train, y_train)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>oner.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>0.5011190233977619</code></pre>
+</div>
+</div>
+<p>That’s a lot worse than the 100% accuracy we got on the train data. How does this compare to the baseline model?</p>
+<div id="a32bad90-43ef-47c0-9be2-3beb3e8d6b2f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> model_results</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>model_results[<span class="st">"baseline"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>0.5011190233977619</code></pre>
+</div>
+</div>
+<p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
+<p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result. It’s unfortunate we didn’t see an improvement in performance, but because we are comparing to a baseline, we know where we stand. In the next chapter we’ll work on improving performance of the OneR model</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Holte1993" class="csl-entry" role="listitem">
+Holte, Robert C. 1993. <span>“Very Simple Classification Rules Perform Well on Most Commonly Used Datasets.”</span> <em>Machine Learning</em> 11 (1): 63–90. <a href="https://doi.org/10.1023/A:1022631118932">https://doi.org/10.1023/A:1022631118932</a>.
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
