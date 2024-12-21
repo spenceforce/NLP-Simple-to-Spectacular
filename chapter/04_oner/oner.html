@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Machine learning needs data – NLP: From Simple to Spectacular</title>
+<title>4&nbsp; OneR, TwoR, RedR, BlueR – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,15 +77,15 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapter/02_baseline/baseline_classifier.html" rel="next">
-<link href="../../intro.html" rel="prev">
+<link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
+<link href="../../chapter/03_oner/oner.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -122,14 +122,11 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
 
-<body class="nav-sidebar floating slimcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -138,7 +135,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/01_data/data.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/04_oner/oner.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -177,7 +174,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/01_data/data.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span></a>
   </div>
 </li>
@@ -195,7 +192,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></span></a>
   </div>
 </li>
@@ -222,23 +219,15 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link active" data-scroll-target="#the-dataset"><span class="header-section-number">1.1</span> The dataset</a></li>
-  <li><a href="#classification-dataset" id="toc-classification-dataset" class="nav-link" data-scroll-target="#classification-dataset"><span class="header-section-number">1.2</span> Classification dataset</a></li>
-  <li><a href="#unsupervised-dataset" id="toc-unsupervised-dataset" class="nav-link" data-scroll-target="#unsupervised-dataset"><span class="header-section-number">1.3</span> Unsupervised dataset</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></h1>
 </div>
 
 
@@ -255,175 +244,174 @@ div.csl-indent {
 </header>
 
 
-<p>Without data, machine learning is nothing. After all what will it learn if it has nothing to learn from. Think about everything you’ve learned throughout your life. All the books you’ve read, the movies you’ve watched, the experiences you’ve lived. Everything you’ve touched, tasted, heard, felt, smelled. It all comes together to shape who you are and what you know. Our brains adapt and change to all of this input. Our brains <em>learn</em>. Take away all of the memories and experiences and what are we left with? Thoughts maybe, but of what? Without the context of our life there isn’t much to think about. Machine learning models work like our brain, but simpler. They take data and try to make sense of it, or <em>learn</em> from it. The more data, the easier it is to learn from, at least in theory.</p>
-<section id="the-dataset" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="the-dataset"><span class="header-section-number">1.1</span> The dataset</h2>
-<p>Our models will be using datasets of movie reviews from IMDB <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. The original datasets can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>One of the most important chapters in this book is about cleaning data. It’s a bonus chapter at the end. It walks through the steps and analysis I performed to clean and prepare the dataset for this book. At this point it’s not important. The focus should be on building models as fast as possible and iterating on them. By the end of this book, you should feel comfortable with machine learning, at which point understanding where data comes from and how it’s prepared becomes useful. After all we want to apply te things learned here to the real world, and that starts with real world data.</p>
-<p>It is still a bonus chapter and not required for understanding machine learning, but I found some suprising things when I cleaned this dataset. If you make it to the end, you really should read it.</p>
-</div>
-</div>
-<p>I’ve taken the liberty of further cleaning the data and making it accessible through a Python API so we can get right to work on machine learning and NLP.</p>
-<p>This book provides a conda environment file (see the <a href="intro.qmd#what-this-book-is">introduction</a>) with everything you need to run the code. If you want to access the dataset without setting up the conda environment, you can get access to it through <code>pip</code>. If you’re just following along through the book website then there’s nothing you need to do.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install git+https://github.com/spenceforce/NLP-Simple-to-Spectacular</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Let’s get a feel for the datasets before we move on to machine learning. There are two movie review datasets available. One for classification and the other for unsupervised learning.</p>
-</section>
-<section id="classification-dataset" class="level2 page-columns page-full" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="classification-dataset"><span class="header-section-number">1.2</span> Classification dataset</h2>
-<p>This dataset contains movie reviews and labels indicating if the review is positive (label 1) or negative (label 0). It is intended for benchmarking sentiment classification tasks. Sentiment classification is about predicting the feeling a text conveys. Like emotions such as happy, sad, or angry. In this case it’s predicting whether a review says if a movie is good or bad.</p>
-<p>This dataset is split into a set for training and a set for testing. We can access both the train and test sets with <code>get_train_test_data</code>, which returns a <code>DataFrame</code> object for each set. The <code>DataFrame</code> class is a staple of <a href="https://pandas.pydata.org/docs/"><code>pandas</code></a>. Dataframes are tables and they are not unique to <code>pandas</code>, but <code>pandas</code> is a de facto Python library for working with dataframes. You can think of dataframes as the programmatic version of an excel spreadsheet.</p>
-<div id="026e61c9-afc6-4ddf-880a-b635d005c406" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb2-2"><a href="#cb2-2"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><code>train_df</code> and <code>test_df</code> have the same format, so we’ll just inspect <code>train_df</code>. We can see how many rows are in the dataframe and information about the columns with <code>DataFrame.info()</code>.</p>
-<div id="9b853f6c-6d5a-48a4-8d23-a608224cb0f1" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>train_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="../../chapter/03_oner/oner.html">Last chapter</a> we implemented the OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> algorithm. In this chapter we’ll improve the model without improving the model. Sounds strange, but bear with me.</p>
+<div id="2fe5ed09-668e-4ffb-922a-1c6aed2aebd0" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2"></a>a <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="cf">for</span> x <span class="kw">in</span> a.T:</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-Index: 24904 entries, 0 to 12499
-Data columns (total 5 columns):
- #   Column    Non-Null Count  Dtype 
----  ------    --------------  ----- 
- 0   id        24904 non-null  int64 
- 1   movie_id  24904 non-null  object
- 2   rating    24904 non-null  int64 
- 3   review    24904 non-null  object
- 4   label     24904 non-null  int64 
-dtypes: int64(3), object(2)
-memory usage: 1.1+ MB</code></pre>
+<pre><code>[1 3]
+[2 4]</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p><code>DataFrame.info()</code> says there are 24,904 rows. There are five columns, three of which have type <code>int64</code> and two with type <code>object</code>; the <code>object</code> types are strings in our dataframe.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>pandas</code> assigns the type <code>object</code> to non-numeric values.</span></div></div>
-<p>Each row is for one review. A brief rundown of what the columns are:</p>
-<ul>
-<li><code>id</code>: The review ID.</li>
-<li><code>movie_id</code>: The movie ID.</li>
-<li><code>rating</code>: A score from 1-10 that the reviewer gave the movie.</li>
-<li><code>review</code>: This is the review. Pretty self-explanatory.</li>
-<li><code>label</code>: A 0 or 1 value indicating if the review is negative or positive, respectively.</li>
-</ul>
-<p>The columns we’re interested in are <code>review</code>, <code>label</code>, and to a lesser extend, <code>rating</code>. <code>review</code> will be the input to all models as this is the natural language we are trying to process. <code>label</code> and <code>rating</code> are what we’re trying to predict! We will mainly be predicting <code>label</code>, but we will also use <code>rating</code> to show how to scale binary classification (predicting two labels) to multiple labels (predicting three or more labels).</p>
-<p>Let’s inspect a few reviews with <code>DataFrame.head()</code>.</p>
-<div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">movie_id</th>
-<th data-quarto-table-cell-role="th">rating</th>
-<th data-quarto-table-cell-role="th">review</th>
-<th data-quarto-table-cell-role="th">label</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>7275</td>
-<td>tt0082799</td>
-<td>1</td>
-<td>"National Lampoon Goes to the Movies" (1981) i...</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>1438</td>
-<td>tt0397501</td>
-<td>4</td>
-<td>Well! What can one say? Firstly, this adaptati...</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>9137</td>
-<td>tt0364986</td>
-<td>1</td>
-<td>What can I say, this is a piece of brilliant f...</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>173</td>
-<td>tt0283974</td>
-<td>3</td>
-<td>A decent sequel, but does not pack the punch o...</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>8290</td>
-<td>tt0314630</td>
-<td>2</td>
-<td>Alan Rudolph is a so-so director, without that...</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-
+<div id="d41ef502-1561-466a-acc8-69efdff379c3" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin, TransformerMixin</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#class BagOfLetters(TransformerMixin, BaseEstimator):</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>    </span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb3-10"><a href="#cb3-10"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>        best_predictors <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>        best_i <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>        best_score <span class="op">=</span> <span class="bu">float</span>(<span class="st">'-inf'</span>)</span>
+<span id="cb3-14"><a href="#cb3-14"></a>        <span class="va">self</span>.fallback_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb3-15"><a href="#cb3-15"></a>        <span class="co"># Added fallback for missing categories.</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb3-17"><a href="#cb3-17"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb3-18"><a href="#cb3-18"></a>            predictors <span class="op">=</span> {}</span>
+<span id="cb3-19"><a href="#cb3-19"></a>            <span class="cf">for</span> x_val <span class="kw">in</span> np.unique(x):</span>
+<span id="cb3-20"><a href="#cb3-20"></a>                is_x <span class="op">=</span> x <span class="op">==</span> x_val</span>
+<span id="cb3-21"><a href="#cb3-21"></a>                predictors[x_val] <span class="op">=</span> DummyClassifier().fit(x[is_x], y[is_x])</span>
+<span id="cb3-22"><a href="#cb3-22"></a></span>
+<span id="cb3-23"><a href="#cb3-23"></a>            <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
+<span id="cb3-24"><a href="#cb3-24"></a>            <span class="va">self</span>.i_ <span class="op">=</span> i</span>
+<span id="cb3-25"><a href="#cb3-25"></a>            score <span class="op">=</span> <span class="va">self</span>.score(X, y)</span>
+<span id="cb3-26"><a href="#cb3-26"></a>            <span class="cf">if</span> score <span class="op">&gt;</span> best_score:</span>
+<span id="cb3-27"><a href="#cb3-27"></a>                best_predictors <span class="op">=</span> predictors</span>
+<span id="cb3-28"><a href="#cb3-28"></a>                best_i <span class="op">=</span> i</span>
+<span id="cb3-29"><a href="#cb3-29"></a>                best_score <span class="op">=</span> score</span>
+<span id="cb3-30"><a href="#cb3-30"></a></span>
+<span id="cb3-31"><a href="#cb3-31"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> best_predictors</span>
+<span id="cb3-32"><a href="#cb3-32"></a>        <span class="va">self</span>.i_ <span class="op">=</span> best_i</span>
+<span id="cb3-33"><a href="#cb3-33"></a></span>
+<span id="cb3-34"><a href="#cb3-34"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a></span>
+<span id="cb3-36"><a href="#cb3-36"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb3-37"><a href="#cb3-37"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb3-39"><a href="#cb3-39"></a>        rv <span class="op">=</span> []</span>
+<span id="cb3-40"><a href="#cb3-40"></a>        <span class="cf">for</span> x <span class="kw">in</span> X[:, <span class="va">self</span>.i_]:</span>
+<span id="cb3-41"><a href="#cb3-41"></a>            <span class="cf">try</span>:</span>
+<span id="cb3-42"><a href="#cb3-42"></a>                rv.append(<span class="va">self</span>.predictors_[x].predict([x])[<span class="dv">0</span>])</span>
+<span id="cb3-43"><a href="#cb3-43"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb3-44"><a href="#cb3-44"></a>                rv.append(<span class="va">self</span>.fallback_.predict([x])[<span class="dv">0</span>])</span>
+<span id="cb3-45"><a href="#cb3-45"></a>                <span class="co"># Use the fallback when the category isn't </span></span>
+<span id="cb3-46"><a href="#cb3-46"></a>                <span class="co"># in `self.predictors_`.</span></span>
+<span id="cb3-47"><a href="#cb3-47"></a>        <span class="cf">return</span> np.array(rv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<p>The <code>review</code> column looks like natural language and the <code>label</code> and <code>rating</code> columns have numeric values just like <code>DataFrame.info()</code> said.</p>
-<p>We can also see how this dataset is split by label.</p>
-<div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>train_df.value_counts(<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>label
-1    12472
-0    12432
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-<p>There are 12,472 positive labels and 12,432 negative labels. That’s almost a 50/50 split.</p>
-</section>
-<section id="unsupervised-dataset" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="unsupervised-dataset"><span class="header-section-number">1.3</span> Unsupervised dataset</h2>
-<p>The train/test sets above have labels, 0 or 1, which allows them to be used in a <em>supervised</em> learning fashion. In supervised learning we have real outputs, the review labels in this case, to compare to our machine learning model outputs. We can supervise the models learning by comparing it’s outputs to the labels and let the model know how it’s doing.</p>
-<p>Unsupervised learning is just input data. There’s no label to use as a comparator. Instead the model must learn from the data without knowing whether it is right or wrong. This kind of learning is less about predicting a specific property and more about learning general properties of the data.</p>
-<p>This dataset is available through <code>get_unsup_data</code>. Let’s inspect it with <code>DataFrame.info()</code>.</p>
-<div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
-<span id="cb8-2"><a href="#cb8-2"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
-<span id="cb8-3"><a href="#cb8-3"></a>unsup_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="24ee916b-eab6-42c4-9370-f6c690353a09" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb4-2"><a href="#cb4-2"></a>corpus <span class="op">=</span> [</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="st">'This is the first document.'</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="st">'This document is the second document.'</span>,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="st">'And this is the third one.'</span>,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="st">'Is this the first document?'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>]</span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb4-10"><a href="#cb4-10"></a></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">class</span> BagOfLetters(CountVectorizer):</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    <span class="kw">def</span> build_tokenizer(<span class="va">self</span>):</span>
+<span id="cb4-13"><a href="#cb4-13"></a>        <span class="cf">return</span> <span class="bu">list</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a>vectorizer <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-15"><a href="#cb4-15"></a>X <span class="op">=</span> vectorizer.fit_transform(corpus)</span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="bu">print</span>(vectorizer.get_feature_names_out())</span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="bu">print</span>(X.toarray())</span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#vectorizer2 = CountVectorizer(analyzer='word', ngram_range=(2, 2))</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#X2 = vectorizer2.fit_transform(corpus)</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#vectorizer2.get_feature_names_out()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-Index: 49507 entries, 0 to 49999
-Data columns (total 3 columns):
- #   Column    Non-Null Count  Dtype 
----  ------    --------------  ----- 
- 0   id        49507 non-null  int64 
- 1   movie_id  49507 non-null  object
- 2   review    49507 non-null  object
-dtypes: int64(1), object(2)
-memory usage: 1.5+ MB</code></pre>
+<pre><code>[' ' '.' '?' 'A' 'I' 'T' 'c' 'd' 'e' 'f' 'h' 'i' 'm' 'n' 'o' 'r' 's' 't'
+ 'u']
+[[4 1 0 0 0 1 1 1 2 1 2 3 1 1 1 1 3 3 1]
+ [5 1 0 0 0 1 3 3 4 0 2 2 2 3 3 0 3 3 2]
+ [5 1 0 1 0 0 0 2 2 0 3 3 0 2 1 1 2 3 0]
+ [4 0 1 0 1 0 1 1 2 1 2 2 1 1 1 1 3 4 1]]</code></pre>
 </div>
 </div>
-<p>As you can see, there is no <code>label</code> or <code>rating</code> columns. It’s just reviews and nothing else.</p>
-<p>The next chapter will focus on building our first model. It will be simple and not very good.</p>
+<div id="31ee622c-fd81-4f2c-a708-7e2be3dde2fa" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb6-4"><a href="#cb6-4"></a>train_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>Index(['id', 'movie_id', 'rating', 'review', 'label'], dtype='object')</code></pre>
+</div>
+</div>
+<div id="abd16c06-12cd-46cf-b16e-a7879c5e5ef5" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>vectorizer <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>X_train <span class="op">=</span> vectorizer.fit_transform(train_df[<span class="st">"review"</span>])</span>
+<span id="cb8-3"><a href="#cb8-3"></a>X_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>&lt;Compressed Sparse Row sparse matrix of dtype 'int64'
+    with 1180459 stored elements and shape (24904, 178)&gt;</code></pre>
+</div>
+</div>
+<div id="1d2ca938-3716-408b-91a7-4edce581759b" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>X_train.toarray()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       ...,
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]])</code></pre>
+</div>
+</div>
+<div id="6d44a032-12a8-4e17-af98-5170b0288550" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>vectorizer.get_feature_names_out()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>array(['\x08', '\t', '\x10', ' ', '!', '"', '#', '$', '%', '&amp;', "'", '(',
+       ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5',
+       '6', '7', '8', '9', ':', ';', '&lt;', '=', '&gt;', '?', '@', 'A', 'B',
+       'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+       'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\',
+       ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+       'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+       'w', 'x', 'y', 'z', '{', '|', '}', '~', '\x80', '\x84', '\x85',
+       '\x8d', '\x8e', '\x91', '\x95', '\x96', '\x97', '\x9a', '\x9e',
+       '\xa0', '¡', '¢', '£', '¤', '¦', '§', '¨', '«', '\xad', '®', '°',
+       '³', '´', '·', 'º', '»', '½', '¾', '¿', 'À', 'Á', 'Ã', 'Ä', 'Å',
+       'È', 'É', 'Ê', 'Õ', 'Ø', 'Ü', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å',
+       'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ñ', 'ò',
+       'ó', 'ô', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ō', '–', '‘', '’',
+       '“', '”', '…', '₤', '\uf0b7'], dtype=object)</code></pre>
+</div>
+</div>
+<div id="e7452334-821e-4f60-afa3-fb454872392c" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>oner <span class="op">=</span> OneR().fit(X_train.toarray(), train_df[<span class="st">"label"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3f048bb3-6d0a-4bee-b665-0ad6baca755d" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>oner.score(vectorizer.transform(test_df[<span class="st">"review"</span>]).toarray(), test_df[<span class="st">"label"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>0.5812817904374364</code></pre>
+</div>
+</div>
+<div id="a0921b09-05a4-4bb4-b56b-6d1f5dec5af3" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>oner.i_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>34</code></pre>
+</div>
+</div>
+<div id="752fa091-309d-4c9b-a1a4-b6f8d9c33727" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>vectorizer.get_feature_names_out()[oner.i_]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>'?'</code></pre>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-maas-EtAl:2011:ACL-HLT2011" class="csl-entry" role="listitem">
-Maas, Andrew L., Raymond E. Daly, Peter T. Pham, Dan Huang, Andrew Y. Ng, and Christopher Potts. 2011. <span>“Learning Word Vectors for Sentiment Analysis.”</span> In <em>Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies</em>, 142–50. Portland, Oregon, USA: Association for Computational Linguistics. <a href="http://www.aclweb.org/anthology/P11-1015">http://www.aclweb.org/anthology/P11-1015</a>.
+<div id="ref-Holte1993" class="csl-entry" role="listitem">
+Holte, Robert C. 1993. <span>“Very Simple Classification Rules Perform Well on Most Commonly Used Datasets.”</span> <em>Machine Learning</em> 11 (1): 63–90. <a href="https://doi.org/10.1023/A:1022631118932">https://doi.org/10.1023/A:1022631118932</a>.
 </div>
 </div>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -845,13 +833,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../intro.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      <a href="../../chapter/03_oner/oner.html" class="pagination-link" aria-label="OneR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapter/02_baseline/baseline_classifier.html" class="pagination-link" aria-label="Baseline: gotta start somewhere">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baseline: gotta start somewhere</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="Bonus: cleaning data">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Bonus: cleaning data – NLP: From Simple to Spectacular</title>
+<title>5&nbsp; Bonus: cleaning data – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,7 +85,7 @@ div.csl-indent {
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
 <link href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" rel="next">
-<link href="../../../chapter/03_one_r/one_r.html" rel="prev">
+<link href="../../../chapter/04_oner/oner.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -138,7 +138,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../chapter/bonus/cleaning_data/cleaning_data.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../chapter/bonus/cleaning_data/cleaning_data.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -189,20 +189,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/03_one_r/one_r.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -221,21 +227,21 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link active" data-scroll-target="#getting-the-data"><span class="header-section-number">4.1</span> Getting the data</a>
+  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link active" data-scroll-target="#getting-the-data"><span class="header-section-number">5.1</span> Getting the data</a>
   <ul class="collapse">
-  <li><a href="#dataset-specifics" id="toc-dataset-specifics" class="nav-link" data-scroll-target="#dataset-specifics"><span class="header-section-number">4.1.1</span> Dataset specifics</a></li>
-  <li><a href="#directory-structure" id="toc-directory-structure" class="nav-link" data-scroll-target="#directory-structure"><span class="header-section-number">4.1.2</span> Directory structure</a></li>
+  <li><a href="#dataset-specifics" id="toc-dataset-specifics" class="nav-link" data-scroll-target="#dataset-specifics"><span class="header-section-number">5.1.1</span> Dataset specifics</a></li>
+  <li><a href="#directory-structure" id="toc-directory-structure" class="nav-link" data-scroll-target="#directory-structure"><span class="header-section-number">5.1.2</span> Directory structure</a></li>
   </ul></li>
-  <li><a href="#question-the-dataset" id="toc-question-the-dataset" class="nav-link" data-scroll-target="#question-the-dataset"><span class="header-section-number">4.2</span> Question the dataset</a>
+  <li><a href="#question-the-dataset" id="toc-question-the-dataset" class="nav-link" data-scroll-target="#question-the-dataset"><span class="header-section-number">5.2</span> Question the dataset</a>
   <ul class="collapse">
-  <li><a href="#cleaning-the-data" id="toc-cleaning-the-data" class="nav-link" data-scroll-target="#cleaning-the-data"><span class="header-section-number">4.2.1</span> Cleaning the data</a></li>
-  <li><a href="#train-test-contamination" id="toc-train-test-contamination" class="nav-link" data-scroll-target="#train-test-contamination"><span class="header-section-number">4.2.2</span> Train-test contamination</a></li>
+  <li><a href="#cleaning-the-data" id="toc-cleaning-the-data" class="nav-link" data-scroll-target="#cleaning-the-data"><span class="header-section-number">5.2.1</span> Cleaning the data</a></li>
+  <li><a href="#train-test-contamination" id="toc-train-test-contamination" class="nav-link" data-scroll-target="#train-test-contamination"><span class="header-section-number">5.2.2</span> Train-test contamination</a></li>
   </ul></li>
-  <li><a href="#reflection" id="toc-reflection" class="nav-link" data-scroll-target="#reflection"><span class="header-section-number">4.3</span> Reflection</a>
+  <li><a href="#reflection" id="toc-reflection" class="nav-link" data-scroll-target="#reflection"><span class="header-section-number">5.3</span> Reflection</a>
   <ul class="collapse">
-  <li><a href="#keep-asking-why" id="toc-keep-asking-why" class="nav-link" data-scroll-target="#keep-asking-why"><span class="header-section-number">4.3.1</span> Keep asking “why?”</a></li>
+  <li><a href="#keep-asking-why" id="toc-keep-asking-why" class="nav-link" data-scroll-target="#keep-asking-why"><span class="header-section-number">5.3.1</span> Keep asking “why?”</a></li>
   </ul></li>
-  <li><a href="#unsupervised-learning-data" id="toc-unsupervised-learning-data" class="nav-link" data-scroll-target="#unsupervised-learning-data"><span class="header-section-number">4.4</span> Unsupervised learning data</a></li>
+  <li><a href="#unsupervised-learning-data" id="toc-unsupervised-learning-data" class="nav-link" data-scroll-target="#unsupervised-learning-data"><span class="header-section-number">5.4</span> Unsupervised learning data</a></li>
   </ul>
 </nav>
     </div>
@@ -244,7 +250,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></h1>
 </div>
 
 
@@ -261,8 +267,8 @@ div.csl-indent {
 </header>
 
 
-<section id="getting-the-data" class="level2 page-columns page-full" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="getting-the-data"><span class="header-section-number">4.1</span> Getting the data</h2>
+<section id="getting-the-data" class="level2 page-columns page-full" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="getting-the-data"><span class="header-section-number">5.1</span> Getting the data</h2>
 <p>The dataset used throughout this book was originally curated by a group at Stanford <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. There are several ways to get your hands on a dataset, you can curate them yourself or rely on the work of others. This dataset can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>, but for simplicities sake it’s downloadable from this <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/releases/tag/aclImdb_dataset">github repo</a>.</p>
 <p>Let’s grab the data!</p>
 <div id="87b50502-6d27-407a-bec6-90f809ae122f" class="cell" data-execution_count="1">
@@ -301,21 +307,21 @@ div.csl-indent {
 </div>
 <p>If you’re working through this notebook in jupyter, I recommend taking a pause and reading the README yourself.</p>
 <p>I’ll summarize the main takeaways here for those of you reading this online.</p>
-<section id="dataset-specifics" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="dataset-specifics"><span class="header-section-number">4.1.1</span> Dataset specifics</h3>
+<section id="dataset-specifics" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="dataset-specifics"><span class="header-section-number">5.1.1</span> Dataset specifics</h3>
 <p>There are 50k reviews, split into two groups of 25k. One group is for training machine learning models and the other is for testing them. Within each group of 25k, the reviews are split into half positive and half negative.</p>
 <p>There’s at most 30 reviews for a given movie. The train and test sets have reviews for different movies, so none of the movies reviewed in the train set show up in the test set. Negative reviews have a score of 4 or less and positive reviews have a score of 7 or more.</p>
 <p>There are an additional 50k reviews without any labels. These reviews are intended for unsupervised learning purposes (we’ll learn about unsupervised learning in the future). There is an equal number of reviews with a score of 4 or less and 5 or more.</p>
 </section>
-<section id="directory-structure" class="level3 page-columns page-full" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="directory-structure"><span class="header-section-number">4.1.2</span> Directory structure</h3>
+<section id="directory-structure" class="level3 page-columns page-full" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="directory-structure"><span class="header-section-number">5.1.2</span> Directory structure</h3>
 <div class="page-columns page-full"><p>The classification dataset file naming convention is <code>[DATASET]/[LABEL]/[ID]_[RATING].txt</code> where <code>DATASET</code> is one of <code>train</code> or <code>test</code>, <code>LABEL</code> is one of <code>pos</code> or <code>neg</code> (for positive and negative respectively), <code>ID</code> is a numeric identifier for a review, and <code>RATING</code> is the score the reviewer gave the movie.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">A word of warning for jupyter lab users. Jupyter crashed when I tried to open the directories containing the reviews (like <code>train/pos</code>). My guess is there’s too many files for jupyter to display and it becomes unresponsive. Your mileage may vary.</span></div></div>
 <p>The unsupervised dataset file naming convention is <code>train/unsup/[ID]_0.txt</code> where <code>ID</code> is a numeric identifier for a review.</p>
 <div class="page-columns page-full"><p>URLs to the reviews section are also provided in <code>[DATASET]/urls_[LABEL].txt</code>. The line <code>N</code> refers to <code>ID</code> <code>N</code> in the associated dataset/label combination. For example line 200 in <code>train/urls_pos.txt</code> refers to the reviews webpage for the movie of <code>train/pos/200_10.txt</code>. Here’s an example URL from one of these files: http://www.imdb.com/title/tt0064354/usercomments. It turns out IMDB has changed their URL format so this link is broken. They now use “reviews” in place of “usercomments” like http://www.imdb.com/title/tt0064354/reviews. An oddity in the URLs is they do not point to the individual review, but to the review section of the movie the review is about.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">By the time you read this, they may have changed the URL structure again</span></div></div>
 </section>
 </section>
-<section id="question-the-dataset" class="level2 page-columns page-full" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="question-the-dataset"><span class="header-section-number">4.2</span> Question the dataset</h2>
+<section id="question-the-dataset" class="level2 page-columns page-full" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="question-the-dataset"><span class="header-section-number">5.2</span> Question the dataset</h2>
 <p>An integral part of building a machine learning model is understanding where the data comes from and how it was acquired. There may be assumptions made during the data curation process that you don’t agree with. An artefact in the data may have unintended side effects downstream, such as training a model that works very well on data it’s seen but performs poorly on data it hasn’t.</p>
 <p>As you read about the dataset and it’s curation process, I recommend you keep asking “why?” to better understand the choices made during the curation process. Why did they use those specific thresholds for choosing positive vs negative labels? Why that ratio of positive/negative labels? Why that many reviews per movie? Why set up the train/test sets that way?</p>
 <p>In parallel, also think about <em>how</em> you are going to leverage this data. Your end goal may be different from the curators of the dataset and that should be taken into account as you prepare the data for training machine learning models.</p>
@@ -327,8 +333,8 @@ div.csl-indent {
 <li>Were the movies made during a certain time period?</li>
 </ul>
 <div class="page-columns page-full"><p>Some of these questions we could answer ourselves if we want to and they can lead to a richer set of information. <a href="https://developer.imdb.com/">IMDB provides an API</a> to programmatically gather movie data over the web. With that tool one can gather movie genres, release dates, associated actors, and more. If we never ask the questions we’ll never think to look. Maybe we curate our own dataset because this one doesn’t provide what we need or it leads to further analysis of the data and the dataset is tweaked based on that analysis. We will stay as true to the source dataset as possible, but don’t let that stop you from thinking about ways to improve this dataset or curate an entirely new one.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="https://www.omdbapi.com/">OMDb API</a> is another API that provides IMDB metadata. I found their service to be much more transparent on pricing and easier to get access to.</span></div></div>
-<section id="cleaning-the-data" class="level3 page-columns page-full" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="cleaning-the-data"><span class="header-section-number">4.2.1</span> Cleaning the data</h3>
+<section id="cleaning-the-data" class="level3 page-columns page-full" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="cleaning-the-data"><span class="header-section-number">5.2.1</span> Cleaning the data</h3>
 <p>The boundaries between cleaning data and analyzing data can be fuzzy at times, but for sake of simplicity we will only analyze the data as needed to properly clean it.</p>
 <p>The pieces of information provided in this dataset are:</p>
 <ul>
@@ -775,8 +781,8 @@ Name: (review, count), dtype: object</code></pre>
 </div>
 <p>We’ve removed about 200 reviews from the test set and can start digging in to comparing the test set to the train set.</p>
 </section>
-<section id="train-test-contamination" class="level3 page-columns page-full" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="train-test-contamination"><span class="header-section-number">4.2.2</span> Train-test contamination</h3>
+<section id="train-test-contamination" class="level3 page-columns page-full" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="train-test-contamination"><span class="header-section-number">5.2.2</span> Train-test contamination</h3>
 <p>Now let’s talk a bit about what the test set is used for. It’s a separate set of data used to evaluate a machine learning model after it’s trained. It is data used to measure the performance of a model on data it’s never seen before. This is important because when a model is used in production, it will be making predictions about all kinds of inputs it wasn’t trained on and it needs to generalize well beyond the training data. <strong>We do not want data leaking from the train set into the test set.</strong></p>
 <p>Easy enough to check.</p>
 <div id="df95771d-d6db-49a1-8d64-265eebc02cd3" class="cell" data-execution_count="15">
@@ -1054,8 +1060,8 @@ Name: count, dtype: int64</code></pre>
 <p>Now we have 24,575 reviews in the test set. All is good and we can move on.</p>
 </section>
 </section>
-<section id="reflection" class="level2 page-columns page-full" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="reflection"><span class="header-section-number">4.3</span> Reflection</h2>
+<section id="reflection" class="level2 page-columns page-full" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="reflection"><span class="header-section-number">5.3</span> Reflection</h2>
 <p>With that, our data cleaning journey comes to an end. Yes, there is more that could be done, like ensuring no reviews from the same reviewer show up in the train and test sets, but we don’t have user IDs associated with these reviews. Besides, the process would look similar to what we’ve already done, just with a little more leg work. For our purpose of learning about NLP this dataset is fine.</p>
 <p>We covered a lot of ground, and while we’re here I’d like to take a moment to reflect on what we found.</p>
 <ul>
@@ -1068,13 +1074,13 @@ Name: count, dtype: int64</code></pre>
 <li>Train-test contamination.</li>
 </ul>
 <div class="page-columns page-full"><p>I especially want to draw your attention to the train-test contamination. The amount of contamination in this dataset may be negligible when it comes to benchmarking machine learning models, I don’t really know. But the fact that it’s there and that this dataset is provided by <a href="https://pytorch.org/text/stable/datasets.html#imdb">multiple</a> <a href="https://www.tensorflow.org/datasets/catalog/imdb_reviews">deep learning</a> <a href="https://docs.fast.ai/data.external.html#main-datasets">libraries</a> as well as used for <a href="https://arxiv.org/abs/1801.06146">benchmarking tasks in research</a> <span class="citation" data-cites="DBLP:journals/corr/abs-1801-06146">(<a href="../../../references.html#ref-DBLP:journals/corr/abs-1801-06146" role="doc-biblioref">Howard and Ruder 2018</a>)</span> should make you pause. I’ve used datasets at face value without questioning them and I guarantee people have taken this dataset at face value. These libraries provide the data as-is. 25k train and 25k test reviews, but we know there’s not really 25k reviews in each set. This is not a critique of the dataset or it’s curators, the libraries that provide it, or the researchers that use it. This is a reminder to verify the data is actually what you think it is because we’ve seen here that it isn’t always what it looks like.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Researchers may perform their own preprocessing of the data as we have here. I point to this paper as an example of researchers using the dataset because it is a popular dataset, <em>not as an example of someone using it without preprocessing</em>. In fact, I think this paper is so important it got it’s own chapter.</span></div></div>
-<section id="keep-asking-why" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="keep-asking-why"><span class="header-section-number">4.3.1</span> Keep asking “why?”</h3>
+<section id="keep-asking-why" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="keep-asking-why"><span class="header-section-number">5.3.1</span> Keep asking “why?”</h3>
 <p>Now that we’ve reached the end, did we answer all the questions we set out to answer? Did you come up with other questions while we worked through this? If we created a similar dataset from scratch today, what would you do differently?</p>
 </section>
 </section>
-<section id="unsupervised-learning-data" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="unsupervised-learning-data"><span class="header-section-number">4.4</span> Unsupervised learning data</h2>
+<section id="unsupervised-learning-data" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="unsupervised-learning-data"><span class="header-section-number">5.4</span> Unsupervised learning data</h2>
 <p>The IMDB dataset includes an unsupervised learning dataset. The unsupervised set has no ratings and no labels. It’s just reviews. Like the train and test set we’ve already gone over, the same principle of deduplication applies and that’s really all we need.</p>
 <div id="f33fce42-e663-458a-8a73-02f8c67dee98" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="kw">def</span> get_unsup_data(dedup<span class="op">=</span><span class="va">True</span>):</span>
@@ -1543,13 +1549,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../chapter/03_one_r/one_r.html" class="pagination-link" aria-label="OneR">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span>
+      <a href="../../../chapter/04_oner/oner.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="pagination-link" aria-label="Bonus: quality vs. quantity">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

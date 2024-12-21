@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
+<link href="../../chapter/04_oner/oner.html" rel="next">
 <link href="../../chapter/02_baseline/baseline_classifier.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -135,7 +135,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/03_one_r/one_r.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/03_oner/oner.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,20 +186,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/03_one_r/one_r.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -402,8 +408,9 @@ Cell <span class="ansi-green-fg">In[2], line 19</span>, in <span class="ansi-cya
 <span id="cb7-24"><a href="#cb7-24"></a>                rv.append(<span class="va">self</span>.predictors_[x].predict([x])[<span class="dv">0</span>])</span>
 <span id="cb7-25"><a href="#cb7-25"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
 <span id="cb7-26"><a href="#cb7-26"></a>                rv.append(<span class="va">self</span>.fallback_.predict([x])[<span class="dv">0</span>])</span>
-<span id="cb7-27"><a href="#cb7-27"></a>                <span class="co"># Use the fallback when the category isn't in `self.predictors_`.</span></span>
-<span id="cb7-28"><a href="#cb7-28"></a>        <span class="cf">return</span> np.array(rv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-27"><a href="#cb7-27"></a>                <span class="co"># Use the fallback when the category isn't </span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>                <span class="co"># in `self.predictors_`.</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a>        <span class="cf">return</span> np.array(rv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="5dcb6783-706f-414c-a7a6-4698fb81a6d9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>oner <span class="op">=</span> OneR().fit(X_train, y_train)</span>
@@ -422,7 +429,7 @@ Cell <span class="ansi-green-fg">In[2], line 19</span>, in <span class="ansi-cya
 </div>
 </div>
 <p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
-<p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result. It’s unfortunate we didn’t see an improvement in performance, but because we are comparing to a baseline, we know where we stand. In the next chapter we’ll work on improving performance of the OneR model by manipulating the input data.</p>
+<p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result. It’s unfortunate we didn’t see an improvement in performance, but because we are comparing to a baseline, we know where we stand. In the next chapter we’ll mostly ignore the OneR algorithm and focus on improving performance by creating a richer representation of the input data.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -857,8 +864,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="Bonus: cleaning data">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/04_oner/oner.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
