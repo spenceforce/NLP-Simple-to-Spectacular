@@ -5,7 +5,7 @@ import yaml
 
 p = subprocess.run("conda env export --from-history".split(), capture_output=True)
 from_history = yaml.safe_load(p.stdout)
-dependencies = ["python"] + from_history["dependencies"]
+dependencies = ["python"] + [x.split("=")[0] for x in from_history["dependencies"]]
 for x in ["ca-certificates", "certifi", "openssl"]:
     dependencies.remove(x)
 
