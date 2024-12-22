@@ -349,48 +349,50 @@ div.csl-indent {
 <div id="610e64d2-1b25-4141-b42e-a15e6a20c0b4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file):</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="co">"""</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">    Return a `pd.DataFrame` containing the review ID,</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">    movie ID, rating, and review.</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">    """</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>    <span class="cf">with</span> urls_file.<span class="bu">open</span>() <span class="im">as</span> f:</span>
-<span id="cb4-9"><a href="#cb4-9"></a>        movie_ids <span class="op">=</span> {</span>
-<span id="cb4-10"><a href="#cb4-10"></a>            i: url.split(<span class="st">"/"</span>)[<span class="dv">4</span>]</span>
-<span id="cb4-11"><a href="#cb4-11"></a>            <span class="cf">for</span> i, url <span class="kw">in</span> <span class="bu">enumerate</span>(f.readlines())</span>
-<span id="cb4-12"><a href="#cb4-12"></a>        }</span>
-<span id="cb4-13"><a href="#cb4-13"></a></span>
-<span id="cb4-14"><a href="#cb4-14"></a>    data <span class="op">=</span> []</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    <span class="cf">for</span> p <span class="kw">in</span> reviews_dir.iterdir():</span>
-<span id="cb4-16"><a href="#cb4-16"></a>        ID, rating <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, p.stem.split(<span class="st">"_"</span>))</span>
-<span id="cb4-17"><a href="#cb4-17"></a>        data.append(</span>
-<span id="cb4-18"><a href="#cb4-18"></a>            {</span>
-<span id="cb4-19"><a href="#cb4-19"></a>                <span class="st">"id"</span>: ID,</span>
-<span id="cb4-20"><a href="#cb4-20"></a>                <span class="st">"movie_id"</span>: movie_ids[ID],</span>
-<span id="cb4-21"><a href="#cb4-21"></a>                <span class="st">"rating"</span>: rating,</span>
-<span id="cb4-22"><a href="#cb4-22"></a>                <span class="st">"review"</span>: p.<span class="bu">open</span>().read().strip(),</span>
-<span id="cb4-23"><a href="#cb4-23"></a>            }</span>
-<span id="cb4-24"><a href="#cb4-24"></a>        )</span>
-<span id="cb4-25"><a href="#cb4-25"></a></span>
-<span id="cb4-26"><a href="#cb4-26"></a>    <span class="cf">return</span> pd.DataFrame(data)</span>
-<span id="cb4-27"><a href="#cb4-27"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file):</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="co">"""</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">    Return a `pd.DataFrame` containing the review ID,</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">    movie ID, rating, and review.</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">    """</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>    <span class="cf">with</span> urls_file.<span class="bu">open</span>() <span class="im">as</span> f:</span>
+<span id="cb4-10"><a href="#cb4-10"></a>        movie_ids <span class="op">=</span> {</span>
+<span id="cb4-11"><a href="#cb4-11"></a>            i: url.split(<span class="st">"/"</span>)[<span class="dv">4</span>]</span>
+<span id="cb4-12"><a href="#cb4-12"></a>            <span class="cf">for</span> i, url <span class="kw">in</span> <span class="bu">enumerate</span>(f.readlines())</span>
+<span id="cb4-13"><a href="#cb4-13"></a>        }</span>
+<span id="cb4-14"><a href="#cb4-14"></a></span>
+<span id="cb4-15"><a href="#cb4-15"></a>    data <span class="op">=</span> []</span>
+<span id="cb4-16"><a href="#cb4-16"></a>    <span class="cf">for</span> p <span class="kw">in</span> reviews_dir.iterdir():</span>
+<span id="cb4-17"><a href="#cb4-17"></a>        ID, rating <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, p.stem.split(<span class="st">"_"</span>))</span>
+<span id="cb4-18"><a href="#cb4-18"></a>        data.append(</span>
+<span id="cb4-19"><a href="#cb4-19"></a>            {</span>
+<span id="cb4-20"><a href="#cb4-20"></a>                <span class="st">"id"</span>: ID,</span>
+<span id="cb4-21"><a href="#cb4-21"></a>                <span class="st">"movie_id"</span>: movie_ids[ID],</span>
+<span id="cb4-22"><a href="#cb4-22"></a>                <span class="st">"rating"</span>: rating,</span>
+<span id="cb4-23"><a href="#cb4-23"></a>                <span class="st">"review"</span>: p.<span class="bu">open</span>().read().strip(),</span>
+<span id="cb4-24"><a href="#cb4-24"></a>            }</span>
+<span id="cb4-25"><a href="#cb4-25"></a>        )</span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a>    <span class="cf">return</span> pd.DataFrame(data)</span>
 <span id="cb4-28"><a href="#cb4-28"></a></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="kw">def</span> get_train_data():</span>
-<span id="cb4-30"><a href="#cb4-30"></a>    <span class="co">"""</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">    Return a `pd.DataFrame` with the supervised training data.</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">    """</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a>    dfs <span class="op">=</span> []</span>
-<span id="cb4-34"><a href="#cb4-34"></a>    <span class="cf">for</span> label, label_name <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"neg"</span>, <span class="st">"pos"</span>]):</span>
-<span id="cb4-35"><a href="#cb4-35"></a>        df <span class="op">=</span> get_review_data(</span>
-<span id="cb4-36"><a href="#cb4-36"></a>            data_path <span class="op">/</span> <span class="st">"train"</span> <span class="op">/</span> label_name,</span>
-<span id="cb4-37"><a href="#cb4-37"></a>            data_path <span class="op">/</span> <span class="ss">f"train/urls_</span><span class="sc">{</span>label_name<span class="sc">}</span><span class="ss">.txt"</span>,</span>
-<span id="cb4-38"><a href="#cb4-38"></a>        )</span>
-<span id="cb4-39"><a href="#cb4-39"></a>        df[<span class="st">"label"</span>] <span class="op">=</span> label</span>
-<span id="cb4-40"><a href="#cb4-40"></a>        dfs.append(df)</span>
-<span id="cb4-41"><a href="#cb4-41"></a>    <span class="cf">return</span> pd.concat(dfs)</span>
-<span id="cb4-42"><a href="#cb4-42"></a></span>
-<span id="cb4-43"><a href="#cb4-43"></a>train_df <span class="op">=</span> get_train_data()</span>
-<span id="cb4-44"><a href="#cb4-44"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-29"><a href="#cb4-29"></a></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="kw">def</span> get_train_data():</span>
+<span id="cb4-31"><a href="#cb4-31"></a>    <span class="co">"""</span></span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="co">    Return a `pd.DataFrame` with the supervised training data.</span></span>
+<span id="cb4-33"><a href="#cb4-33"></a><span class="co">    """</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>    dfs <span class="op">=</span> []</span>
+<span id="cb4-35"><a href="#cb4-35"></a>    <span class="cf">for</span> label, label_name <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">"neg"</span>, <span class="st">"pos"</span>]):</span>
+<span id="cb4-36"><a href="#cb4-36"></a>        df <span class="op">=</span> get_review_data(</span>
+<span id="cb4-37"><a href="#cb4-37"></a>            data_path <span class="op">/</span> <span class="st">"train"</span> <span class="op">/</span> label_name,</span>
+<span id="cb4-38"><a href="#cb4-38"></a>            data_path <span class="op">/</span> <span class="ss">f"train/urls_</span><span class="sc">{</span>label_name<span class="sc">}</span><span class="ss">.txt"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39"></a>        )</span>
+<span id="cb4-40"><a href="#cb4-40"></a>        df[<span class="st">"label"</span>] <span class="op">=</span> label</span>
+<span id="cb4-41"><a href="#cb4-41"></a>        dfs.append(df)</span>
+<span id="cb4-42"><a href="#cb4-42"></a>    <span class="cf">return</span> pd.concat(dfs)</span>
+<span id="cb4-43"><a href="#cb4-43"></a></span>
+<span id="cb4-44"><a href="#cb4-44"></a></span>
+<span id="cb4-45"><a href="#cb4-45"></a>train_df <span class="op">=</span> get_train_data()</span>
+<span id="cb4-46"><a href="#cb4-46"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
@@ -479,7 +481,7 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 <p>This dataframe contains 25k entries, and all of those entries have non-null reviews. So the train set does contain 25k reviews. But we know nothing about the quality of these reviews. Are there duplicates? Empty strings? Are some complete gibberish? It’s impossible to qualitatively check every data point, but checking some basic properties of the data can go a long way. I like to call these sanity checks. Let’s start with empty strings.</p>
 <div id="4a5889e9-78a9-4fb2-bfcf-b8e99af65bd5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>train_df[<span class="st">'review'</span>].<span class="bu">str</span>.<span class="bu">len</span>().<span class="bu">min</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>train_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>().<span class="bu">min</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>np.int64(52)</code></pre>
 </div>
@@ -535,11 +537,9 @@ memory usage: 1.1+ MB</code></pre>
 <p>Now that we have the duplicated reviews, let’s dig into them a bit. Are they for the same movie? Do they have the same rating or label?</p>
 <div id="518b1c1f-4359-4a23-9187-ab109d82bbf5" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>duplicate_nunique <span class="op">=</span> (</span>
-<span id="cb11-2"><a href="#cb11-2"></a>    duplicate_reviews.groupby(<span class="st">"review"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>    .agg(<span class="st">"nunique"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    .head()</span>
-<span id="cb11-5"><a href="#cb11-5"></a>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>duplicate_nunique.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-2"><a href="#cb11-2"></a>    duplicate_reviews.groupby(<span class="st">"review"</span>).agg(<span class="st">"nunique"</span>).head()</span>
+<span id="cb11-3"><a href="#cb11-3"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>duplicate_nunique.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -655,11 +655,10 @@ memory usage: 1.1+ MB</code></pre>
 <p>We could check every single movie ID for duplicate reviews manually (or have an intern do it) because it’s possible there are duplicate reviews for different movies, but our task is to predict a label (positive or negative) given a review. Our models don’t need to see the same review over and over again in order to make predictions about them…unless duplicate reviews have different labels! Why would we want to train on both examples in this case? If the same review can be positive or negative, then training a machine learning model with both examples will teach the model to be uncertain about some reviews where the language is more ambiguous.</p>
 <p>Let’s see if there’s any duplicate reviews with multiple labels or ratings.</p>
 <div id="00642bc3-94b5-4ff6-bc24-1cdadd245e3d" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>different_labels <span class="op">=</span> (</span>
-<span id="cb13-2"><a href="#cb13-2"></a>    (duplicate_nunique[<span class="st">"label"</span>] <span class="op">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb13-3"><a href="#cb13-3"></a>    <span class="op">|</span> (duplicate_nunique[<span class="st">"rating"</span>] <span class="op">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>duplicate_nunique[different_labels].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>different_labels <span class="op">=</span> (duplicate_nunique[<span class="st">"label"</span>] <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">|</span> (</span>
+<span id="cb13-2"><a href="#cb13-2"></a>    duplicate_nunique[<span class="st">"rating"</span>] <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>)</span>
+<span id="cb13-4"><a href="#cb13-4"></a>duplicate_nunique[different_labels].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
@@ -726,7 +725,7 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb14-34"><a href="#cb14-34"></a>        df <span class="op">=</span> get_review_data(</span>
 <span id="cb14-35"><a href="#cb14-35"></a>            data_path <span class="op">/</span> dataset <span class="op">/</span> label_name,</span>
 <span id="cb14-36"><a href="#cb14-36"></a>            data_path <span class="op">/</span> dataset <span class="op">/</span> <span class="ss">f"urls_</span><span class="sc">{</span>label_name<span class="sc">}</span><span class="ss">.txt"</span>,</span>
-<span id="cb14-37"><a href="#cb14-37"></a>            dedup</span>
+<span id="cb14-37"><a href="#cb14-37"></a>            dedup,</span>
 <span id="cb14-38"><a href="#cb14-38"></a>        )</span>
 <span id="cb14-39"><a href="#cb14-39"></a>        df[<span class="st">"label"</span>] <span class="op">=</span> label</span>
 <span id="cb14-40"><a href="#cb14-40"></a>        dfs.append(df)</span>
@@ -748,7 +747,9 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb14-56"><a href="#cb14-56"></a></span>
 <span id="cb14-57"><a href="#cb14-57"></a></span>
 <span id="cb14-58"><a href="#cb14-58"></a>train_df <span class="op">=</span> get_train_data()</span>
-<span id="cb14-59"><a href="#cb14-59"></a>train_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[(<span class="st">'review'</span>, <span class="st">'count'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-59"><a href="#cb14-59"></a>train_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[</span>
+<span id="cb14-60"><a href="#cb14-60"></a>    (<span class="st">"review"</span>, <span class="st">"count"</span>)</span>
+<span id="cb14-61"><a href="#cb14-61"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>label
 0    12432
@@ -765,7 +766,9 @@ Name: (review, count), dtype: object</code></pre>
 <p>We don’t quite have 25k reviews split evenly across labels, but it’s close enough. I think this is in good shape and we can turn our attention to the test set.</p>
 <div id="c1e8b58d-0118-4dbb-8daa-dcf45b8b3dc3" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>test_df <span class="op">=</span> get_test_data()</span>
-<span id="cb18-2"><a href="#cb18-2"></a>test_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[(<span class="st">'review'</span>, <span class="st">'count'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-2"><a href="#cb18-2"></a>test_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[</span>
+<span id="cb18-3"><a href="#cb18-3"></a>    (<span class="st">"review"</span>, <span class="st">"count"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>label
 0    12361
@@ -786,10 +789,8 @@ Name: (review, count), dtype: object</code></pre>
 <p>Now let’s talk a bit about what the test set is used for. It’s a separate set of data used to evaluate a machine learning model after it’s trained. It is data used to measure the performance of a model on data it’s never seen before. This is important because when a model is used in production, it will be making predictions about all kinds of inputs it wasn’t trained on and it needs to generalize well beyond the training data. <strong>We do not want data leaking from the train set into the test set.</strong></p>
 <p>Easy enough to check.</p>
 <div id="df95771d-d6db-49a1-8d64-265eebc02cd3" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>leak_df <span class="op">=</span> test_df[</span>
-<span id="cb22-2"><a href="#cb22-2"></a>    test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])</span>
-<span id="cb22-3"><a href="#cb22-3"></a>]</span>
-<span id="cb22-4"><a href="#cb22-4"></a>leak_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>leak_df <span class="op">=</span> test_df[test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])]</span>
+<span id="cb22-2"><a href="#cb22-2"></a>leak_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>(123, 5)</code></pre>
 </div>
@@ -848,30 +849,28 @@ Note
 <span id="cb27-9"><a href="#cb27-9"></a>            <span class="cf">for</span> i, url <span class="kw">in</span> <span class="bu">enumerate</span>(f.readlines())</span>
 <span id="cb27-10"><a href="#cb27-10"></a>        }</span>
 <span id="cb27-11"><a href="#cb27-11"></a></span>
-<span id="cb27-12"><a href="#cb27-12"></a>    movie_id_map <span class="op">=</span> <span class="bu">dict</span>(</span>
-<span id="cb27-13"><a href="#cb27-13"></a>        pd.read_csv(<span class="st">"all_movie_ids.csv"</span>).values</span>
-<span id="cb27-14"><a href="#cb27-14"></a>    )</span>
-<span id="cb27-15"><a href="#cb27-15"></a></span>
-<span id="cb27-16"><a href="#cb27-16"></a>    data <span class="op">=</span> []</span>
-<span id="cb27-17"><a href="#cb27-17"></a>    <span class="cf">for</span> p <span class="kw">in</span> (reviews_dir).iterdir():</span>
-<span id="cb27-18"><a href="#cb27-18"></a>        ID, rating <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, p.stem.split(<span class="st">"_"</span>))</span>
-<span id="cb27-19"><a href="#cb27-19"></a>        data.append(</span>
-<span id="cb27-20"><a href="#cb27-20"></a>            {</span>
-<span id="cb27-21"><a href="#cb27-21"></a>                <span class="st">"id"</span>: ID,</span>
-<span id="cb27-22"><a href="#cb27-22"></a>                <span class="st">"movie_id"</span>: movie_id_map[movie_ids[ID]],</span>
-<span id="cb27-23"><a href="#cb27-23"></a>                <span class="st">"rating"</span>: rating,</span>
-<span id="cb27-24"><a href="#cb27-24"></a>                <span class="st">"review"</span>: p.<span class="bu">open</span>().read().strip(),</span>
-<span id="cb27-25"><a href="#cb27-25"></a>            }</span>
-<span id="cb27-26"><a href="#cb27-26"></a>        )</span>
-<span id="cb27-27"><a href="#cb27-27"></a></span>
-<span id="cb27-28"><a href="#cb27-28"></a>    rv <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb27-29"><a href="#cb27-29"></a>    <span class="cf">if</span> dedup:</span>
-<span id="cb27-30"><a href="#cb27-30"></a>        <span class="cf">return</span> rv.drop_duplicates(<span class="st">"review"</span>).copy()</span>
-<span id="cb27-31"><a href="#cb27-31"></a>    <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-12"><a href="#cb27-12"></a>    movie_id_map <span class="op">=</span> <span class="bu">dict</span>(pd.read_csv(<span class="st">"all_movie_ids.csv"</span>).values)</span>
+<span id="cb27-13"><a href="#cb27-13"></a></span>
+<span id="cb27-14"><a href="#cb27-14"></a>    data <span class="op">=</span> []</span>
+<span id="cb27-15"><a href="#cb27-15"></a>    <span class="cf">for</span> p <span class="kw">in</span> (reviews_dir).iterdir():</span>
+<span id="cb27-16"><a href="#cb27-16"></a>        ID, rating <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, p.stem.split(<span class="st">"_"</span>))</span>
+<span id="cb27-17"><a href="#cb27-17"></a>        data.append(</span>
+<span id="cb27-18"><a href="#cb27-18"></a>            {</span>
+<span id="cb27-19"><a href="#cb27-19"></a>                <span class="st">"id"</span>: ID,</span>
+<span id="cb27-20"><a href="#cb27-20"></a>                <span class="st">"movie_id"</span>: movie_id_map[movie_ids[ID]],</span>
+<span id="cb27-21"><a href="#cb27-21"></a>                <span class="st">"rating"</span>: rating,</span>
+<span id="cb27-22"><a href="#cb27-22"></a>                <span class="st">"review"</span>: p.<span class="bu">open</span>().read().strip(),</span>
+<span id="cb27-23"><a href="#cb27-23"></a>            }</span>
+<span id="cb27-24"><a href="#cb27-24"></a>        )</span>
+<span id="cb27-25"><a href="#cb27-25"></a></span>
+<span id="cb27-26"><a href="#cb27-26"></a>    rv <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb27-27"><a href="#cb27-27"></a>    <span class="cf">if</span> dedup:</span>
+<span id="cb27-28"><a href="#cb27-28"></a>        <span class="cf">return</span> rv.drop_duplicates(<span class="st">"review"</span>).copy()</span>
+<span id="cb27-29"><a href="#cb27-29"></a>    <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Are there any movies in the original train set with more than 30 reviews?</p>
 <div id="3d0b3952-26f5-4076-b4b0-75713ba14ca0" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">'movie_id'</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>movie_id
 tt0235326    32
@@ -884,7 +883,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>Yes there is. And what about in the deduplicated train set?</p>
 <div id="b42724a4-146b-431e-bc3e-c20d6b4b32ad" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">'movie_id'</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>movie_id
 tt0118480    30
@@ -897,7 +896,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>No there isn’t. So deduplication actually brings the maximum number of reviews per movie down to 30 which was the original intent of this dataset. Let’s repeat this for the test set.</p>
 <div id="1dd11035-6cd9-43f5-9809-b9369f60ee96" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">'movie_id'</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>movie_id
 tt0239496    60
@@ -910,7 +909,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>By comparison that’s pretty dramatic. We see one movie with 60 reviews and a couple with over 40!</p>
 <div id="6472e920-e5eb-4419-84e1-c73bbb87d1f9" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">'movie_id'</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>movie_id
 tt0365830    30
@@ -1044,15 +1043,13 @@ Name: count, dtype: int64</code></pre>
 <span id="cb48-3"><a href="#cb48-3"></a>    train_df <span class="op">=</span> get_train_data()</span>
 <span id="cb48-4"><a href="#cb48-4"></a>    test_df <span class="op">=</span> get_test_data()</span>
 <span id="cb48-5"><a href="#cb48-5"></a>    same_review <span class="op">=</span> test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])</span>
-<span id="cb48-6"><a href="#cb48-6"></a>    same_movie <span class="op">=</span> test_df[<span class="st">"movie_id"</span>].isin(</span>
-<span id="cb48-7"><a href="#cb48-7"></a>        train_df[<span class="st">"movie_id"</span>]</span>
-<span id="cb48-8"><a href="#cb48-8"></a>    )</span>
-<span id="cb48-9"><a href="#cb48-9"></a>    test_df <span class="op">=</span> test_df[<span class="op">~</span>same_review <span class="op">&amp;</span> <span class="op">~</span>same_movie].copy()</span>
-<span id="cb48-10"><a href="#cb48-10"></a>    <span class="cf">return</span> train_df, test_df</span>
-<span id="cb48-11"><a href="#cb48-11"></a></span>
-<span id="cb48-12"><a href="#cb48-12"></a></span>
-<span id="cb48-13"><a href="#cb48-13"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb48-14"><a href="#cb48-14"></a>train_df.shape, test_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-6"><a href="#cb48-6"></a>    same_movie <span class="op">=</span> test_df[<span class="st">"movie_id"</span>].isin(train_df[<span class="st">"movie_id"</span>])</span>
+<span id="cb48-7"><a href="#cb48-7"></a>    test_df <span class="op">=</span> test_df[<span class="op">~</span>same_review <span class="op">&amp;</span> <span class="op">~</span>same_movie].copy()</span>
+<span id="cb48-8"><a href="#cb48-8"></a>    <span class="cf">return</span> train_df, test_df</span>
+<span id="cb48-9"><a href="#cb48-9"></a></span>
+<span id="cb48-10"><a href="#cb48-10"></a></span>
+<span id="cb48-11"><a href="#cb48-11"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb48-12"><a href="#cb48-12"></a>train_df.shape, test_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>((24904, 5), (24575, 5))</code></pre>
 </div>
@@ -1090,7 +1087,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb50-5"><a href="#cb50-5"></a>    rv <span class="op">=</span> get_review_data(</span>
 <span id="cb50-6"><a href="#cb50-6"></a>        data_path <span class="op">/</span> <span class="st">"train/unsup"</span>,</span>
 <span id="cb50-7"><a href="#cb50-7"></a>        data_path <span class="op">/</span> <span class="st">"train/urls_unsup.txt"</span>,</span>
-<span id="cb50-8"><a href="#cb50-8"></a>        dedup</span>
+<span id="cb50-8"><a href="#cb50-8"></a>        dedup,</span>
 <span id="cb50-9"><a href="#cb50-9"></a>    )</span>
 <span id="cb50-10"><a href="#cb50-10"></a>    rv.drop(columns<span class="op">=</span><span class="st">"rating"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb50-11"><a href="#cb50-11"></a>    <span class="co"># Drop the ratings column since every review in the</span></span>
@@ -1098,14 +1095,15 @@ Name: count, dtype: int64</code></pre>
 <span id="cb50-13"><a href="#cb50-13"></a>    <span class="co"># of what it's rating is.</span></span>
 <span id="cb50-14"><a href="#cb50-14"></a>    <span class="cf">return</span> rv</span>
 <span id="cb50-15"><a href="#cb50-15"></a></span>
-<span id="cb50-16"><a href="#cb50-16"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
-<span id="cb50-17"><a href="#cb50-17"></a>unsup_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-16"><a href="#cb50-16"></a></span>
+<span id="cb50-17"><a href="#cb50-17"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
+<span id="cb50-18"><a href="#cb50-18"></a>unsup_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>(49507, 3)</code></pre>
 </div>
 </div>
 <div id="cf9a465d-ed72-43af-b577-55b61d6c8545" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>unsup_df[<span class="st">'movie_id'</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>unsup_df[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>movie_id
 tt0325596    30

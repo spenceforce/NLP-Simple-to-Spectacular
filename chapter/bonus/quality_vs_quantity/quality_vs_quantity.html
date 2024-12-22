@@ -236,14 +236,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7"></a>    <span class="co">"""Function that applies `x + 1` to `x`."""</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>    <span class="cf">return</span> x <span class="op">+</span> <span class="dv">1</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">def</span> get_y(xs):</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    <span class="co">"""Return `y` for every `x` in the list `xs`."""</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(f, xs))</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">def</span> get_y(xs):</span>
+<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co">"""Return `y` for every `x` in the list `xs`."""</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(f, xs))</span>
 <span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a>x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb1-16"><a href="#cb1-16"></a>y <span class="op">=</span> get_y(x)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>sns.lineplot(x<span class="op">=</span>x, y<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb1-17"><a href="#cb1-17"></a>y <span class="op">=</span> get_y(x)</span>
+<span id="cb1-18"><a href="#cb1-18"></a>sns.lineplot(x<span class="op">=</span>x, y<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -385,20 +386,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Most of these look pretty close to the blue line, the ground truth, but what’s going on with simulation 4? The noise confused the machine learning model. It only has two points to work with and given two points it can figure out a line that perfectly lies on those two points. These two points imperfectly represent the real line and so the machine learned the line of this imperfect representation. And it gets worse with more noise.</p>
 <div id="a3d494e5-1850-4ab6-9472-2a30400dee1b" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>df <span class="op">=</span> pd.concat(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    [simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]]</span>
-<span id="cb6-3"><a href="#cb6-3"></a>)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>sns.lmplot(</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    df,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-11"><a href="#cb6-11"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
-<span id="cb6-12"><a href="#cb6-12"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb6-13"><a href="#cb6-13"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb6-14"><a href="#cb6-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>df <span class="op">=</span> pd.concat([simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]])</span>
+<span id="cb6-2"><a href="#cb6-2"></a>sns.lmplot(</span>
+<span id="cb6-3"><a href="#cb6-3"></a>    df,</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
+<span id="cb6-12"><a href="#cb6-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

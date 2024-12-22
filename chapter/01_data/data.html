@@ -281,10 +281,11 @@ Note
 <section id="classification-dataset" class="level2 page-columns page-full" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="classification-dataset"><span class="header-section-number">1.2</span> Classification dataset</h2>
 <p>This dataset contains movie reviews and labels indicating if the review is positive (label 1) or negative (label 0). It is intended for benchmarking sentiment classification tasks. Sentiment classification is about predicting the feeling a text conveys. Like emotions such as happy, sad, or angry. In this case it’s predicting whether a review says if a movie is good or bad.</p>
-<p>This dataset is split into a set for training and a set for testing. We can access both the train and test sets with <code>get_train_test_data</code>, which returns a <code>DataFrame</code> object for each set. The <code>DataFrame</code> class is a staple of <a href="https://pandas.pydata.org/docs/"><code>pandas</code></a>. Dataframes are tables and they are not unique to <code>pandas</code>, but <code>pandas</code> is a de facto Python library for working with dataframes. You can think of dataframes as the programmatic version of an excel spreadsheet.</p>
+<p>This dataset is split into a set for training and a set for testing. We can access both the train and test sets with <code>get_train_test_data</code>, which returns a <code>DataFrame</code> object for each set. The <code>DataFrame</code> class is a staple of <a href="https://pandas.pydata.org/docs/"><code>pandas</code></a>. Dataframes are tables and they are not unique to <code>pandas</code>, but <code>pandas</code> is the de facto Python library for working with dataframes. You can think of dataframes as the programmatic version of an excel spreadsheet.</p>
 <div id="026e61c9-afc6-4ddf-880a-b635d005c406" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb2-2"><a href="#cb2-2"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>train_df</code> and <code>test_df</code> have the same format, so we’ll just inspect <code>train_df</code>. We can see how many rows are in the dataframe and information about the columns with <code>DataFrame.info()</code>.</p>
 <div id="9b853f6c-6d5a-48a4-8d23-a608224cb0f1" class="cell" data-execution_count="2">
@@ -307,17 +308,17 @@ memory usage: 1.1+ MB</code></pre>
 <div class="page-columns page-full"><p><code>DataFrame.info()</code> says there are 24,904 rows. There are five columns, three of which have type <code>int64</code> and two with type <code>object</code>; the <code>object</code> types are strings in our dataframe.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>pandas</code> assigns the type <code>object</code> to non-numeric values.</span></div></div>
 <p>Each row is for one review. A brief rundown of what the columns are:</p>
 <ul>
-<li><code>id</code>: The review ID.</li>
-<li><code>movie_id</code>: The movie ID.</li>
+<li><code>id</code>: The review ID. For each label, this is a unique identifier for the review.</li>
+<li><code>movie_id</code>: The movie ID. Uniqe identifier for the movie the review is about.</li>
 <li><code>rating</code>: A score from 1-10 that the reviewer gave the movie.</li>
 <li><code>review</code>: This is the review. Pretty self-explanatory.</li>
 <li><code>label</code>: A 0 or 1 value indicating if the review is negative or positive, respectively.</li>
 </ul>
 <p>The columns we’re interested in are <code>review</code>, <code>label</code>, and to a lesser extend, <code>rating</code>. <code>review</code> will be the input to all models as this is the natural language we are trying to process. <code>label</code> and <code>rating</code> are what we’re trying to predict! We will mainly be predicting <code>label</code>, but we will also use <code>rating</code> to show how to scale binary classification (predicting two labels) to multiple labels (predicting three or more labels).</p>
 <p>Let’s inspect a few reviews with <code>DataFrame.head()</code>.</p>
-<div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="3">
+<div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -381,9 +382,9 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 <p>The <code>review</code> column looks like natural language and the <code>label</code> and <code>rating</code> columns have numeric values just like <code>DataFrame.info()</code> said.</p>
 <p>We can also see how this dataset is split by label.</p>
-<div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="4">
+<div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>train_df.value_counts(<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>label
 1    12472
 0    12432
@@ -397,10 +398,11 @@ Name: count, dtype: int64</code></pre>
 <p>The train/test sets above have labels, 0 or 1, which allows them to be used in a <em>supervised</em> learning fashion. In supervised learning we have real outputs, the review labels in this case, to compare to our machine learning model outputs. We can supervise the models learning by comparing it’s outputs to the labels and let the model know how it’s doing.</p>
 <p>Unsupervised learning is just input data. There’s no label to use as a comparator. Instead the model must learn from the data without knowing whether it is right or wrong. This kind of learning is less about predicting a specific property and more about learning general properties of the data.</p>
 <p>This dataset is available through <code>get_unsup_data</code>. Let’s inspect it with <code>DataFrame.info()</code>.</p>
-<div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="5">
+<div id="20a4a512-c06c-4c2a-8bfb-37e5013e0d11" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
-<span id="cb8-2"><a href="#cb8-2"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
-<span id="cb8-3"><a href="#cb8-3"></a>unsup_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
+<span id="cb8-4"><a href="#cb8-4"></a>unsup_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 Index: 49507 entries, 0 to 49999
