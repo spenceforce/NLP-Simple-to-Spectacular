@@ -12,10 +12,7 @@ with tarfile.open("aclImdb_v1.tar.gz") as tar:
 def get_review_data(reviews_dir, urls_file):
     """Return a `pd.DataFrame` containing the review ID, title ID, rating, and review."""
     with urls_file.open() as f:
-        title_ids = {
-            i: url.split("/")[4]
-            for i, url in enumerate(f.readlines())
-        }
+        title_ids = {i: url.split("/")[4] for i, url in enumerate(f.readlines())}
 
     data = []
     for p in (reviews_dir).iterdir():
@@ -58,7 +55,5 @@ unknown_ids = pd.read_csv("unknown_movie_ids.csv")
 from pprint import pprint
 
 pprint(
-    test_data[test_data["movie_id"].isin(unknown_ids["movie_id"])][
-        "review"
-    ].tolist()
+    test_data[test_data["movie_id"].isin(unknown_ids["movie_id"])]["review"].tolist()
 )

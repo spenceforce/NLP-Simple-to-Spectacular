@@ -51,13 +51,10 @@ back_off = 1
 unknown_ids = []
 while len(id_map) < len(movie_ids):
     ids_to_search = list(movie_ids - set(id_map.keys()))
-    with concurrent.futures.ThreadPoolExecutor(
-        max_workers=8
-    ) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         # Start the load operations and mark each future with its URL
         future_to_id = {
-            executor.submit(get_id, movie_id): movie_id
-            for movie_id in ids_to_search
+            executor.submit(get_id, movie_id): movie_id for movie_id in ids_to_search
         }
         for future in tqdm(
             concurrent.futures.as_completed(future_to_id),
@@ -68,9 +65,7 @@ while len(id_map) < len(movie_ids):
                 data = future.result()
             except Exception as exc:
                 executor.shutdown(cancel_futures=True)
-                print(
-                    "%r generated an exception: %s" % (movie_id, exc)
-                )
+                print("%r generated an exception: %s" % (movie_id, exc))
                 import pdb
 
                 pdb.set_trace()
@@ -84,9 +79,9 @@ while len(id_map) < len(movie_ids):
         time.sleep(back_off)
         back_off *= 2
 
-pd.DataFrame(
-    [{"movie_id": k, "main_movie_id": v} for k, v in id_map.items()]
-).to_csv("movie_ids.csv", index=False)
+pd.DataFrame([{"movie_id": k, "main_movie_id": v} for k, v in id_map.items()]).to_csv(
+    "movie_ids.csv", index=False
+)
 pd.DataFrame(unknown_ids, columns=["movie_id"]).to_csv(
     "unknown_movie_ids.csv", index=False
 )
