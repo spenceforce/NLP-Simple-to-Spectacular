@@ -320,7 +320,7 @@ div.csl-indent {
 <span id="cb1-41"><a href="#cb1-41"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
 <span id="cb1-42"><a href="#cb1-42"></a>            <span class="co"># over.</span></span>
 <span id="cb1-43"><a href="#cb1-43"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb1-44"><a href="#cb1-44"></a>            <span class="co"># Grab all data points and labels in this category.</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a>            <span class="co"># Grab all data points in this category.</span></span>
 <span id="cb1-45"><a href="#cb1-45"></a>            _X <span class="op">=</span> X[is_category]</span>
 <span id="cb1-46"><a href="#cb1-46"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
 <span id="cb1-47"><a href="#cb1-47"></a>            predictions <span class="op">=</span> <span class="va">self</span>.predictors_[category].predict(_X)</span>
@@ -610,7 +610,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <span id="cb13-37"><a href="#cb13-37"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
 <span id="cb13-38"><a href="#cb13-38"></a>            <span class="co"># over.</span></span>
 <span id="cb13-39"><a href="#cb13-39"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb13-40"><a href="#cb13-40"></a>            <span class="co"># Grab all data points and labels in this category.</span></span>
+<span id="cb13-40"><a href="#cb13-40"></a>            <span class="co"># Grab all data points in this category.</span></span>
 <span id="cb13-41"><a href="#cb13-41"></a>            _X <span class="op">=</span> X[is_category]</span>
 <span id="cb13-42"><a href="#cb13-42"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
 <span id="cb13-43"><a href="#cb13-43"></a>            <span class="cf">try</span>:</span>
