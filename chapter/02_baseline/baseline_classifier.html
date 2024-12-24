@@ -440,27 +440,29 @@ Note
 </div>
 <p>All we did was pull out the relevant columns from the dataframe, which is as simple as it gets. Preprocessing can get very complicated and we’ll explore how preprocessing impacts model performance in future chapters. One important aspect of preprocessing is the test dataset needs to be preprocessed <em>the same way</em> as the train dataset, because the model expects the data it makes predictions about to have the same form as the data it was trained on.</p>
 </section>
-<section id="rolling-our-own" class="level2" data-number="2.7">
+<section id="rolling-our-own" class="level2 page-columns page-full" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</h2>
-<p>Now that we’ve trained a model, let’s make it ourselves. It’s as simple as you can get, majority rules.</p>
+<div class="page-columns page-full"><p>Now that we’ve trained a model, let’s make it ourselves. It’s as simple as you can get, majority rules.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Model implementations will include gratuitous comments explaining the code. This is a more streamlined approach that allows for covering the abstract concepts in the chapter text while giving details on implementation alongside the implementation itself.</span></div></div>
 <div id="46f38b6e-d8f1-4db3-8dd0-ae11de7d1cc1" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">class</span> BaselineClassifier:</span>
 <span id="cb18-2"><a href="#cb18-2"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
 <span id="cb18-3"><a href="#cb18-3"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>        <span class="va">self</span>.prediction <span class="op">=</span> labels[np.argmax(counts)]</span>
-<span id="cb18-7"><a href="#cb18-7"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-6"><a href="#cb18-6"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a>        <span class="va">self</span>.prediction <span class="op">=</span> labels[np.argmax(counts)]</span>
 <span id="cb18-8"><a href="#cb18-8"></a>        <span class="cf">return</span> <span class="va">self</span></span>
 <span id="cb18-9"><a href="#cb18-9"></a></span>
 <span id="cb18-10"><a href="#cb18-10"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
 <span id="cb18-11"><a href="#cb18-11"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction)</span>
-<span id="cb18-13"><a href="#cb18-13"></a></span>
-<span id="cb18-14"><a href="#cb18-14"></a></span>
-<span id="cb18-15"><a href="#cb18-15"></a>bc <span class="op">=</span> BaselineClassifier()</span>
-<span id="cb18-16"><a href="#cb18-16"></a>bc.fit(X, y)</span>
-<span id="cb18-17"><a href="#cb18-17"></a>accuracy_score(y_test, bc.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-12"><a href="#cb18-12"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>        <span class="co"># input.</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction)</span>
+<span id="cb18-15"><a href="#cb18-15"></a></span>
+<span id="cb18-16"><a href="#cb18-16"></a></span>
+<span id="cb18-17"><a href="#cb18-17"></a>bc <span class="op">=</span> BaselineClassifier()</span>
+<span id="cb18-18"><a href="#cb18-18"></a>bc.fit(X, y)</span>
+<span id="cb18-19"><a href="#cb18-19"></a>accuracy_score(y_test, bc.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>0.5011190233977619</code></pre>
 </div>
@@ -495,20 +497,24 @@ Note
 <span id="cb20-4"><a href="#cb20-4"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
 <span id="cb20-5"><a href="#cb20-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
 <span id="cb20-6"><a href="#cb20-6"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-8"><a href="#cb20-8"></a>        <span class="va">self</span>.prediction_ <span class="op">=</span> labels[np.argmax(counts)]</span>
-<span id="cb20-9"><a href="#cb20-9"></a>        <span class="co"># Note we changed the `prediction` attribute to include a</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a>        <span class="co"># trailing suffix because it results from a computation</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a>        <span class="co"># that persists across method calls.</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a></span>
-<span id="cb20-14"><a href="#cb20-14"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb20-15"><a href="#cb20-15"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb20-16"><a href="#cb20-16"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction_)</span>
-<span id="cb20-17"><a href="#cb20-17"></a></span>
-<span id="cb20-18"><a href="#cb20-18"></a></span>
-<span id="cb20-19"><a href="#cb20-19"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, y)</span>
-<span id="cb20-20"><a href="#cb20-20"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-7"><a href="#cb20-7"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a>        <span class="co"># Note we changed the `prediction` attribute to include a</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>        <span class="co"># trailing suffix because it results from a computation</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>        <span class="co"># that persists across method calls.</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a>        <span class="va">self</span>.prediction_ <span class="op">=</span> labels[np.argmax(counts)]</span>
+<span id="cb20-14"><a href="#cb20-14"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb20-17"><a href="#cb20-17"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
+<span id="cb20-19"><a href="#cb20-19"></a>        <span class="co"># input.</span></span>
+<span id="cb20-20"><a href="#cb20-20"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction_)</span>
+<span id="cb20-21"><a href="#cb20-21"></a></span>
+<span id="cb20-22"><a href="#cb20-22"></a></span>
+<span id="cb20-23"><a href="#cb20-23"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, y)</span>
+<span id="cb20-24"><a href="#cb20-24"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.5011190233977619</code></pre>
 </div>
