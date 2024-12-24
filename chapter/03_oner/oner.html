@@ -276,7 +276,7 @@ div.csl-indent {
 <section id="rolling-our-own" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">3.2</span> Rolling our own</h2>
 <p>There is no easy button for this model, so we’ll go straight to the implementation.</p>
-<div id="d5e66303-7784-4baf-9915-f327a3f21cf4" class="cell" data-execution_count="10">
+<div id="d5e66303-7784-4baf-9915-f327a3f21cf4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
@@ -337,7 +337,7 @@ div.csl-indent {
 <p>This gives consistency. Arguments to <code>fit</code> and <code>predict</code> could by <code>numpy</code> arrays, <code>scipy</code> arrays, <code>pandas</code> dataframes, <code>pandas</code> series, lists, or any number of container types. By converting them to <code>numpy</code>/<code>scipy</code> arrays we are guaranteed a predictible API for <code>X</code> and <code>y</code>.</p></li>
 </ul>
 <p>Let’s try it out!</p>
-<div id="31ee622c-fd81-4f2c-a708-7e2be3dde2fa" class="cell" data-execution_count="4">
+<div id="31ee622c-fd81-4f2c-a708-7e2be3dde2fa" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
@@ -353,7 +353,7 @@ div.csl-indent {
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_3147/3341900254.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">/tmp/ipykernel_13528/3341900254.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
 <span class="ansi-green-fg ansi-bold">      6</span> 
 <span class="ansi-green-fg ansi-bold">      7</span> X<span class="ansi-blue-fg">,</span> y <span class="ansi-blue-fg">=</span> train_df<span class="ansi-blue-fg">[</span>features<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> train_df<span class="ansi-blue-fg">[</span>label<span class="ansi-blue-fg">]</span>
 <span class="ansi-green-fg ansi-bold">      8</span> X
@@ -361,7 +361,7 @@ div.csl-indent {
 <span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg"> </span>oner <span class="ansi-blue-fg">=</span> OneR<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
 <span class="ansi-green-fg ansi-bold">     11</span> oner<span class="ansi-blue-fg">.</span>score<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
 
-<span class="ansi-green-fg">/tmp/ipykernel_3147/3684777737.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(self, X, y)</span>
+<span class="ansi-green-fg">/tmp/ipykernel_13528/258435010.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(self, X, y)</span>
 <span class="ansi-green-fg ansi-bold">      8</span>     <span class="ansi-green-fg">def</span> fit<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
 <span class="ansi-green-fg ansi-bold">      9</span>         <span class="ansi-blue-fg">"""Find the most predictive rule."""</span>
 <span class="ansi-green-fg ansi-bold">     10</span>         <span class="ansi-red-fg"># Sanity check on `X` and `y`.</span>
@@ -433,13 +433,13 @@ div.csl-indent {
 <section id="transforming-text-to-numbers" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="transforming-text-to-numbers"><span class="header-section-number">3.3.1</span> Transforming text to numbers</h3>
 <p><code>OrdinalEncoder</code> is the <code>sklearn</code> class for transforming categories to numbers.</p>
-<div id="84a378f4-6ff2-45c0-b161-5c5cb7205f52" class="cell" data-execution_count="7">
+<div id="84a378f4-6ff2-45c0-b161-5c5cb7205f52" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OrdinalEncoder</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>encoder <span class="op">=</span> OrdinalEncoder()</span>
 <span id="cb3-4"><a href="#cb3-4"></a>encoder.fit(X)</span>
 <span id="cb3-5"><a href="#cb3-5"></a>encoder.transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>array([[  300.],
        [22675.],
        [22956.],
@@ -450,10 +450,10 @@ div.csl-indent {
 </div>
 </div>
 <p>Turns out transforming data is so common, there’s a short hand method for fitting and transforming in one go, <code>fit_transform</code>.</p>
-<div id="a115455a-3b5d-430b-baa1-fd3246f1a8be" class="cell" data-execution_count="8">
+<div id="a115455a-3b5d-430b-baa1-fd3246f1a8be" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>encoder <span class="op">=</span> OrdinalEncoder()</span>
 <span id="cb5-2"><a href="#cb5-2"></a>encoder.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([[  300.],
        [22675.],
        [22956.],
@@ -464,11 +464,11 @@ div.csl-indent {
 </div>
 </div>
 <p>Let’s give our model another try.</p>
-<div id="2532c7e7-9bf9-442b-9db7-64ce16919f28" class="cell" data-execution_count="11">
+<div id="2532c7e7-9bf9-442b-9db7-64ce16919f28" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>X_ordinal <span class="op">=</span> encoder.fit_transform(X)</span>
 <span id="cb7-2"><a href="#cb7-2"></a>oner <span class="op">=</span> OneR().fit(X_ordinal, y)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>oner.score(X_ordinal, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>1.0</code></pre>
 </div>
 </div>
@@ -480,7 +480,7 @@ div.csl-indent {
 <section id="pipelines" class="level4" data-number="3.3.2.1">
 <h4 data-number="3.3.2.1" class="anchored" data-anchor-id="pipelines"><span class="header-section-number">3.3.2.1</span> Pipelines</h4>
 <p><a href="https://scikit-learn.org/stable/modules/compose.html#combining-estimators">Pipelines</a> offer convenient ways to string preprocessing and models together into one object that can be trained end to end and then make predictions on different data following the same process. The input to pipelines is a sequence of transformers with an optional predictor as the last element. Once the pipeline is set up it has the same methods for training and predicting as a regular <code>sklearn</code> model.</p>
-<div id="472eb374-1262-45ac-95d0-84e856faa922" class="cell" data-execution_count="30">
+<div id="472eb374-1262-45ac-95d0-84e856faa922" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="co"># Layout the sequence of operations. The first element transforms</span></span>
@@ -497,14 +497,14 @@ div.csl-indent {
 <span id="cb9-14"><a href="#cb9-14"></a>pipeline.fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s try predicting on one review. Our pipeline will handle the preprocessing and prediction for us.</p>
-<div id="d13e2f97-59d3-4d8a-80e1-f4bf80dec71c" class="cell" data-execution_count="31">
+<div id="d13e2f97-59d3-4d8a-80e1-f4bf80dec71c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>X_test, y_test <span class="op">=</span> test_df[features], test_df[label]</span>
 <span id="cb10-2"><a href="#cb10-2"></a>pipeline.predict(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[31], line 2</span>
+Cell <span class="ansi-green-fg">In[7], line 2</span>
 <span class="ansi-green-fg ansi-bold">      1</span> X_test, y_test <span style="color:rgb(98,98,98)">=</span> test_df[features], test_df[label]
 <span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">pipeline</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">predict</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X_test</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">head</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
 
@@ -559,18 +559,18 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 </div>
 <p>More errors, this is becoming a theme for this chapter. The error says the <code>transform</code> method found an unknown category. It turns out there are reviews in the test set that are different from the train set.</p>
 <p>So when <code>OrdinalEncoder</code> tries to transform unseen reviews in the test set it doesn’t know what category to assign them since it was fitted on the train set. The <code>sklearn</code> developers have thought of a way to handle this though by assigning all unknown categories to one unknown value.</p>
-<div id="7fccb6b8-892c-4707-a73a-29ca8720b394" class="cell" data-execution_count="32">
+<div id="7fccb6b8-892c-4707-a73a-29ca8720b394" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>encoder <span class="op">=</span> OrdinalEncoder(</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    handle_unknown<span class="op">=</span><span class="st">"use_encoded_value"</span>, unknown_value<span class="op">=-</span><span class="dv">1</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a>)</span>
 <span id="cb11-4"><a href="#cb11-4"></a>encoder.fit(X)</span>
 <span id="cb11-5"><a href="#cb11-5"></a>encoder.transform(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([[-1.]])</code></pre>
 </div>
 </div>
 <p>Voila, it’s fixed. But this raises another problem. Our encoder can handle unknown categories, what about our model? It can’t, so we need to provide a fallback prediction for unknown categories. The simple solution is to use the baseline classifier trained on all the train data to predict unknown categories.</p>
-<div id="55fc1448-812f-40bd-8ba8-750aa07e65fe" class="cell" data-execution_count="33">
+<div id="55fc1448-812f-40bd-8ba8-750aa07e65fe" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
 <span id="cb13-2"><a href="#cb13-2"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
 <span id="cb13-3"><a href="#cb13-3"></a>        <span class="co">"""Find the most predictive rule."""</span></span>
@@ -624,7 +624,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <span id="cb13-51"><a href="#cb13-51"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we’ll recreate the pipeline with our new model.</p>
-<div id="3e38073f-4964-4757-afdc-41115c789637" class="cell" data-execution_count="34">
+<div id="3e38073f-4964-4757-afdc-41115c789637" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>steps <span class="op">=</span> [</span>
 <span id="cb14-2"><a href="#cb14-2"></a>    (</span>
 <span id="cb14-3"><a href="#cb14-3"></a>        <span class="st">"categorical_transform"</span>,</span>
@@ -637,36 +637,37 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <span id="cb14-10"><a href="#cb14-10"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
 <span id="cb14-11"><a href="#cb14-11"></a>pipeline.fit(X, y)</span>
 <span id="cb14-12"><a href="#cb14-12"></a>pipeline.predict(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>array([1.])</code></pre>
 </div>
 </div>
+<p>Our model predicted the first review in the test set has a positive sentiment, which means it’s predicting something, so it must be working!</p>
 </section>
 </section>
 </section>
 <section id="evaluating-our-model" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="evaluating-our-model"><span class="header-section-number">3.4</span> Evaluating our model</h2>
 <p>Our preprocessing is locked in and our model is trained. Now we can score our model on the test set.</p>
-<div id="504729f6-b1fc-4999-83ea-9e170d1d75d6" class="cell" data-execution_count="35">
+<div id="504729f6-b1fc-4999-83ea-9e170d1d75d6" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
 <p>That’s a lot worse than the 100% accuracy we got on the train data. How does this compare to the baseline model?</p>
-<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="36">
+<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> model_results</span>
 <span id="cb18-2"><a href="#cb18-2"></a></span>
 <span id="cb18-3"><a href="#cb18-3"></a>model_results[<span class="st">"baseline"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
 <p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
 <p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result.</p>
-<div id="58ef0493-9ce4-43f0-a9a7-ba789b5a060e" class="cell" data-execution_count="37">
+<div id="58ef0493-9ce4-43f0-a9a7-ba789b5a060e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="bu">set</span>(train_df[<span class="st">"review"</span>]) <span class="op">&amp;</span> <span class="bu">set</span>(test_df[<span class="st">"review"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>set()</code></pre>
 </div>
 </div>
