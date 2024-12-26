@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#train-vs.-test-datasets" id="toc-train-vs.-test-datasets" class="nav-link" data-scroll-target="#train-vs.-test-datasets"><span class="header-section-number">2.5</span> Train vs.&nbsp;test datasets</a></li>
   <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing"><span class="header-section-number">2.6</span> Preprocessing</a></li>
   <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</a></li>
-  <li><a href="#scikit-learnifying-our-model" id="toc-scikit-learnifying-our-model" class="nav-link" data-scroll-target="#scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</a>
+  <li><a href="#sec-scikit-learnifying-our-model" id="toc-sec-scikit-learnifying-our-model" class="nav-link" data-scroll-target="#sec-scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</a>
   <ul class="collapse">
   <li><a href="#scikit-learn-best-practices" id="toc-scikit-learn-best-practices" class="nav-link" data-scroll-target="#scikit-learn-best-practices"><span class="header-section-number">2.8.1</span> scikit-learn best practices</a></li>
   </ul></li>
@@ -469,8 +469,8 @@ Note
 </div>
 <p>Beautiful, we got the same score. But wait, there’s more!</p>
 </section>
-<section id="scikit-learnifying-our-model" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</h2>
+<section id="sec-scikit-learnifying-our-model" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="sec-scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</h2>
 <p><code>scikit-learn</code> provides a framework to integrate your own machine learning models to leverage all the bells and whistles provided by their API. One such benefit is benchmarking. <code>scikit-learn</code> models come with a <code>score</code> method, and the default <code>score</code> method for classifiers is accuracy. By wrapping our model in <code>scikit-learn</code>s framework, we get accuracy scores (and a bunch of other stuff) for free.</p>
 <section id="scikit-learn-best-practices" class="level3" data-number="2.8.1">
 <h3 data-number="2.8.1" class="anchored" data-anchor-id="scikit-learn-best-practices"><span class="header-section-number">2.8.1</span> scikit-learn best practices</h3>
