@@ -685,58 +685,68 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <span id="cb22-5"><a href="#cb22-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb22-6"><a href="#cb22-6"></a>        <span class="co">"""Generate numeric categories from `X`.</span></span>
 <span id="cb22-7"><a href="#cb22-7"></a></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">        Note: All `fit` methods must accept a `y` argument whether they</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">              use them or not. Transfomers typically ignore this argument</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co">              whether it's passed in or not.</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="co">        Note: All `fit` methods must accept a `y` argument whether</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="co">              they use them or not. Transfomers typically ignore</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co">              this argument whether it's passed in or not.</span></span>
 <span id="cb22-11"><a href="#cb22-11"></a><span class="co">        """</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a>        <span class="co"># Validate the data as before. `skip_check_array=True` tells `validate_data` not to convert `X` to a numeric array type. This is important since we have to deal with numeric or text types.</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb22-14"><a href="#cb22-14"></a>        <span class="cf">try</span>:</span>
-<span id="cb22-15"><a href="#cb22-15"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric array, we need to convert it to a matrix if it's still a `DataFrame`.</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb22-17"><a href="#cb22-17"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb22-18"><a href="#cb22-18"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or `scipy` array.</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a>            <span class="cf">pass</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a></span>
-<span id="cb22-21"><a href="#cb22-21"></a>        categories <span class="op">=</span> []</span>
-<span id="cb22-22"><a href="#cb22-22"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb22-23"><a href="#cb22-23"></a>        <span class="cf">for</span> column <span class="kw">in</span> X.T:</span>
-<span id="cb22-24"><a href="#cb22-24"></a>            <span class="co"># Get all unique values in the column.</span></span>
-<span id="cb22-25"><a href="#cb22-25"></a>            values <span class="op">=</span> np.unique(column)</span>
-<span id="cb22-26"><a href="#cb22-26"></a>            <span class="co"># Store the unique values as the ith element in the array.</span></span>
-<span id="cb22-27"><a href="#cb22-27"></a>            categories.append(values)</span>
-<span id="cb22-28"><a href="#cb22-28"></a>        <span class="co"># Save the categories on the transformer.</span></span>
-<span id="cb22-29"><a href="#cb22-29"></a>        <span class="va">self</span>.categories_ <span class="op">=</span> categories</span>
-<span id="cb22-30"><a href="#cb22-30"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb22-31"><a href="#cb22-31"></a></span>
-<span id="cb22-32"><a href="#cb22-32"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
-<span id="cb22-33"><a href="#cb22-33"></a>        <span class="co">"""Return the categorical values."""</span></span>
-<span id="cb22-34"><a href="#cb22-34"></a>        <span class="co"># Validate the data as before. `skip_check_array=True` tells `validate_data` not to convert `X` to a numeric array type. This is important since we have to deal with numeric or text types.</span></span>
-<span id="cb22-35"><a href="#cb22-35"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb22-36"><a href="#cb22-36"></a>        <span class="cf">try</span>:</span>
-<span id="cb22-37"><a href="#cb22-37"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric array, we need to convert it to a matrix if it's still a `DataFrame`.</span></span>
-<span id="cb22-38"><a href="#cb22-38"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb22-39"><a href="#cb22-39"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb22-40"><a href="#cb22-40"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or `scipy` array.</span></span>
-<span id="cb22-41"><a href="#cb22-41"></a>            <span class="cf">pass</span></span>
-<span id="cb22-42"><a href="#cb22-42"></a></span>
-<span id="cb22-43"><a href="#cb22-43"></a>        <span class="co"># Create an array with the same shape as `X` to store the categorical values. An unknown category, `-1` is used as the default value.</span></span>
-<span id="cb22-44"><a href="#cb22-44"></a>        rv <span class="op">=</span> np.full(X.shape, <span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb22-45"><a href="#cb22-45"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb22-46"><a href="#cb22-46"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
-<span id="cb22-47"><a href="#cb22-47"></a>            <span class="co"># Grab the categories for the ith column of `X`.</span></span>
-<span id="cb22-48"><a href="#cb22-48"></a>            categories <span class="op">=</span> <span class="va">self</span>.categories_[i]</span>
-<span id="cb22-49"><a href="#cb22-49"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix instead of an array allows us to leverage `numpy` broadcasting.</span></span>
-<span id="cb22-50"><a href="#cb22-50"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb22-51"><a href="#cb22-51"></a>            <span class="co"># Create boolean matrix where `True` values indicate the index of `categories` that equals `x` for each row.</span></span>
-<span id="cb22-52"><a href="#cb22-52"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
-<span id="cb22-53"><a href="#cb22-53"></a>            <span class="co"># Find the indices of `x` that contain known categories. This tells us which rows have known categories.</span></span>
-<span id="cb22-54"><a href="#cb22-54"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb22-55"><a href="#cb22-55"></a>            <span class="co"># Get the index of the `True` value in each row. This is the numeric value for the category.</span></span>
-<span id="cb22-56"><a href="#cb22-56"></a>            category_value <span class="op">=</span> np.where(is_category)[<span class="dv">1</span>]</span>
-<span id="cb22-57"><a href="#cb22-57"></a>            <span class="co"># Assign the category index to the appropriate rows.</span></span>
-<span id="cb22-58"><a href="#cb22-58"></a>            rv[known_category, i] <span class="op">=</span> category_value</span>
-<span id="cb22-59"><a href="#cb22-59"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-12"><a href="#cb22-12"></a>        <span class="co"># Validate the data as before. `skip_check_array=True`</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>        <span class="co"># tells `validate_data` not to convert `X` to a numeric array</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>        <span class="co"># type. This is important since we have to deal with numeric</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a>        <span class="co"># or text types.</span></span>
+<span id="cb22-16"><a href="#cb22-16"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-17"><a href="#cb22-17"></a>        <span class="cf">try</span>:</span>
+<span id="cb22-18"><a href="#cb22-18"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a>            <span class="co"># array, we need to convert it to a matrix if it's still</span></span>
+<span id="cb22-20"><a href="#cb22-20"></a>            <span class="co"># a `DataFrame`.</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a>            X <span class="op">=</span> X.to_numpy()</span>
+<span id="cb22-22"><a href="#cb22-22"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
+<span id="cb22-23"><a href="#cb22-23"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or</span></span>
+<span id="cb22-24"><a href="#cb22-24"></a>            <span class="co"># `scipy` array.</span></span>
+<span id="cb22-25"><a href="#cb22-25"></a>            <span class="cf">pass</span></span>
+<span id="cb22-26"><a href="#cb22-26"></a></span>
+<span id="cb22-27"><a href="#cb22-27"></a>        categories <span class="op">=</span> []</span>
+<span id="cb22-28"><a href="#cb22-28"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
+<span id="cb22-29"><a href="#cb22-29"></a>        <span class="cf">for</span> column <span class="kw">in</span> X.T:</span>
+<span id="cb22-30"><a href="#cb22-30"></a>            <span class="co"># Get all unique values in the column.</span></span>
+<span id="cb22-31"><a href="#cb22-31"></a>            values <span class="op">=</span> np.unique(column)</span>
+<span id="cb22-32"><a href="#cb22-32"></a>            <span class="co"># Store the unique values as the ith element in the array.</span></span>
+<span id="cb22-33"><a href="#cb22-33"></a>            categories.append(values)</span>
+<span id="cb22-34"><a href="#cb22-34"></a>        <span class="co"># Save the categories on the transformer.</span></span>
+<span id="cb22-35"><a href="#cb22-35"></a>        <span class="va">self</span>.categories_ <span class="op">=</span> categories</span>
+<span id="cb22-36"><a href="#cb22-36"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb22-37"><a href="#cb22-37"></a></span>
+<span id="cb22-38"><a href="#cb22-38"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
+<span id="cb22-39"><a href="#cb22-39"></a>        <span class="co">"""Return the categorical values."""</span></span>
+<span id="cb22-40"><a href="#cb22-40"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>, reset<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb22-41"><a href="#cb22-41"></a>        <span class="cf">try</span>:</span>
+<span id="cb22-42"><a href="#cb22-42"></a>            X <span class="op">=</span> X.to_numpy()</span>
+<span id="cb22-43"><a href="#cb22-43"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
+<span id="cb22-44"><a href="#cb22-44"></a>            <span class="cf">pass</span></span>
+<span id="cb22-45"><a href="#cb22-45"></a></span>
+<span id="cb22-46"><a href="#cb22-46"></a>        <span class="co"># Create an array with the same shape as `X` to store the</span></span>
+<span id="cb22-47"><a href="#cb22-47"></a>        <span class="co"># categorical values. An unknown category, `-1` is used as</span></span>
+<span id="cb22-48"><a href="#cb22-48"></a>        <span class="co"># the default value.</span></span>
+<span id="cb22-49"><a href="#cb22-49"></a>        rv <span class="op">=</span> np.full(X.shape, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb22-50"><a href="#cb22-50"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
+<span id="cb22-51"><a href="#cb22-51"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb22-52"><a href="#cb22-52"></a>            <span class="co"># Grab the categories for the ith column of `X`.</span></span>
+<span id="cb22-53"><a href="#cb22-53"></a>            categories <span class="op">=</span> <span class="va">self</span>.categories_[i]</span>
+<span id="cb22-54"><a href="#cb22-54"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix</span></span>
+<span id="cb22-55"><a href="#cb22-55"></a>            <span class="co"># instead of an array allows us to leverage `numpy`</span></span>
+<span id="cb22-56"><a href="#cb22-56"></a>            <span class="co"># broadcasting.</span></span>
+<span id="cb22-57"><a href="#cb22-57"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb22-58"><a href="#cb22-58"></a>            <span class="co"># Create boolean matrix where `True` values indicate the</span></span>
+<span id="cb22-59"><a href="#cb22-59"></a>            <span class="co"># index of `categories` that equals `x` for each row.</span></span>
+<span id="cb22-60"><a href="#cb22-60"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
+<span id="cb22-61"><a href="#cb22-61"></a>            <span class="co"># Find the indices of `x` that contain known categories.</span></span>
+<span id="cb22-62"><a href="#cb22-62"></a>            <span class="co"># This tells us which rows have known categories.</span></span>
+<span id="cb22-63"><a href="#cb22-63"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-64"><a href="#cb22-64"></a>            <span class="co"># Get the index of the `True` value in each row. This</span></span>
+<span id="cb22-65"><a href="#cb22-65"></a>            <span class="co"># is the numeric value for the category.</span></span>
+<span id="cb22-66"><a href="#cb22-66"></a>            category_value <span class="op">=</span> np.where(is_category)[<span class="dv">1</span>]</span>
+<span id="cb22-67"><a href="#cb22-67"></a>            <span class="co"># Assign the category index to the appropriate rows.</span></span>
+<span id="cb22-68"><a href="#cb22-68"></a>            rv[known_category, i] <span class="op">=</span> category_value</span>
+<span id="cb22-69"><a href="#cb22-69"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our very first transformer! Let’s run it.</p>
 <div id="6f969c38-e562-4a7e-859c-ba0c2788577b" class="cell" data-execution_count="98">
