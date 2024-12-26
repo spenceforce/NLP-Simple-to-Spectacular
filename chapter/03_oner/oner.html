@@ -729,7 +729,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <span id="cb22-49"><a href="#cb22-49"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix instead of an array allows us to leverage `numpy` broadcasting.</span></span>
 <span id="cb22-50"><a href="#cb22-50"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb22-51"><a href="#cb22-51"></a>            <span class="co"># Create boolean matrix where `True` values indicate the index of `categories` that equals `x` for each row.</span></span>
-<span id="cb22-52"><a href="#cb22-52"></a>            is_category <span class="op">=</span> (x <span class="op">==</span> categories)</span>
+<span id="cb22-52"><a href="#cb22-52"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
 <span id="cb22-53"><a href="#cb22-53"></a>            <span class="co"># Find the indices of `x` that contain known categories. This tells us which rows have known categories.</span></span>
 <span id="cb22-54"><a href="#cb22-54"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb22-55"><a href="#cb22-55"></a>            <span class="co"># Get the index of the `True` value in each row. This is the numeric value for the category.</span></span>
