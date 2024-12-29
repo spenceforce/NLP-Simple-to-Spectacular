@@ -646,7 +646,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 </section>
 </section>
 </section>
-<section id="evaluating-our-model" class="level2" data-number="3.4">
+<section id="evaluating-our-model" class="level2 page-columns page-full" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="evaluating-our-model"><span class="header-section-number">3.4</span> Evaluating our model</h2>
 <p>Our preprocessing is locked in and our model is trained. Now we can score our model on the test set.</p>
 <div id="504729f6-b1fc-4999-83ea-9e170d1d75d6" class="cell" data-execution_count="11">
@@ -655,14 +655,12 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
-<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="1">
+<div class="page-columns page-full"><p>That’s a lot worse than the 100% accuracy we got on the train data. How does this compare to the baseline model?</p><div class="no-row-height column-margin column-container"><span class="margin-aside">The <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/nlpbook"><code>nlpbook</code></a> package contains accessors for our model results. This way we don’t need to retrain each model we want to compare. Just pass in a list of model names.</span></div></div>
+<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_results</span>
 <span id="cb18-2"><a href="#cb18-2"></a></span>
 <span id="cb18-3"><a href="#cb18-3"></a>get_results([<span class="st">"Baseline"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>The history saving thread hit an unexpected error (OperationalError('attempt to write a readonly database')).History will not be written to the database.</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -670,14 +668,16 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Model</th>
 <th data-quarto-table-cell-role="th">Accuracy</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>Baseline</td>
+<td data-quarto-table-cell-role="th">Baseline</td>
 <td>0.501119</td>
 </tr>
 </tbody>
@@ -689,7 +689,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
 <p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result.</p>
 <div id="58ef0493-9ce4-43f0-a9a7-ba789b5a060e" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="bu">set</span>(train_df[<span class="st">"review"</span>]) <span class="op">&amp;</span> <span class="bu">set</span>(test_df[<span class="st">"review"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="bu">set</span>(train_df[<span class="st">"review"</span>]) <span class="op">&amp;</span> <span class="bu">set</span>(test_df[<span class="st">"review"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>set()</code></pre>
 </div>
@@ -700,80 +700,80 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <h2 data-number="3.5" class="anchored" data-anchor-id="rolling-your-own-transformer"><span class="header-section-number">3.5</span> Rolling your own transformer</h2>
 <div class="page-columns page-full"><p>Much like our model, we can write transformers that slot into the <code>sklearn</code> API, all we need to do is implement <code>fit</code> and <code>transform</code> methods. These follow all the same guidelines outlined in <a href="../02_baseline/baseline_classifier.html#sec-scikit-learnifying-our-model" class="quarto-xref"><span>Section 2.8</span></a>. Let’s make our own <code>OrdinalEncoder</code> called <code>CategoricalEncoder</code>.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">The <code>transform</code> method heavily uses <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">broadcasting</a>, which is one way <code>numpy</code> speeds up operations on arrays.</span></div></div>
 <div id="c2f8bf17-3448-4ee5-8381-affc09804e63" class="cell" data-execution_count="102">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, TransformerMixin</span>
-<span id="cb22-2"><a href="#cb22-2"></a></span>
-<span id="cb22-3"><a href="#cb22-3"></a></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="kw">class</span> CategoricalEncoder(TransformerMixin, BaseEstimator):</span>
-<span id="cb22-5"><a href="#cb22-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb22-6"><a href="#cb22-6"></a>        <span class="co">"""Generate numeric categories from `X`.</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="co">        Note: All `fit` methods must accept a `y` argument whether</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="co">              they use them or not. Transfomers typically ignore</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co">              this argument whether it's passed in or not.</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="co">        """</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a>        <span class="co"># Validate the data as before. `skip_check_array=True`</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a>        <span class="co"># tells `validate_data` not to convert `X` to a numeric array</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a>        <span class="co"># type. This is important since we have to deal with numeric</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a>        <span class="co"># or text types.</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb22-17"><a href="#cb22-17"></a>        <span class="cf">try</span>:</span>
-<span id="cb22-18"><a href="#cb22-18"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a>            <span class="co"># array, we need to convert it to a matrix if it's still</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a>            <span class="co"># a `DataFrame`.</span></span>
-<span id="cb22-21"><a href="#cb22-21"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb22-22"><a href="#cb22-22"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb22-23"><a href="#cb22-23"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or</span></span>
-<span id="cb22-24"><a href="#cb22-24"></a>            <span class="co"># `scipy` array.</span></span>
-<span id="cb22-25"><a href="#cb22-25"></a>            <span class="cf">pass</span></span>
-<span id="cb22-26"><a href="#cb22-26"></a></span>
-<span id="cb22-27"><a href="#cb22-27"></a>        categories <span class="op">=</span> []</span>
-<span id="cb22-28"><a href="#cb22-28"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb22-29"><a href="#cb22-29"></a>        <span class="cf">for</span> column <span class="kw">in</span> X.T:</span>
-<span id="cb22-30"><a href="#cb22-30"></a>            <span class="co"># Get all unique values in the column.</span></span>
-<span id="cb22-31"><a href="#cb22-31"></a>            values <span class="op">=</span> np.unique(column)</span>
-<span id="cb22-32"><a href="#cb22-32"></a>            <span class="co"># Store the unique values as the ith element in the array.</span></span>
-<span id="cb22-33"><a href="#cb22-33"></a>            categories.append(values)</span>
-<span id="cb22-34"><a href="#cb22-34"></a>        <span class="co"># Save the categories on the transformer.</span></span>
-<span id="cb22-35"><a href="#cb22-35"></a>        <span class="va">self</span>.categories_ <span class="op">=</span> categories</span>
-<span id="cb22-36"><a href="#cb22-36"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb22-37"><a href="#cb22-37"></a></span>
-<span id="cb22-38"><a href="#cb22-38"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
-<span id="cb22-39"><a href="#cb22-39"></a>        <span class="co">"""Return the categorical values."""</span></span>
-<span id="cb22-40"><a href="#cb22-40"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb22-41"><a href="#cb22-41"></a>        <span class="cf">try</span>:</span>
-<span id="cb22-42"><a href="#cb22-42"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb22-43"><a href="#cb22-43"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb22-44"><a href="#cb22-44"></a>            <span class="cf">pass</span></span>
-<span id="cb22-45"><a href="#cb22-45"></a></span>
-<span id="cb22-46"><a href="#cb22-46"></a>        <span class="co"># Create an array with the same shape as `X` to store the</span></span>
-<span id="cb22-47"><a href="#cb22-47"></a>        <span class="co"># categorical values. An unknown category, `-1` is used as</span></span>
-<span id="cb22-48"><a href="#cb22-48"></a>        <span class="co"># the default value.</span></span>
-<span id="cb22-49"><a href="#cb22-49"></a>        rv <span class="op">=</span> np.full(X.shape, <span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb22-50"><a href="#cb22-50"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb22-51"><a href="#cb22-51"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
-<span id="cb22-52"><a href="#cb22-52"></a>            <span class="co"># Grab the categories for the ith column of `X`.</span></span>
-<span id="cb22-53"><a href="#cb22-53"></a>            categories <span class="op">=</span> <span class="va">self</span>.categories_[i]</span>
-<span id="cb22-54"><a href="#cb22-54"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix</span></span>
-<span id="cb22-55"><a href="#cb22-55"></a>            <span class="co"># instead of an array allows us to leverage `numpy`</span></span>
-<span id="cb22-56"><a href="#cb22-56"></a>            <span class="co"># broadcasting.</span></span>
-<span id="cb22-57"><a href="#cb22-57"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb22-58"><a href="#cb22-58"></a>            <span class="co"># Create boolean matrix where `True` values indicate the</span></span>
-<span id="cb22-59"><a href="#cb22-59"></a>            <span class="co"># index of `categories` that equals `x` for each row.</span></span>
-<span id="cb22-60"><a href="#cb22-60"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
-<span id="cb22-61"><a href="#cb22-61"></a>            <span class="co"># Find the indices of `x` that contain known categories.</span></span>
-<span id="cb22-62"><a href="#cb22-62"></a>            <span class="co"># This tells us which rows have known categories.</span></span>
-<span id="cb22-63"><a href="#cb22-63"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb22-64"><a href="#cb22-64"></a>            <span class="co"># Get the index of the `True` value in each row. This</span></span>
-<span id="cb22-65"><a href="#cb22-65"></a>            <span class="co"># is the numeric value for the category.</span></span>
-<span id="cb22-66"><a href="#cb22-66"></a>            category_value <span class="op">=</span> np.where(is_category)[<span class="dv">1</span>]</span>
-<span id="cb22-67"><a href="#cb22-67"></a>            <span class="co"># Assign the category index to the appropriate rows.</span></span>
-<span id="cb22-68"><a href="#cb22-68"></a>            rv[known_category, i] <span class="op">=</span> category_value</span>
-<span id="cb22-69"><a href="#cb22-69"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, TransformerMixin</span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="kw">class</span> CategoricalEncoder(TransformerMixin, BaseEstimator):</span>
+<span id="cb21-5"><a href="#cb21-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb21-6"><a href="#cb21-6"></a>        <span class="co">"""Generate numeric categories from `X`.</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="co">        Note: All `fit` methods must accept a `y` argument whether</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a><span class="co">              they use them or not. Transfomers typically ignore</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a><span class="co">              this argument whether it's passed in or not.</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="co">        """</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>        <span class="co"># Validate the data as before. `skip_check_array=True`</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a>        <span class="co"># tells `validate_data` not to convert `X` to a numeric array</span></span>
+<span id="cb21-14"><a href="#cb21-14"></a>        <span class="co"># type. This is important since we have to deal with numeric</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a>        <span class="co"># or text types.</span></span>
+<span id="cb21-16"><a href="#cb21-16"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-17"><a href="#cb21-17"></a>        <span class="cf">try</span>:</span>
+<span id="cb21-18"><a href="#cb21-18"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric</span></span>
+<span id="cb21-19"><a href="#cb21-19"></a>            <span class="co"># array, we need to convert it to a matrix if it's still</span></span>
+<span id="cb21-20"><a href="#cb21-20"></a>            <span class="co"># a `DataFrame`.</span></span>
+<span id="cb21-21"><a href="#cb21-21"></a>            X <span class="op">=</span> X.to_numpy()</span>
+<span id="cb21-22"><a href="#cb21-22"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
+<span id="cb21-23"><a href="#cb21-23"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or</span></span>
+<span id="cb21-24"><a href="#cb21-24"></a>            <span class="co"># `scipy` array.</span></span>
+<span id="cb21-25"><a href="#cb21-25"></a>            <span class="cf">pass</span></span>
+<span id="cb21-26"><a href="#cb21-26"></a></span>
+<span id="cb21-27"><a href="#cb21-27"></a>        categories <span class="op">=</span> []</span>
+<span id="cb21-28"><a href="#cb21-28"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
+<span id="cb21-29"><a href="#cb21-29"></a>        <span class="cf">for</span> column <span class="kw">in</span> X.T:</span>
+<span id="cb21-30"><a href="#cb21-30"></a>            <span class="co"># Get all unique values in the column.</span></span>
+<span id="cb21-31"><a href="#cb21-31"></a>            values <span class="op">=</span> np.unique(column)</span>
+<span id="cb21-32"><a href="#cb21-32"></a>            <span class="co"># Store the unique values as the ith element in the array.</span></span>
+<span id="cb21-33"><a href="#cb21-33"></a>            categories.append(values)</span>
+<span id="cb21-34"><a href="#cb21-34"></a>        <span class="co"># Save the categories on the transformer.</span></span>
+<span id="cb21-35"><a href="#cb21-35"></a>        <span class="va">self</span>.categories_ <span class="op">=</span> categories</span>
+<span id="cb21-36"><a href="#cb21-36"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb21-37"><a href="#cb21-37"></a></span>
+<span id="cb21-38"><a href="#cb21-38"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
+<span id="cb21-39"><a href="#cb21-39"></a>        <span class="co">"""Return the categorical values."""</span></span>
+<span id="cb21-40"><a href="#cb21-40"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>, reset<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-41"><a href="#cb21-41"></a>        <span class="cf">try</span>:</span>
+<span id="cb21-42"><a href="#cb21-42"></a>            X <span class="op">=</span> X.to_numpy()</span>
+<span id="cb21-43"><a href="#cb21-43"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
+<span id="cb21-44"><a href="#cb21-44"></a>            <span class="cf">pass</span></span>
+<span id="cb21-45"><a href="#cb21-45"></a></span>
+<span id="cb21-46"><a href="#cb21-46"></a>        <span class="co"># Create an array with the same shape as `X` to store the</span></span>
+<span id="cb21-47"><a href="#cb21-47"></a>        <span class="co"># categorical values. An unknown category, `-1` is used as</span></span>
+<span id="cb21-48"><a href="#cb21-48"></a>        <span class="co"># the default value.</span></span>
+<span id="cb21-49"><a href="#cb21-49"></a>        rv <span class="op">=</span> np.full(X.shape, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb21-50"><a href="#cb21-50"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
+<span id="cb21-51"><a href="#cb21-51"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb21-52"><a href="#cb21-52"></a>            <span class="co"># Grab the categories for the ith column of `X`.</span></span>
+<span id="cb21-53"><a href="#cb21-53"></a>            categories <span class="op">=</span> <span class="va">self</span>.categories_[i]</span>
+<span id="cb21-54"><a href="#cb21-54"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix</span></span>
+<span id="cb21-55"><a href="#cb21-55"></a>            <span class="co"># instead of an array allows us to leverage `numpy`</span></span>
+<span id="cb21-56"><a href="#cb21-56"></a>            <span class="co"># broadcasting.</span></span>
+<span id="cb21-57"><a href="#cb21-57"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb21-58"><a href="#cb21-58"></a>            <span class="co"># Create boolean matrix where `True` values indicate the</span></span>
+<span id="cb21-59"><a href="#cb21-59"></a>            <span class="co"># index of `categories` that equals `x` for each row.</span></span>
+<span id="cb21-60"><a href="#cb21-60"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
+<span id="cb21-61"><a href="#cb21-61"></a>            <span class="co"># Find the indices of `x` that contain known categories.</span></span>
+<span id="cb21-62"><a href="#cb21-62"></a>            <span class="co"># This tells us which rows have known categories.</span></span>
+<span id="cb21-63"><a href="#cb21-63"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb21-64"><a href="#cb21-64"></a>            <span class="co"># Get the index of the `True` value in each row. This</span></span>
+<span id="cb21-65"><a href="#cb21-65"></a>            <span class="co"># is the numeric value for the category.</span></span>
+<span id="cb21-66"><a href="#cb21-66"></a>            category_value <span class="op">=</span> np.where(is_category)[<span class="dv">1</span>]</span>
+<span id="cb21-67"><a href="#cb21-67"></a>            <span class="co"># Assign the category index to the appropriate rows.</span></span>
+<span id="cb21-68"><a href="#cb21-68"></a>            rv[known_category, i] <span class="op">=</span> category_value</span>
+<span id="cb21-69"><a href="#cb21-69"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our very first transformer! Let’s run it.</p>
 <div id="6f969c38-e562-4a7e-859c-ba0c2788577b" class="cell" data-execution_count="98">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>cat_encoder <span class="op">=</span> CategoricalEncoder()</span>
-<span id="cb23-2"><a href="#cb23-2"></a>cat_encoder.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>cat_encoder <span class="op">=</span> CategoricalEncoder()</span>
+<span id="cb22-2"><a href="#cb22-2"></a>cat_encoder.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="98">
 <pre><code>array([[  300],
        [22675],
@@ -786,7 +786,7 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 </div>
 <p>Beautiful, we’ve successfully recreated <code>OrdinalEncoder</code>. And we should get <code>-1</code> for the test data.</p>
 <div id="5964479a-143b-40cd-9195-d9de6b100207" class="cell" data-execution_count="99">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>cat_encoder.transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>cat_encoder.transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="99">
 <pre><code>array([[-1],
        [-1],
@@ -799,13 +799,13 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 </div>
 <p>Let’s use it in a pipeline!</p>
 <div id="b95a04fa-0944-4744-abb4-e69adff23fa4" class="cell" data-execution_count="101">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>steps <span class="op">=</span> [</span>
-<span id="cb27-2"><a href="#cb27-2"></a>    (<span class="st">"categorical_transform"</span>, CategoricalEncoder()),</span>
-<span id="cb27-3"><a href="#cb27-3"></a>    (<span class="st">"model"</span>, OneR()),</span>
-<span id="cb27-4"><a href="#cb27-4"></a>]</span>
-<span id="cb27-5"><a href="#cb27-5"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
-<span id="cb27-6"><a href="#cb27-6"></a>pipeline.fit(X, y)</span>
-<span id="cb27-7"><a href="#cb27-7"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>steps <span class="op">=</span> [</span>
+<span id="cb26-2"><a href="#cb26-2"></a>    (<span class="st">"categorical_transform"</span>, CategoricalEncoder()),</span>
+<span id="cb26-3"><a href="#cb26-3"></a>    (<span class="st">"model"</span>, OneR()),</span>
+<span id="cb26-4"><a href="#cb26-4"></a>]</span>
+<span id="cb26-5"><a href="#cb26-5"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
+<span id="cb26-6"><a href="#cb26-6"></a>pipeline.fit(X, y)</span>
+<span id="cb26-7"><a href="#cb26-7"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="101">
 <pre><code>0.5011190233977619</code></pre>
 </div>
