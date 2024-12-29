@@ -40,7 +40,7 @@ class Rule(ClassifierMixin, BaseEstimator):
         # `reset` should be `True` in `fit` and `False` everywhere else.
         X = validate_data(self, X, reset=False)
         # Create an empty array that will hold the predictions.
-        rv = np.zeros(X.shape[0])
+        rv = np.zeros(X.shape[0], dtype=int)
         # Get the unique categories from the first column.
         categories = np.unique(X[:, 0])
         for category in categories:

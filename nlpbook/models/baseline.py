@@ -23,4 +23,4 @@ class BaselineClassifier(ClassifierMixin, BaseEstimator):
         """Predict the labels for inputs `X`."""
         # Return the most common label as the prediction for every
         # input.
-        return np.full(len(X), self.prediction_)
+        return np.full(len(X), self.prediction_, dtype=int)
