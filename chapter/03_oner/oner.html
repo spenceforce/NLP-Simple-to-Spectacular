@@ -655,13 +655,35 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
-<p>That’s a lot worse than the 100% accuracy we got on the train data. How does this compare to the baseline model?</p>
-<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> model_results</span>
+<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_results</span>
 <span id="cb18-2"><a href="#cb18-2"></a></span>
-<span id="cb18-3"><a href="#cb18-3"></a>model_results[<span class="st">"baseline"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>0.5011190233977619</code></pre>
+<span id="cb18-3"><a href="#cb18-3"></a>get_results([<span class="st">"Baseline"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The history saving thread hit an unexpected error (OperationalError('attempt to write a readonly database')).History will not be written to the database.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Baseline</td>
+<td>0.501119</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 </div>
 </div>
 <p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
