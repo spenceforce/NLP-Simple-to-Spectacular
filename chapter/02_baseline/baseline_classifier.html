@@ -223,7 +223,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#train-vs.-test-datasets" id="toc-train-vs.-test-datasets" class="nav-link" data-scroll-target="#train-vs.-test-datasets"><span class="header-section-number">2.5</span> Train vs.&nbsp;test datasets</a></li>
   <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing"><span class="header-section-number">2.6</span> Preprocessing</a></li>
-  <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</a></li>
+  <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</a>
+  <ul class="collapse">
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">2.7.1</span> Putting it all together</a></li>
+  </ul></li>
   <li><a href="#sec-scikit-learnifying-our-model" id="toc-sec-scikit-learnifying-our-model" class="nav-link" data-scroll-target="#sec-scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</a>
   <ul class="collapse">
   <li><a href="#scikit-learn-best-practices" id="toc-scikit-learn-best-practices" class="nav-link" data-scroll-target="#scikit-learn-best-practices"><span class="header-section-number">2.8.1</span> scikit-learn best practices</a></li>
@@ -364,7 +367,7 @@ Note
 <section id="accuracy" class="level3 page-columns page-full" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">2.4.1</span> Accuracy</h3>
 <p>We are trying to predict the sentiment of movie reviews. We don’t care about positive vs negative, we just care that we get it right. It’s a simple question, “How many predictions are correct?” This is accuracy. It’s measured as a ratio, the number of correct predictions over all predictions.</p>
-<div id="4430b735-c32b-4446-a82f-9769f4a0cd2b" class="cell" data-execution_count="1">
+<div id="4430b735-c32b-4446-a82f-9769f4a0cd2b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="kw">def</span> accuracy(y, y_pred):</span>
@@ -379,7 +382,7 @@ Note
 <span id="cb9-12"><a href="#cb9-12"></a>    <span class="cf">return</span> correct <span class="op">/</span> <span class="bu">len</span>(y)</span>
 <span id="cb9-13"><a href="#cb9-13"></a></span>
 <span id="cb9-14"><a href="#cb9-14"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>np.float64(0.6666666666666666)</code></pre>
 </div>
 </div>
@@ -429,8 +432,10 @@ Note
 <div class="page-columns page-full"><p>We’ve trained a model and evaluated it’s accuracy so now we can move on to making a better model. WRONG, WE HAVEN’T EVALUATED THE MODEL!!! We checked the accuracy on the <em>training data</em> which isn’t a true evaluation of the model. We want to know how well our model works <em>on data it hasn’t seen yet</em>, which is why we have a test set. The test set is used exclusively to benchmark the performance of the model and is not used in the training process. This comes back to making models that generalize to unseen data. Models generally perform better on data they’re trained on because that data is what the model is optimized to predict for. If we use that same data to test the model, then we’ll likely be overconfident in our models predictions. When we deploy the model and it is used on new data it hasn’t seen we’ll be in for a rude awakening. So we separate our dataset into training and testing datasets. In practice care should go into how these datasets are curated, but we won’t worry about that here since I’ve already cleaned our datasets.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I highly recommend this <a href="https://www.fast.ai/posts/2017-11-13-validation-sets.html">blog post</a> on the dangers of blindly splitting your data. It is about validation sets, but the same concepts apply to test sets.</span></div></div>
 <p>So let’s evaluate our model for real.</p>
 <div id="890baad5-06a2-419c-8611-c73aab8836e4" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>X_test, y_test <span class="op">=</span> test_df[[<span class="st">"review"</span>]], test_df[<span class="st">"label"</span>]</span>
-<span id="cb15-2"><a href="#cb15-2"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Separate the reviews and labels for the test set</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co"># like we did for the train set.</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>X_test, y_test <span class="op">=</span> test_df[[<span class="st">"review"</span>]], test_df[<span class="st">"label"</span>]</span>
+<span id="cb15-4"><a href="#cb15-4"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.5011190233977619</code></pre>
 </div>
@@ -445,41 +450,68 @@ Note
 </div>
 <p>All we did was pull out the relevant columns from the dataframe, which is as simple as it gets. Preprocessing can get very complicated and we’ll explore how preprocessing impacts model performance in future chapters. One important aspect of preprocessing is the test dataset needs to be preprocessed <em>the same way</em> as the train dataset, because the model expects the data it makes predictions about to have the same form as the data it was trained on.</p>
 </section>
-<section id="rolling-our-own" class="level2 page-columns page-full" data-number="2.7">
+<section id="rolling-our-own" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</h2>
-<div class="page-columns page-full"><p>Now that we’ve trained a model, let’s make it ourselves. It’s as simple as you can get, majority rules.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Model implementations will include gratuitous comments explaining the code. This is a more streamlined approach that allows for covering the abstract concepts in the chapter text while giving details on implementation alongside the implementation itself.</span></div></div>
-<div id="46f38b6e-d8f1-4db3-8dd0-ae11de7d1cc1" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">class</span> BaselineClassifier:</span>
-<span id="cb18-2"><a href="#cb18-2"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb18-3"><a href="#cb18-3"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a>        <span class="va">self</span>.prediction <span class="op">=</span> labels[np.argmax(counts)]</span>
-<span id="cb18-8"><a href="#cb18-8"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a></span>
-<span id="cb18-10"><a href="#cb18-10"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb18-11"><a href="#cb18-11"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a>        <span class="co"># input.</span></span>
-<span id="cb18-14"><a href="#cb18-14"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction)</span>
-<span id="cb18-15"><a href="#cb18-15"></a></span>
-<span id="cb18-16"><a href="#cb18-16"></a></span>
-<span id="cb18-17"><a href="#cb18-17"></a>bc <span class="op">=</span> BaselineClassifier()</span>
-<span id="cb18-18"><a href="#cb18-18"></a>bc.fit(X, y)</span>
-<span id="cb18-19"><a href="#cb18-19"></a>accuracy_score(y_test, bc.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now that we’ve trained a model, let’s make it ourselves. It’s as simple as you can get, majority rules. We need to find the unique labels, count them, and keep the label with the highest count. <a href="https://numpy.org/doc/stable/reference/generated/numpy.unique.html"><code>np.unique</code></a> does exactly what we need to get that information.</p>
+<div id="c8427fd3-def2-4512-8c83-6b0a77dbe8d9" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># `np.unique` returns the unique labels as the first element and</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># those labels counts as the second element.</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>(array([0, 1]), array([12432, 12472]))</code></pre>
+</div>
+</div>
+<p>This shows the positive label is the majority class. Does this line up with the <code>sklearn</code> baseline?</p>
+<div id="50600ab3-f2fe-4429-98ad-09c2119ef266" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># `np.full` creates an array of just one value. In this case</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co"># we want an array the same length as `X_test` that's all</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># 1s.</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a>pred <span class="op">=</span> np.full(<span class="bu">len</span>(X_test), <span class="dv">1</span>)</span>
+<span id="cb20-5"><a href="#cb20-5"></a></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co"># Compare our predictions to the `sklearn` baselines predictions.</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>np.<span class="bu">all</span>(pred <span class="op">==</span> cls.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>np.True_</code></pre>
+</div>
+</div>
+<p>Yes it does! Congratulations, you’ve just implemented a machine learning model from scratch.</p>
+<section id="putting-it-all-together" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">2.7.1</span> Putting it all together</h3>
+<p>We can mimic the <code>sklearn</code> methods to make this code easier to use.</p>
+<div id="46f38b6e-d8f1-4db3-8dd0-ae11de7d1cc1" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">class</span> BaselineClassifier:</span>
+<span id="cb22-2"><a href="#cb22-2"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb22-3"><a href="#cb22-3"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-6"><a href="#cb22-6"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>        <span class="co"># `np.argmax` returns the index of the highest count.</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>        <span class="va">self</span>.prediction <span class="op">=</span> labels[np.argmax(counts)]</span>
+<span id="cb22-9"><a href="#cb22-9"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a></span>
+<span id="cb22-11"><a href="#cb22-11"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb22-12"><a href="#cb22-12"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a>        <span class="co"># input.</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction)</span>
+<span id="cb22-16"><a href="#cb22-16"></a></span>
+<span id="cb22-17"><a href="#cb22-17"></a></span>
+<span id="cb22-18"><a href="#cb22-18"></a>bc <span class="op">=</span> BaselineClassifier()</span>
+<span id="cb22-19"><a href="#cb22-19"></a>bc.fit(X, y)</span>
+<span id="cb22-20"><a href="#cb22-20"></a>accuracy_score(y_test, bc.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
-<p>Beautiful, we got the same score. But wait, there’s more!</p>
+<p>It works as expected. But wait, there’s more!</p>
 </section>
-<section id="sec-scikit-learnifying-our-model" class="level2" data-number="2.8">
+</section>
+<section id="sec-scikit-learnifying-our-model" class="level2 page-columns page-full" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="sec-scikit-learnifying-our-model"><span class="header-section-number">2.8</span> scikit-learnifying our model</h2>
 <p><code>scikit-learn</code> provides a framework to integrate your own machine learning models to leverage all the bells and whistles provided by their API. One such benefit is benchmarking. <code>scikit-learn</code> models come with a <code>score</code> method, and the default <code>score</code> method for classifiers is accuracy. By wrapping our model in <code>scikit-learn</code>s framework, we get accuracy scores (and a bunch of other stuff) for free.</p>
-<section id="scikit-learn-best-practices" class="level3" data-number="2.8.1">
+<section id="scikit-learn-best-practices" class="level3 page-columns page-full" data-number="2.8.1">
 <h3 data-number="2.8.1" class="anchored" data-anchor-id="scikit-learn-best-practices"><span class="header-section-number">2.8.1</span> scikit-learn best practices</h3>
-<p>There’s a <a href="https://scikit-learn.org/stable/developers/develop.html">pretty lengthy document</a> on developing <code>scikit-learn</code> models, but most of the advice on that page can be boiled down to a few points.</p>
+<div class="page-columns page-full"><p>There’s a <a href="https://scikit-learn.org/stable/developers/develop.html">pretty lengthy document</a> on developing <code>scikit-learn</code> models, but most of the advice on that page can be boiled down to a few points.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">If you get serious about making <code>scikit-learn</code> estimators read that document closely.</span></div></div>
 <ul>
 <li><code>__init__</code> is for setting attributes, not computation.</li>
 <li>Every parameter for <code>__init__</code> should have a corresponding attribute.</li>
@@ -487,6 +519,7 @@ Note
 <li>The <code>fit</code> method is for training and the <code>predict</code> method is for prediction.</li>
 <li><code>fit</code> should return <code>self</code>.</li>
 <li><code>BaseEstimator</code> should be to the right of <code>scikit-learn</code> mixins.</li>
+<li>Classifiers should have a <code>classes_</code> attribute with the unique labels in the training set.</li>
 <li>Must accept <code>N</code> data points at once.</li>
 </ul>
 <p>A note on that last point, accepting multiple data points at once comes with two benefits.</p>
@@ -495,32 +528,33 @@ Note
 <li>Operating on multiple data points at once allows for leveraging highly optimized libraries, like <code>numpy</code>, for improved speed.</li>
 </ol>
 <p>With a few tweaks, our <code>BaselineClassifier</code> becomes a <code>scikit-learn</code> model.</p>
-<div id="64d41ba4-cf47-4989-9585-adae96071b3c" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
-<span id="cb20-2"><a href="#cb20-2"></a></span>
-<span id="cb20-3"><a href="#cb20-3"></a></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
-<span id="cb20-5"><a href="#cb20-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb20-6"><a href="#cb20-6"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
-<span id="cb20-8"><a href="#cb20-8"></a>        labels, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-9"><a href="#cb20-9"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a>        <span class="co"># Note we changed the `prediction` attribute to include a</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a>        <span class="co"># trailing suffix because it results from a computation</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a>        <span class="co"># that persists across method calls.</span></span>
-<span id="cb20-13"><a href="#cb20-13"></a>        <span class="va">self</span>.prediction_ <span class="op">=</span> labels[np.argmax(counts)]</span>
-<span id="cb20-14"><a href="#cb20-14"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb20-15"><a href="#cb20-15"></a></span>
-<span id="cb20-16"><a href="#cb20-16"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb20-17"><a href="#cb20-17"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb20-18"><a href="#cb20-18"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
-<span id="cb20-19"><a href="#cb20-19"></a>        <span class="co"># input.</span></span>
-<span id="cb20-20"><a href="#cb20-20"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction_)</span>
-<span id="cb20-21"><a href="#cb20-21"></a></span>
-<span id="cb20-22"><a href="#cb20-22"></a></span>
-<span id="cb20-23"><a href="#cb20-23"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, y)</span>
-<span id="cb20-24"><a href="#cb20-24"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="64d41ba4-cf47-4989-9585-adae96071b3c" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb24-2"><a href="#cb24-2"></a></span>
+<span id="cb24-3"><a href="#cb24-3"></a></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
+<span id="cb24-5"><a href="#cb24-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb24-6"><a href="#cb24-6"></a>        <span class="co">"""Train the model with inputs `X` on labels `y`."""</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>        <span class="co"># Get the unique labels and their counts.</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>        <span class="co"># Note we changed `labels` to `self.classes_`.</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>        <span class="va">self</span>.classes_, counts <span class="op">=</span> np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-10"><a href="#cb24-10"></a>        <span class="co"># Keep the most common label for prediction.</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>        <span class="co"># Note we changed the `prediction` attribute to include a</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>        <span class="co"># trailing suffix because it results from a computation</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>        <span class="co"># that persists across method calls.</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a>        <span class="va">self</span>.prediction_ <span class="op">=</span> <span class="va">self</span>.classes_[np.argmax(counts)]</span>
+<span id="cb24-15"><a href="#cb24-15"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb24-16"><a href="#cb24-16"></a></span>
+<span id="cb24-17"><a href="#cb24-17"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb24-18"><a href="#cb24-18"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb24-19"><a href="#cb24-19"></a>        <span class="co"># Return the most common label as the prediction for every</span></span>
+<span id="cb24-20"><a href="#cb24-20"></a>        <span class="co"># input.</span></span>
+<span id="cb24-21"><a href="#cb24-21"></a>        <span class="cf">return</span> np.full(<span class="bu">len</span>(X), <span class="va">self</span>.prediction_)</span>
+<span id="cb24-22"><a href="#cb24-22"></a></span>
+<span id="cb24-23"><a href="#cb24-23"></a></span>
+<span id="cb24-24"><a href="#cb24-24"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, y)</span>
+<span id="cb24-25"><a href="#cb24-25"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
@@ -530,17 +564,17 @@ Note
 <section id="multiclass-classification" class="level2" data-number="2.9">
 <h2 data-number="2.9" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">2.9</span> Multiclass classification</h2>
 <p>Up to this point we’ve dealt with binary classification, the label is either <code>0</code> or <code>1</code>, but classification can extend to 3 or more labels. Our dataset includes ratings which we can use as multiclass labels. Fortunately, we’ve written <code>BaselineClassifier</code> to work on an arbitrary number of labels, so we should get multiclass classification for free. Let’s see what happens when we use the <code>rating</code> column instead of the <code>label</code> column.</p>
-<div id="8ecf1e3d-e1bd-4b5e-8241-60422a94cfbe" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, train_df[<span class="st">"rating"</span>])</span>
-<span id="cb22-2"><a href="#cb22-2"></a>cls.score(X_test, test_df[<span class="st">"rating"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="8ecf1e3d-e1bd-4b5e-8241-60422a94cfbe" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, train_df[<span class="st">"rating"</span>])</span>
+<span id="cb26-2"><a href="#cb26-2"></a>cls.score(X_test, test_df[<span class="st">"rating"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>0.1997151576805697</code></pre>
 </div>
 </div>
 <p>At first glance this may seem low, but if you take a second to think about it, it actually makes sense. As the number of unique labels goes up, the frequency of the majority label is more likely to go down. Let’s look at the breakdown of ratings frequency.</p>
-<div id="adb197ee-ef51-4750-a6db-8a153af5fa13" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>train_df.groupby(<span class="st">"rating"</span>).size() <span class="op">/</span> <span class="bu">len</span>(train_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="adb197ee-ef51-4750-a6db-8a153af5fa13" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>train_df.groupby(<span class="st">"rating"</span>).size() <span class="op">/</span> <span class="bu">len</span>(train_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>rating
 1     0.203501
 2     0.091230
