@@ -9,11 +9,11 @@ book:
   author: "Spencer Mitchell"
   chapters:
     - index.qmd
-    - intro.qmd
     - chapter/01_data/data.ipynb
     - chapter/02_baseline/baseline_classifier.ipynb
     - chapter/03_oner/oner.ipynb
     - chapter/04_oner/oner.ipynb
+    - chapter/05_decision_tree/decision_tree.ipynb
     - chapter/bonus/cleaning_data/cleaning_data.ipynb
     - chapter/bonus/quality_vs_quantity/quality_vs_quantity.ipynb
     - references.qmd
