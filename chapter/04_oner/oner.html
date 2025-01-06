@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -84,14 +84,14 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
+<link href="../../chapter/05_decision_tree/decision_tree.html" rel="next">
 <link href="../../chapter/03_oner/oner.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -166,13 +166,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -201,14 +195,20 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -233,7 +233,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#oner-revisited" id="toc-oner-revisited" class="nav-link" data-scroll-target="#oner-revisited"><span class="header-section-number">4.2</span> OneR revisited</a></li>
   <li><a href="#machine-learning-is-an-end-to-end-process" id="toc-machine-learning-is-an-end-to-end-process" class="nav-link" data-scroll-target="#machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.3</span> Machine learning is an end to end process</a></li>
-  <li><a href="#models-as-analysis-tools" id="toc-models-as-analysis-tools" class="nav-link" data-scroll-target="#models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</a></li>
+  <li><a href="#sec-models-as-analysis-tools" id="toc-sec-models-as-analysis-tools" class="nav-link" data-scroll-target="#sec-models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</a></li>
   <li><a href="#rolling-our-own-feature-extractor" id="toc-rolling-our-own-feature-extractor" class="nav-link" data-scroll-target="#rolling-our-own-feature-extractor"><span class="header-section-number">4.5</span> Rolling our own feature extractor</a></li>
   <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">4.6</span> Multiclass classification</a></li>
   </ul>
@@ -485,8 +485,8 @@ div.csl-indent {
 <h2 data-number="4.3" class="anchored" data-anchor-id="machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.3</span> Machine learning is an end to end process</h2>
 <p>We barely touched the model and ended up with an 8% improvement just by improving the preprocessing step. There are multiple steps to building a model, from collecting data through model training and they are all important for the final outcome. I probably sound like a broken record at this point, but this is why we started with a baseline model. The process of building a model is really one of experimentation. You make a change here then test it. Now a change there and test it. It’s tweak after tweak, but you need to know how those tweaks affect the performance.</p>
 </section>
-<section id="models-as-analysis-tools" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</h2>
+<section id="sec-models-as-analysis-tools" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</h2>
 <p>Now that we’ve trained a model that actually has some predictive power, we can start to use it for interesting things. Often we use models to predict outcomes, but we can also go in the other direction and use them to learn about our data. OneR found some character that is predictive for our data. What is that character?</p>
 <div id="919b257a-0743-4d82-9354-4305f9585ace" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Get the index of the rule.</span></span>
@@ -1054,8 +1054,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="Bonus: cleaning data">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/05_decision_tree/decision_tree.html" class="pagination-link" aria-label="More rules with Decision Trees">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

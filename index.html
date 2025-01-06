@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -31,13 +31,13 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./chapter/01_data/data.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,13 +109,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -144,14 +138,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -170,12 +170,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <ul class="collapse">
+  <li><a href="#what-is-nlp" id="toc-what-is-nlp" class="nav-link" data-scroll-target="#what-is-nlp">What is NLP?</a></li>
+  <li><a href="#sec-what-this-book-is" id="toc-sec-what-this-book-is" class="nav-link" data-scroll-target="#sec-what-this-book-is">What this book is</a></li>
+  <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link" data-scroll-target="#asking-for-help">Asking for help</a></li>
+  </ul></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a>
+  <ul class="collapse">
+  <li><a href="#fundamental-ai-packages-well-learn-about" id="toc-fundamental-ai-packages-well-learn-about" class="nav-link" data-scroll-target="#fundamental-ai-packages-well-learn-about">Fundamental AI packages we’ll learn about</a></li>
+  <li><a href="#things-you-dont-need-but-should-know" id="toc-things-you-dont-need-but-should-know" class="nav-link" data-scroll-target="#things-you-dont-need-but-should-know">Things you don’t need but should know</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -202,11 +212,55 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>I didn’t originally set out to write a book. This was supposed to be a series of blog posts that explored machine learning models and natural language processing. The idea was simple, to explain machine learning by incrementally changing a model using the same data set. I wanted to do away with math equations and proofs and focus on intuitive understanding of machine learning with programming examples from scratch. Inspiration came from the <a href="https://course.fast.ai/">fastai course</a> which takes a similar approach. My motivation was to better understand the algorithms I use in practice while developing the learning materials I wish I had. Practical examples with real data that explains algorithms with code step by step. I hope you find this useful.</p>
+<section id="welcome" class="level1 unnumbered page-columns page-full">
+<h1 class="unnumbered">Welcome</h1>
+<p>This website is for the book <strong>NLP: From Simple to Spectacular</strong>, which is geared towards programmers interested in natural language processing. We’ll cover all kinds of concepts in this book, from stupidly simple models to state of the art.</p>
+<section id="what-is-nlp" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-nlp">What is NLP?</h2>
+<p>Natural language processing (or NLP) is a subfield of artificial intelligence focused on applying learning algorithms to natural language. There’s many ways to use such algorithms, for understanding language, text generation, and speech recognition to name a few. In a nutshell, an NLP model accepts a string of text, infers some understanding of it, and outputs it’s understanding as numbers. The process of creating such a model is what this book focuses on.</p>
+</section>
+<section id="sec-what-this-book-is" class="level2">
+<h2 class="anchored" data-anchor-id="sec-what-this-book-is">What this book is</h2>
+<p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
+<p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. Where possible, each chapter will start with the quickest way to get the model up and running with <code>scikit-learn</code>, <code>pytorch</code>, or some other framework, followed by implementations from scratch. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
+<p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
+</section>
+<section id="asking-for-help" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
+<div class="page-columns page-full"><p>I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what’s going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn’t essential to the post I’ll note it in the margin. Check out the right margin to see what I mean.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Hi I’m a note in the right margin, ok you can go back to the main text now.</span></div></div>
+<p>However, if you have questions about the concepts I go over or find my explanations confusing, don’t be afraid to drop me an email at <script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x73;&#x6d;&#x69;&#116;&#x63;&#104;&#x65;&#108;&#108;&#x35;&#x35;&#54;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x73;&#x6d;&#x69;&#116;&#x63;&#104;&#x65;&#108;&#108;&#x35;&#x35;&#54;&#x5b;&#x61;&#116;&#x5d;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;'+'<\/'+'a'+'>');
+// -->
+</script><noscript>smitchell556[at]gmail.com (smitchell556 at gmail dot com)</noscript>. If you’re confused by what I write, somebody else probably is to and I can update the post to be more clear.</p>
+</section>
+</section>
+<section id="prerequisites" class="level1">
+<h1>Prerequisites</h1>
+<p>Familiarity with Python and how to use external packages as I’ve already mentioned. There are a few packages we will rely on for machine learning adjacent tasks.</p>
+<ul>
+<li><a href="https://pandas.pydata.org/docs/">pandas</a></li>
+<li><a href="https://numpy.org/doc/stable/">numpy</a></li>
+<li><a href="https://seaborn.pydata.org/index.html">seaborn</a></li>
+</ul>
+<p>I recommend at least walking through the introductory tutorials for these if you’re not familiar with them.</p>
+<section id="fundamental-ai-packages-well-learn-about" class="level2">
+<h2 class="anchored" data-anchor-id="fundamental-ai-packages-well-learn-about">Fundamental AI packages we’ll learn about</h2>
+<p>Separately, there’s some machine learning packages we will use throughout the book.</p>
+<ul>
+<li><a href="https://scikit-learn.org/stable/">scikit-learn</a></li>
+<li><a href="https://pytorch.org/docs/stable/index.html">pytorch</a></li>
+<li><a href="https://huggingface.co/docs/transformers/en/index">transformers</a></li>
+</ul>
+<p>These libraries are fundamental for machine learning and deep learning. It’s worth looking at their docs when these packages show up.</p>
+</section>
+<section id="things-you-dont-need-but-should-know" class="level2">
+<h2 class="anchored" data-anchor-id="things-you-dont-need-but-should-know">Things you don’t need but should know</h2>
+<p>While you don’t need to know anything about <a href="https://docs.conda.io/en/latest/">conda</a> or <a href="https://docs.jupyter.org/en/latest/">jupyter</a> to read this book, I highly recommend using them if you’re serious about machine learning.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -631,8 +685,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
-        <span class="nav-page-text">Introduction</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter/01_data/data.html" class="pagination-link" aria-label="Machine learning needs data">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -146,13 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -181,14 +175,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="what-is-machine-learning" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="what-is-machine-learning"><span class="header-section-number">2.1</span> What is machine learning?</h2>
 <p>Machine learning is a field of artificial intelligence focused on algorithms that 1) learn from data and 2) generalize to unseen data. There are three main components to machine learning, data, models, and algorithms. Machine learning models are the things that do the learning and the algorithms direct the models learning. The lines blur at times between models and algorithms and some algorithms only work for some models. At their core, models are functions. They take an input, process them in some way, and return an output. Models have learnable parameters and machine learning algorithms focus on adjusting these parameters to make the model produce better outputs.</p>
-<p>Conceptually, models are simple. Take the equation for a line, <code>f(x) = m*x + b</code>. This is a model where <code>m</code> and <code>b</code> are constant values indicating the slope and y-intercept of the line. <code>x</code> is an input value and the output is <code>f(x) = y</code>. If we know <code>m</code> and <code>b</code> we can compute <code>y</code> for any <code>x</code>. If we don’t know <code>m</code> and <code>b</code>, this is where machine learning comes in. Assuming we have a bunch of <code>(x, y)</code> points, a machine learning algorithm can guess what good values for <code>m</code> and <code>b</code> are based on those points. Then we freeze those values and the model can predict <code>y</code> for any <code>x</code>.</p>
+<p>Conceptually, models are simple. Take the equation for a line, <code>f(x) = m*x + b</code>. This is a model where <code>m</code> and <code>b</code> are constant values indicating the slope and y-intercept of the line. <code>x</code> is an input value and the output is <code>f(x) = y</code>. If we know <code>m</code> and <code>b</code> we can compute <code>y</code> for any <code>x</code>. Machine learning comes to the rescue when we don’t know <code>m</code> and <code>b</code>. Assuming we have a bunch of <code>(x, y)</code> points, a machine learning algorithm can guess what good values for <code>m</code> and <code>b</code> are based on those points. Then we freeze those values and the model can predict <code>y</code> for any <code>x</code>.</p>
 <p>Models can be giant equations and it’s easy to get lost in the details, but remember <em>it’s still just an equation!</em> The learning algorithm will find the right constant terms for us. It’s our job to set up the problem for the algorithm and model and then get out of the way so the machine can learn.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -275,7 +275,7 @@ Note
 </div>
 <section id="the-learning-process" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="the-learning-process"><span class="header-section-number">2.1.1</span> The learning process</h3>
-<p>At it’s core the learning process iterates through prediction, comparison, and tweaking the model parameters. The training data is used in this process. We initialize the model, then use it as is to predict the outputs on the training data. These outputs are compared to the actual outputs, or targets, of the training data. If we are happy with the comparison training is done. Otherwise the model parameters are adjusted and the process begins again. This whole process is outlined below.</p>
+<p>At it’s core the learning process iterates through prediction, comparison, and tweaking the model parameters. The training data is used in this process. We initialize the model, then use it as is to predict the outputs on the training data. These outputs are compared to the actual outputs, or targets, of the training data. If we are happy with the comparison, training is done. Otherwise the model parameters are adjusted and the process begins again. This whole process is outlined below.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -284,7 +284,7 @@ Note
 <pre class="mermaid mermaid-js">flowchart TB
   B[Predict output for train data] --&gt; C[Compare predictions to targets]
   C --&gt; D{Predictions good enough?}
-  D -- No --&gt; E[Update model weights]
+  D -- No --&gt; E[Update model]
   D -- Yes --&gt; F[Freeze model for production]
   E --&gt; B
 </pre>
@@ -305,16 +305,15 @@ Note
 <p>Throughout this book the first model in each chapter will be an existing implementation, where possible, that we can get up and running immediately. Then we’ll implement the model ourselves to get a deeper understanding of what’s going on.</p>
 <section id="scikit-learn" class="level3 page-columns page-full" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="scikit-learn"><span class="header-section-number">2.3.1</span> scikit-learn</h3>
-<p><code>scikit-learn</code> is a widely used machine learning library. It comes fully loaded with all kinds of models and tools that let machine learning practitioners build models in just a few lines of code. And it turns out <code>scikit-learn</code> provides the simple model we want already as <code>sklearn.dummy.DummyClassifier</code>. This model is also referred to as a baseline model. Let’s train it.</p>
+<p><a href="https://scikit-learn.org/stable/index.html"><code>scikit-learn</code></a> is a widely used machine learning library. It comes fully loaded with all kinds of models and tools that let machine learning practitioners build models in just a few lines of code. And it turns out <code>scikit-learn</code> provides the simple model we want already as <code>sklearn.dummy.DummyClassifier</code>. This model is also referred to as a baseline model. Let’s train it.</p>
 <div id="902de930-c643-409e-bf94-0b310d3f7f8c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb1-6"><a href="#cb1-6"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span>
-<span id="cb1-7"><a href="#cb1-7"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>cls.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-5"><a href="#cb1-5"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span>
+<span id="cb1-6"><a href="#cb1-6"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>cls.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.500803083841953</code></pre>
 </div>
@@ -327,7 +326,7 @@ Note
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
 <span id="cb3-2"><a href="#cb3-2"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This book’s companion Python package, <code>nlpbook</code>, comes with a helper function <code>get_train_test_data</code> which cleans up the data and returns it. Then the inputs and outputs for training are separated into their own variables, <code>X</code> and <code>y</code>, respectively. What do these inputs and outputs look like? From the <a href="../../chapter/01_data/data.html">last chapter</a> we know the <code>review</code> column contains the review, this is our input. And the <code>label</code> column is a binary value, <code>0</code> or <code>1</code>, indicating if the review is negative or positive. There is something interesting going on with <code>X</code> though, why do we use double square brackets when accessing the <code>review</code> column? The double square bracket notation tells <code>pandas</code> to return a <code>DataFrame</code> instead of a <code>Series</code>, which begs another question, why a <code>DataFrame</code> instead of a <code>Series</code>?</p>
+<p>This book’s companion Python package, <code>nlpbook</code>, comes with a helper function <code>get_train_test_data</code> which cleans up the data and returns it. Then the inputs and outputs for training are separated into their own variables, <code>X</code> and <code>y</code>, respectively. What do these inputs and outputs look like? In <a href="../01_data/data.html#sec-classification-dataset" class="quarto-xref"><span>Section 1.2</span></a> we saw the <code>review</code> column contains the review, this is our input. And the <code>label</code> column is a binary value, <code>0</code> or <code>1</code>, indicating if the review is negative or positive. There is something interesting going on with <code>X</code> though, why do we use double square brackets when accessing the <code>review</code> column? The double square bracket notation tells <code>pandas</code> to return a <code>DataFrame</code> instead of a <code>Series</code>, which begs another question, why a <code>DataFrame</code> instead of a <code>Series</code>?</p>
 <div class="page-columns page-full"><p>A <code>DataFrame</code> is basically a matrix, while a <code>Series</code> is an array. In machine learning, inputs can have more than one feature and many algorithms and libraries expect inputs to be in the form of a matrix where the rows of the matrix are data points and the columns are features of each data point.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>DataFrame.shape</code> shows the dimensions of the matrix as <code>(rows, columns)</code>.</span></div></div>
 <div id="e7bf4d70-1a14-48b3-a206-de69e5d03863" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -340,7 +339,7 @@ Note
 </section>
 <section id="train-the-model" class="level4" data-number="2.3.1.2">
 <h4 data-number="2.3.1.2" class="anchored" data-anchor-id="train-the-model"><span class="header-section-number">2.3.1.2</span> Train the model</h4>
-<p>The line initializes the model and train it.</p>
+<p>This line initializes the model and train it.</p>
 <div id="116aaafa-c6af-436e-9f5b-0143deef8bdd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -365,17 +364,22 @@ Note
 <section id="accuracy" class="level3 page-columns page-full" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">2.4.1</span> Accuracy</h3>
 <p>We are trying to predict the sentiment of movie reviews. We don’t care about positive vs negative, we just care that we get it right. It’s a simple question, “How many predictions are correct?” This is accuracy. It’s measured as a ratio, the number of correct predictions over all predictions.</p>
-<div id="4430b735-c32b-4446-a82f-9769f4a0cd2b" class="cell" data-execution_count="6">
+<div id="4430b735-c32b-4446-a82f-9769f4a0cd2b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">def</span> accuracy(y, y_pred):</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">def</span> accuracy(y, y_pred):</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="co"># Convert to numpy arrays for convenience.</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a>    y, y_pred <span class="op">=</span> np.array(y), np.array(y_pred)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(y <span class="op">==</span> y_pred) <span class="op">/</span> <span class="bu">len</span>(y)</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="co"># Create an array of boolean values indicating if</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="co"># `y` and `y_pred` are the same at each index.</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    is_equal <span class="op">=</span> y <span class="op">==</span> y_pred</span>
+<span id="cb9-9"><a href="#cb9-9"></a>    <span class="co"># Sum the `True` values.</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>    correct <span class="op">=</span> np.<span class="bu">sum</span>(is_equal)</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="co"># Return the ratio of correct over total.</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="cf">return</span> correct <span class="op">/</span> <span class="bu">len</span>(y)</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>np.float64(0.6666666666666666)</code></pre>
 </div>
 </div>
@@ -384,7 +388,8 @@ Note
 <div id="f4e68915-fd34-402d-97e4-c6ee514464fb" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="op">==</span> accuracy_score([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co"># Check our accuracy function returns the same value as `sklearn`s.</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="op">==</span> accuracy_score([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>np.True_</code></pre>
 </div>

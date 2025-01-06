@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction – NLP: From Simple to Spectacular</title>
+<title>5&nbsp; More rules with Decision Trees – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapter/01_data/data.html" rel="next">
-<link href="./index.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
+<link href="../../chapter/04_oner/oner.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -68,11 +102,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
 
-<body class="nav-sidebar floating slimcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -81,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/05_decision_tree/decision_tree.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -96,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">NLP: From Simple to Spectacular</a> 
+      <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -108,55 +145,55 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/02_baseline/baseline_classifier.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/02_baseline/baseline_classifier.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baseline: gotta start somewhere</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
+  <a href="../../chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+  <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bonus: quality vs.&nbsp;quantity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -170,23 +207,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-nlp" id="toc-what-is-nlp" class="nav-link active" data-scroll-target="#what-is-nlp">What is NLP?</a></li>
-  <li><a href="#what-this-book-is" id="toc-what-this-book-is" class="nav-link" data-scroll-target="#what-this-book-is">What this book is</a></li>
-  <li><a href="#asking-for-help" id="toc-asking-for-help" class="nav-link" data-scroll-target="#asking-for-help">Asking for help</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a>
+  <li><a href="#easy-button" id="toc-easy-button" class="nav-link active" data-scroll-target="#easy-button"><span class="header-section-number">5.1</span> Easy button</a></li>
+  <li><a href="#analyzing-a-model" id="toc-analyzing-a-model" class="nav-link" data-scroll-target="#analyzing-a-model"><span class="header-section-number">5.2</span> Analyzing a model</a>
   <ul class="collapse">
-  <li><a href="#fundamental-ai-packages-well-learn-about" id="toc-fundamental-ai-packages-well-learn-about" class="nav-link" data-scroll-target="#fundamental-ai-packages-well-learn-about">Fundamental AI packages we’ll learn about</a></li>
-  <li><a href="#things-you-dont-need-but-should-know" id="toc-things-you-dont-need-but-should-know" class="nav-link" data-scroll-target="#things-you-dont-need-but-should-know">Things you don’t need but should know</a></li>
+  <li><a href="#feature-permutation" id="toc-feature-permutation" class="nav-link" data-scroll-target="#feature-permutation"><span class="header-section-number">5.2.1</span> Feature permutation</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction</h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></h1>
 </div>
 
 
@@ -203,48 +237,97 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-nlp" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-nlp">What is NLP?</h2>
-<p>Natural language processing (or NLP) is a subfield of artificial intelligence focused on applying learning algorithms to natural language. There’s many ways to use such algorithms, for understanding language, text generation, and speech recognition to name a few. In a nutshell, an NLP model accepts a string of text, infers some understanding of it, and outputs it’s understanding as numbers. The process of creating such a model is what this book focuses on.</p>
+<p>We made progress with <a href="../../chapter/04_oner/oner.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a> does.</p>
+<section id="easy-button" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
+<p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
+<div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Grab the data and extract the features and labels.</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>train, test <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-9"><a href="#cb1-9"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
+<span id="cb1-10"><a href="#cb1-10"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>X, y <span class="op">=</span> train[features], train[label]</span>
+<span id="cb1-12"><a href="#cb1-12"></a>X_test, y_test <span class="op">=</span> test[features], test[label]</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co"># Set up the pipeline.</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>transformers <span class="op">=</span> ColumnTransformer([(<span class="st">'boc'</span>, CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>), <span class="st">'review'</span>)])</span>
+<span id="cb1-16"><a href="#cb1-16"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
+<span id="cb1-17"><a href="#cb1-17"></a>pipeline <span class="op">=</span> Pipeline(</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    [</span>
+<span id="cb1-19"><a href="#cb1-19"></a>        (<span class="st">'bag_chars'</span>, transformers),</span>
+<span id="cb1-20"><a href="#cb1-20"></a>        (<span class="st">'decision_tree'</span>, model)</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    ]</span>
+<span id="cb1-22"><a href="#cb1-22"></a>)</span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># Train it!</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>pipeline.fit(X, y)</span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co"># Score it!</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>0.5540183112919633</code></pre>
+</div>
+</div>
+<p>How does this compare to our previous models?</p>
+<div id="09a61646-13e2-43de-80bb-79d684e6001b" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Accuracy</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Baseline</td>
+<td>0.501119</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">OneR (boc)</td>
+<td>0.581282</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Ah man, it actually performed worse than OneR! But why?</p>
 </section>
-<section id="what-this-book-is" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-book-is">What this book is</h2>
-<p>As somebody who’s a programmer and not a mathematician, I always struggle with blog posts about machine learning. They throw some math equations at you and show you how to “implement” the algorithm in two lines of code using a framework, but rarely do I see implementations from scratch. This book aims to bridge that gap. The content will be programming first with little to no math or theory. Any “mathy” stuff will be picked apart with coding examples and visualizations. Algorithms will be implemented in pure python as much as possible. Frameworks will be introduced incrementally where it makes sense.</p>
-<p>The gimmick behind this book is to walk through implementations of different models using one dataset. Each chapter incrementally changing our models while introducing new concepts. Where possible, each chapter will start with the quickest way to get the model up and running with <code>scikit-learn</code>, <code>pytorch</code>, or some other framework, followed by implementations from scratch. With that in mind, I recommend starting at the beginning and finishing at the end, but feel free to jump around if that makes more sense for you.</p>
-<p>This book is written entirely in <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/chapter">jupyter notebooks</a> so you can run the code. Each chapter lives in it’s own directory. A <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/environment.yml">conda environment file</a> is provided at the root of the project with everything you need to run each chapter in this book.</p>
-</section>
-<section id="asking-for-help" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="asking-for-help">Asking for help</h2>
-<div class="page-columns page-full"><p>I assume you have some grasp of Python and how to use external packages. This book may be difficult otherwise. Code blocks will include comments where necessary to help walk you through what’s going on. I will try to comment on what different functions do, but if I miss something or you want a deeper explanation then reach for your search engine. If I think something needs a little explanation but isn’t essential to the post I’ll note it in the margin. Check out the right margin to see what I mean.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Hi I’m a note in the right margin, ok you can go back to the main text now.</span></div></div>
-<p>However, if you have questions about the concepts I go over or find my explanations confusing, don’t be afraid to drop me an email at <script type="text/javascript">
-<!--
-h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x73;&#x6d;&#x69;&#116;&#x63;&#104;&#x65;&#108;&#108;&#x35;&#x35;&#54;';e=n+a+h;
-document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#x73;&#x6d;&#x69;&#116;&#x63;&#104;&#x65;&#108;&#108;&#x35;&#x35;&#54;&#x5b;&#x61;&#116;&#x5d;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;'+'<\/'+'a'+'>');
-// -->
-</script><noscript>smitchell556[at]gmail.com (smitchell556 at gmail dot com)</noscript>. If you’re confused by what I write, somebody else probably is to and I can update the post to be more clear.</p>
-</section>
-<section id="prerequisites" class="level1">
-<h1>Prerequisites</h1>
-<p>Familiarity with Python and how to use external packages as I’ve already mentioned. There are a few packages we will rely on for machine learning adjacent tasks.</p>
-<ul>
-<li><a href="https://pandas.pydata.org/docs/">pandas</a></li>
-<li><a href="https://numpy.org/doc/stable/">numpy</a></li>
-<li><a href="https://seaborn.pydata.org/index.html">seaborn</a></li>
-</ul>
-<p>I recommend at least walking through the introductory tutorials for these if you’re not familiar with them.</p>
-<section id="fundamental-ai-packages-well-learn-about" class="level2">
-<h2 class="anchored" data-anchor-id="fundamental-ai-packages-well-learn-about">Fundamental AI packages we’ll learn about</h2>
-<p>Separately, there’s some machine learning packages we will use throughout the book.</p>
-<ul>
-<li><a href="https://scikit-learn.org/stable/">scikit-learn</a></li>
-<li><a href="https://pytorch.org/docs/stable/index.html">pytorch</a></li>
-<li><a href="https://huggingface.co/docs/transformers/en/index">transformers</a></li>
-</ul>
-<p>These libraries are fundamental for machine learning and deep learning. You don’t need to know anything about them because we will cover them.</p>
-</section>
-<section id="things-you-dont-need-but-should-know" class="level2">
-<h2 class="anchored" data-anchor-id="things-you-dont-need-but-should-know">Things you don’t need but should know</h2>
-<p>While you don’t need to know anything about <a href="https://docs.conda.io/en/latest/">conda</a> or <a href="https://docs.jupyter.org/en/latest/">jupyter</a> to read this book, I highly recommend using them if you’re serious about machine learning.</p>
+<section id="analyzing-a-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="analyzing-a-model"><span class="header-section-number">5.2</span> Analyzing a model</h2>
+<p>Models are not infallible. In fact all of our models so far have been very fallible and it would be helpful to inspect these models to figure out why they get things wrong.</p>
+<p>Previously we used the OneR model to inspect and learn about the data (<a href="../04_oner/oner.html#sec-models-as-analysis-tools" class="quarto-xref"><span>Section 4.4</span></a>). We found the most important feature with OneR was the number of question marks in a review. Then we plotted the data and saw reviews with no question marks were more likely to be positive and reviews with question marks were more likely to be negative. We can take this a step further and look at how important the model thinks all features are and it’s actually quite simple.</p>
+<section id="feature-permutation" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="feature-permutation"><span class="header-section-number">5.2.1</span> Feature permutation</h3>
+<p>Once we have a trained model, we can see how important that model thinks a feature is by randomly shuffling the values of that feature across the dataset and seeing how it impacts accuracy. If the accuracy stays roughly the same then the feature doesn’t contribute and isn’t important. On the other hand if we see the accuracy drop, then that feature plays a roll in the accuracy we see.</p>
+<p>Let’s test this out on the question mark feature.</p>
+<div id="a2962cba-dee0-4ad5-9234-37b049db868f" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Get the bag of characters feature extractor.</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># The column transformer can be accessed through `named_transformers` like so:</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>boc <span class="op">=</span> transformers.named_transformers_[<span class="st">"boc"</span>]</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Find the index of "?".</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>i <span class="op">=</span> boc.vocabulary[<span class="st">"?"</span>]</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co"># Transform the data.</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>X_permute <span class="op">=</span> transformers.transform(X_test)</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co"># Shuffle the feature values.</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>X_permute[:, i] <span class="op">=</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
@@ -670,13 +753,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../../chapter/04_oner/oner.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR: Inputs matter">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter/01_data/data.html" class="pagination-link" aria-label="Machine learning needs data">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="Bonus: cleaning data">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Bonus: cleaning data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
