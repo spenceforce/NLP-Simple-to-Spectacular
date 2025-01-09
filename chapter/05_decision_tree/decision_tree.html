@@ -256,19 +256,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12"></a>X_test, y_test <span class="op">=</span> test[features], test[label]</span>
 <span id="cb1-13"><a href="#cb1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14"></a><span class="co"># Set up the pipeline.</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>transformers <span class="op">=</span> ColumnTransformer([(<span class="st">'boc'</span>, CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>), <span class="st">'review'</span>)])</span>
-<span id="cb1-16"><a href="#cb1-16"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
-<span id="cb1-17"><a href="#cb1-17"></a>pipeline <span class="op">=</span> Pipeline(</span>
-<span id="cb1-18"><a href="#cb1-18"></a>    [</span>
-<span id="cb1-19"><a href="#cb1-19"></a>        (<span class="st">'bag_chars'</span>, transformers),</span>
-<span id="cb1-20"><a href="#cb1-20"></a>        (<span class="st">'decision_tree'</span>, model)</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    ]</span>
-<span id="cb1-22"><a href="#cb1-22"></a>)</span>
-<span id="cb1-23"><a href="#cb1-23"></a></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># Train it!</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>pipeline.fit(X, y)</span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="co"># Score it!</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15"></a>transformers <span class="op">=</span> ColumnTransformer(</span>
+<span id="cb1-16"><a href="#cb1-16"></a>    [</span>
+<span id="cb1-17"><a href="#cb1-17"></a>        (</span>
+<span id="cb1-18"><a href="#cb1-18"></a>            <span class="st">"boc"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19"></a>            CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb1-20"><a href="#cb1-20"></a>            <span class="st">"review"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21"></a>        )</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    ]</span>
+<span id="cb1-23"><a href="#cb1-23"></a>)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
+<span id="cb1-25"><a href="#cb1-25"></a>pipeline <span class="op">=</span> Pipeline(</span>
+<span id="cb1-26"><a href="#cb1-26"></a>    [(<span class="st">"bag_chars"</span>, transformers), (<span class="st">"decision_tree"</span>, model)]</span>
+<span id="cb1-27"><a href="#cb1-27"></a>)</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="co"># Train it!</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a>pipeline.fit(X, y)</span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="co"># Score it!</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>0.5540183112919633</code></pre>
 </div>
