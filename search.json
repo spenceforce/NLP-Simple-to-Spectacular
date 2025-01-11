@@ -214,7 +214,7 @@
     "href": "chapter/03_oner/oner.html#the-oner-algorithm",
     "title": "3  OneR",
     "section": "",
-    "text": "3.1.1 Discrete features\nThink integers or strings. These are countable values that cannot be divided into parts. Discrete values can be unordered, like in movie genres where there is horror, comedy, action, etc. They can be ordered as well, like the number of leaves on a tree; the higher the number the more leaves.",
+    "text": "3.1.1 Discrete features\nThink integers or strings. These are countable values. Discrete values can be unordered, like in movie genres where there is horror, comedy, action, etc. They can be ordered as well, like the number of leaves on a tree; the higher the number the more leaves. Any value that is on a continuous scale is not discrete, like any number between 0 and 1. There is an infinite number of values between 0 and 1, which isn’t countable, so it’s not discrete. But if the value can only be 0 or 1 then that is discrete because there’s only 2 values.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>OneR</span>"
     ]
