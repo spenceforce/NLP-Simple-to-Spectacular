@@ -11,7 +11,7 @@ class BaselineClassifier(ClassifierMixin, BaseEstimator):
     def fit(self, X, y):
         """Train the model with inputs `X` on labels `y`."""
         # Get the unique labels and their counts.
-        labels, counts = np.unique(y, return_counts=True)
+        self.classes_, counts = np.unique(y, return_counts=True)
         # Keep the most common label for prediction.
         # Note we changed the `prediction` attribute to include a
         # trailing suffix because it results from a computation

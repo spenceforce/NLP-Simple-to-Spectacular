@@ -8,58 +8,68 @@ import scipy.sparse
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.dummy import DummyClassifier
 from sklearn.utils.validation import validate_data
+from sklearn.utils.multiclass import unique_labels
 
 
 class Rule(ClassifierMixin, BaseEstimator):
     def fit(self, X, y):
-        """Find the most predictive rule."""
-        # Sanity check on `X` and `y`.
-        X, y = validate_data(self, X, y)
+        """Train on the categories in the first column of `X`."""
+        # Convert to `numpy` arrays for consistency.
+        X, y = np.array(X), np.array(y)
+
+        # Store the classes.
+        # sklearn provides a handy function `unique_labels` for this
+        # purpose. You could also use `np.unique`.
+        self.classes_ = unique_labels(y)
+
         predictors = {}
         # Get the unique categories from the first column.
         categories = np.unique(X[:, 0])
-        for category in categories:
-            # Create a conditional array where each index
-            # is a boolean indicating if that index in the
-            # first column of `X` is the category we're iterating
-            # over.
-            is_category = X[:, 0] == category
-            # Grab all data points and labels in this category.
-            _X = X[is_category]
-            _y = y[is_category]
-            # Train a baseline classifier on the category.
-            predictors[category] = DummyClassifier().fit(_X, _y)
+        for value in categories:
+            # Create a boolean array where `True` indices indicate the
+            # rows where value is `value`.
+            is_value = X[:, 0] == value
+
+            # Grab all data points and labels in this value.
+            _X = X[is_value]
+            _y = y[is_value]
+
+            # Train a baseline classifier on the value.
+            predictors[value] = DummyClassifier().fit(_X, _y)
+
         self.predictors_ = predictors
+
         # Create a fallback predictor for unknown categories.
         self.unknown_predictor_ = DummyClassifier().fit(X, y)
         return self
 
     def predict(self, X):
         """Predict the labels for inputs `X`."""
-        # Sanity check on `X`.
-        # `reset` should be `True` in `fit` and `False` everywhere else.
-        X = validate_data(self, X, reset=False)
+        X = np.array(X)
+
         # Create an empty array that will hold the predictions.
-        rv = np.zeros(X.shape[0], dtype=int)
+        rv = np.zeros(X.shape[0])
+
         # Get the unique categories from the first column.
         categories = np.unique(X[:, 0])
-        for category in categories:
-            # Create a conditional array where each index
-            # is a boolean indicating if that index in the
-            # first column of `X` is the category we're iterating
-            # over.
-            is_category = X[:, 0] == category
-            # Grab all data points in this category.
-            _X = X[is_category]
+        for value in categories:
+            # Create a boolean array where `True` indices indicate the
+            # rows where value is `value`.
+            is_value = X[:, 0] == value
+
+            # Grab all data points in this value.
+            _X = X[is_value]
+
             # Predict the label for all datapoints in `_X`.
             try:
-                predictions = self.predictors_[category].predict(_X)
+                predictions = self.predictors_[value].predict(_X)
             except KeyError:
                 # Fallback to the predictor for unknown categories.
                 predictions = self.unknown_predictor_.predict(_X)
-            # Assign the prediction for this category to
+
+            # Assign the prediction for this value to
             # the corresponding indices in `rv`.
-            rv[is_category] = predictions
+            rv[is_value] = predictions
         return rv
 
 
