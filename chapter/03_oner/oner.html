@@ -475,7 +475,8 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <div class="page-columns page-full"><p>We will train a model on the <code>length</code> feature, but before we do let’s take a second to inspect it and see if we can make any assumptions based on what we see. A histogram is a fitting place to start with this data.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="https://en.wikipedia.org/wiki/Histogram">Histograms</a> are a way to visualize value counts.</span></div></div>
 <div id="33af68f1-827e-40c4-b61c-90430eeeac58" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb6-2"><a href="#cb6-2"></a>sns.displot(train_df, x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>sns.displot(train_df, x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -486,7 +487,9 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 </div>
 <p>The x-axis shows the unique <code>length</code> values in our data set, the y-axis is the number of times that length shows up, and the color is the label. The vast majority of reviews are under 2,000 characters. There are almost no reviews over 6,000 characters. There are two distinct peaks on the left side of the graph, let’s zoom in on those.</p>
 <div id="9c23d45a-7a61-4b34-a548-a29f18537885" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>sns.displot(train_df[train_df[<span class="st">"length"</span>] <span class="op">&lt;</span> <span class="dv">2000</span>], x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>sns.displot(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    train_df[train_df[<span class="st">"length"</span>] <span class="op">&lt;</span> <span class="dv">2000</span>], x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
