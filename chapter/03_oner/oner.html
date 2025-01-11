@@ -229,17 +229,14 @@ div.csl-indent {
   <ul>
   <li><a href="#the-oner-algorithm" id="toc-the-oner-algorithm" class="nav-link active" data-scroll-target="#the-oner-algorithm"><span class="header-section-number">3.1</span> The OneR algorithm</a>
   <ul class="collapse">
-  <li><a href="#categorical-features" id="toc-categorical-features" class="nav-link" data-scroll-target="#categorical-features"><span class="header-section-number">3.1.1</span> Categorical features</a></li>
+  <li><a href="#discrete-features" id="toc-discrete-features" class="nav-link" data-scroll-target="#discrete-features"><span class="header-section-number">3.1.1</span> Discrete features</a></li>
   </ul></li>
   <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">3.2</span> Rolling our own</a></li>
-  <li><a href="#transformers" id="toc-transformers" class="nav-link" data-scroll-target="#transformers"><span class="header-section-number">3.3</span> Transformers</a>
+  <li><a href="#feature-extraction" id="toc-feature-extraction" class="nav-link" data-scroll-target="#feature-extraction"><span class="header-section-number">3.3</span> Feature extraction</a>
   <ul class="collapse">
-  <li><a href="#transforming-text-to-numbers" id="toc-transforming-text-to-numbers" class="nav-link" data-scroll-target="#transforming-text-to-numbers"><span class="header-section-number">3.3.1</span> Transforming text to numbers</a></li>
-  <li><a href="#do-unto-the-test-data-as-you-have-done-unto-the-train-data" id="toc-do-unto-the-test-data-as-you-have-done-unto-the-train-data" class="nav-link" data-scroll-target="#do-unto-the-test-data-as-you-have-done-unto-the-train-data"><span class="header-section-number">3.3.2</span> Do unto the test data as you have done unto the train data</a></li>
+  <li><a href="#data-analysis-side-quest" id="toc-data-analysis-side-quest" class="nav-link" data-scroll-target="#data-analysis-side-quest"><span class="header-section-number">3.3.1</span> Data analysis side quest</a></li>
   </ul></li>
-  <li><a href="#evaluating-our-model" id="toc-evaluating-our-model" class="nav-link" data-scroll-target="#evaluating-our-model"><span class="header-section-number">3.4</span> Evaluating our model</a></li>
-  <li><a href="#rolling-your-own-transformer" id="toc-rolling-your-own-transformer" class="nav-link" data-scroll-target="#rolling-your-own-transformer"><span class="header-section-number">3.5</span> Rolling your own transformer</a></li>
-  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">3.6</span> Multiclass classification</a></li>
+  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">3.4</span> Multiclass classification</a></li>
   </ul>
 </nav>
     </div>
@@ -265,402 +262,9 @@ div.csl-indent {
 </header>
 
 
-<p>Moving beyond the <a href="../../chapter/02_baseline/baseline_classifier.html">simplest model</a>, the next step is a deep neural network. Just kidding, the next step is something slightly more complex but still very simple. OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> is such a model.</p>
-<section id="the-oner-algorithm" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="the-oner-algorithm"><span class="header-section-number">3.1</span> The OneR algorithm</h2>
-<p>Conceptually, it works on the sampe principle as the baseline model, but on feature <em>categories</em> instead of on the whole dataset. For each category in the feature, predict the most frequent label. To implement this, we iterate over each unique category and train a baseline classifier for just that category. When predicting on new data, we look up the baseline classifier for that category and return it’s prediction.</p>
-<section id="categorical-features" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="categorical-features"><span class="header-section-number">3.1.1</span> Categorical features</h3>
-<p>A categorical feature is an unordered set of values. Movie genres are a good example, horror, comedy, action, etc. There is no order to a movie genre, but each value represents a type of movie. We can treat our movie reviews the same way. We’ll represent each unique review as a category.</p>
-</section>
-</section>
-<section id="rolling-our-own" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">3.2</span> Rolling our own</h2>
-<p>There is no easy button for this model, so we’ll go straight to the implementation.</p>
-<div id="d5e66303-7784-4baf-9915-f327a3f21cf4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> sklearn.utils.validation <span class="im">import</span> validate_data</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb1-9"><a href="#cb1-9"></a>        <span class="co">"""Find the most predictive rule."""</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>        <span class="co"># Sanity check on `X` and `y`.</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>        X, y <span class="op">=</span> validate_data(<span class="va">self</span>, X, y)</span>
-<span id="cb1-12"><a href="#cb1-12"></a>        predictors <span class="op">=</span> {}</span>
-<span id="cb1-13"><a href="#cb1-13"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb1-15"><a href="#cb1-15"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb1-16"><a href="#cb1-16"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>            <span class="co"># over.</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb1-21"><a href="#cb1-21"></a>            <span class="co"># Grab all data points and labels in this category.</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb1-23"><a href="#cb1-23"></a>            _y <span class="op">=</span> y[is_category]</span>
-<span id="cb1-24"><a href="#cb1-24"></a>            <span class="co"># Train a baseline classifier on the category.</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>            predictors[category] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
-<span id="cb1-26"><a href="#cb1-26"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
-<span id="cb1-27"><a href="#cb1-27"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb1-28"><a href="#cb1-28"></a></span>
-<span id="cb1-29"><a href="#cb1-29"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb1-30"><a href="#cb1-30"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a>        <span class="co"># Sanity check on `X`.</span></span>
-<span id="cb1-32"><a href="#cb1-32"></a>        <span class="co"># `reset` should be `True` in `fit` and `False` everywhere else.</span></span>
-<span id="cb1-33"><a href="#cb1-33"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-34"><a href="#cb1-34"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
-<span id="cb1-35"><a href="#cb1-35"></a>        rv <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
-<span id="cb1-36"><a href="#cb1-36"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb1-37"><a href="#cb1-37"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb1-38"><a href="#cb1-38"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb1-39"><a href="#cb1-39"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb1-40"><a href="#cb1-40"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb1-41"><a href="#cb1-41"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb1-42"><a href="#cb1-42"></a>            <span class="co"># over.</span></span>
-<span id="cb1-43"><a href="#cb1-43"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb1-44"><a href="#cb1-44"></a>            <span class="co"># Grab all data points in this category.</span></span>
-<span id="cb1-45"><a href="#cb1-45"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb1-46"><a href="#cb1-46"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
-<span id="cb1-47"><a href="#cb1-47"></a>            predictions <span class="op">=</span> <span class="va">self</span>.predictors_[category].predict(_X)</span>
-<span id="cb1-48"><a href="#cb1-48"></a>            <span class="co"># Assign the prediction for this category to</span></span>
-<span id="cb1-49"><a href="#cb1-49"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
-<span id="cb1-50"><a href="#cb1-50"></a>            rv[is_category] <span class="op">=</span> predictions</span>
-<span id="cb1-51"><a href="#cb1-51"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>There’s a lot going on here. We’ve added a <code>scikit-learn</code> validation function, <code>validate_data</code>. Since we’re building a <code>sklearn</code> classifier we might as well take advantage of the validation functions the framework provides. While it’s not necessary to use this function, I highly recommend it for a few reasons.</p>
-<ul>
-<li><p>It checks our inputs and outputs have the right shape, a matrix and array, respectively.</p>
-<p>We should always be operating on these shapes and raising an error otherwise. The input, <code>X</code>, passed to <code>predict</code> also needs to be the same shape as the input passed to <code>fit</code>. If it doesn’t have the same number of columns this will raise and error.</p></li>
-<li><p>It converts the type to a <code>numpy</code> or <code>scipy</code> array.</p>
-<p>This gives consistency. Arguments to <code>fit</code> and <code>predict</code> could by <code>numpy</code> arrays, <code>scipy</code> arrays, <code>pandas</code> dataframes, <code>pandas</code> series, lists, or any number of container types. By converting them to <code>numpy</code>/<code>scipy</code> arrays we are guaranteed a predictible API for <code>X</code> and <code>y</code>.</p></li>
-</ul>
-<p>Let’s try it out!</p>
-<div id="31ee622c-fd81-4f2c-a708-7e2be3dde2fa" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb2-4"><a href="#cb2-4"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
-<span id="cb2-5"><a href="#cb2-5"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>X, y <span class="op">=</span> train_df[features], train_df[label]</span>
-<span id="cb2-8"><a href="#cb2-8"></a>X</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a>oner <span class="op">=</span> OneR().fit(X, y)</span>
-<span id="cb2-11"><a href="#cb2-11"></a>oner.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_9161/3341900254.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-fg ansi-bold">      6</span> 
-<span class="ansi-green-fg ansi-bold">      7</span> X<span class="ansi-blue-fg">,</span> y <span class="ansi-blue-fg">=</span> train_df<span class="ansi-blue-fg">[</span>features<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> train_df<span class="ansi-blue-fg">[</span>label<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-fg ansi-bold">      8</span> X
-<span class="ansi-green-fg ansi-bold">      9</span> 
-<span class="ansi-green-fg">---&gt; 10</span><span class="ansi-red-fg"> </span>oner <span class="ansi-blue-fg">=</span> OneR<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">     11</span> oner<span class="ansi-blue-fg">.</span>score<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/tmp/ipykernel_9161/258435010.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(self, X, y)</span>
-<span class="ansi-green-fg ansi-bold">      8</span>     <span class="ansi-green-fg">def</span> fit<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">      9</span>         <span class="ansi-blue-fg">"""Find the most predictive rule."""</span>
-<span class="ansi-green-fg ansi-bold">     10</span>         <span class="ansi-red-fg"># Sanity check on `X` and `y`.</span>
-<span class="ansi-green-fg">---&gt; 11</span><span class="ansi-red-fg">         </span>X<span class="ansi-blue-fg">,</span> y <span class="ansi-blue-fg">=</span> validate_data<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">     12</span>         predictors <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span>
-<span class="ansi-green-fg ansi-bold">     13</span>         <span class="ansi-red-fg"># Get the unique categories from the first column.</span>
-<span class="ansi-green-fg ansi-bold">     14</span>         categories <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>unique<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/utils/validation.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(_estimator, X, y, reset, validate_separately, skip_check_array, **check_params)</span>
-<span class="ansi-green-fg ansi-bold">   2957</span>             <span class="ansi-green-fg">if</span> <span class="ansi-blue-fg">"estimator"</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> check_y_params<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">   2958</span>                 check_y_params <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">**</span>default_check_params<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>check_y_params<span class="ansi-blue-fg">}</span>
-<span class="ansi-green-fg ansi-bold">   2959</span>             y <span class="ansi-blue-fg">=</span> check_array<span class="ansi-blue-fg">(</span>y<span class="ansi-blue-fg">,</span> input_name<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">"y"</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>check_y_params<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   2960</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 2961</span><span class="ansi-red-fg">             </span>X<span class="ansi-blue-fg">,</span> y <span class="ansi-blue-fg">=</span> check_X_y<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>check_params<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   2962</span>         out <span class="ansi-blue-fg">=</span> X<span class="ansi-blue-fg">,</span> y
-<span class="ansi-green-fg ansi-bold">   2963</span> 
-<span class="ansi-green-fg ansi-bold">   2964</span>     <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> no_val_X <span class="ansi-green-fg">and</span> check_params<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">"ensure_2d"</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/utils/validation.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(X, y, accept_sparse, accept_large_sparse, dtype, order, copy, force_writeable, force_all_finite, ensure_all_finite, ensure_2d, allow_nd, multi_output, ensure_min_samples, ensure_min_features, y_numeric, estimator)</span>
-<span class="ansi-green-fg ansi-bold">   1366</span>         <span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   1367</span> 
-<span class="ansi-green-fg ansi-bold">   1368</span>     ensure_all_finite <span class="ansi-blue-fg">=</span> _deprecate_force_all_finite<span class="ansi-blue-fg">(</span>force_all_finite<span class="ansi-blue-fg">,</span> ensure_all_finite<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   1369</span> 
-<span class="ansi-green-fg">-&gt; 1370</span><span class="ansi-red-fg">     X = check_array(
-</span><span class="ansi-green-fg ansi-bold">   1371</span>         X<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg ansi-bold">   1372</span>         accept_sparse<span class="ansi-blue-fg">=</span>accept_sparse<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg ansi-bold">   1373</span>         accept_large_sparse<span class="ansi-blue-fg">=</span>accept_large_sparse<span class="ansi-blue-fg">,</span>
-
-<span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/utils/validation.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(array, accept_sparse, accept_large_sparse, dtype, order, copy, force_writeable, force_all_finite, ensure_all_finite, ensure_non_negative, ensure_2d, allow_nd, ensure_min_samples, ensure_min_features, estimator, input_name)</span>
-<span class="ansi-green-fg ansi-bold">   1052</span>                         <span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   1053</span>                     array <span class="ansi-blue-fg">=</span> xp<span class="ansi-blue-fg">.</span>astype<span class="ansi-blue-fg">(</span>array<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">,</span> copy<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   1054</span>                 <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">   1055</span>                     array <span class="ansi-blue-fg">=</span> _asarray_with_order<span class="ansi-blue-fg">(</span>array<span class="ansi-blue-fg">,</span> order<span class="ansi-blue-fg">=</span>order<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">,</span> xp<span class="ansi-blue-fg">=</span>xp<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">-&gt; 1056</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">except</span> ComplexWarning <span class="ansi-green-fg">as</span> complex_warning<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">   1057</span>                 raise ValueError(
-<span class="ansi-green-fg ansi-bold">   1058</span>                     <span class="ansi-blue-fg">"Complex data not supported\n{}\n"</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>array<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   1059</span>                 <span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">from</span> complex_warning
-
-<span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/utils/_array_api.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(array, dtype, order, copy, xp, device)</span>
-<span class="ansi-green-fg ansi-bold">    828</span>         <span class="ansi-red-fg"># Use NumPy API to support order</span>
-<span class="ansi-green-fg ansi-bold">    829</span>         <span class="ansi-green-fg">if</span> copy <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">    830</span>             array <span class="ansi-blue-fg">=</span> numpy<span class="ansi-blue-fg">.</span>array<span class="ansi-blue-fg">(</span>array<span class="ansi-blue-fg">,</span> order<span class="ansi-blue-fg">=</span>order<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">    831</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 832</span><span class="ansi-red-fg">             </span>array <span class="ansi-blue-fg">=</span> numpy<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>array<span class="ansi-blue-fg">,</span> order<span class="ansi-blue-fg">=</span>order<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">    833</span> 
-<span class="ansi-green-fg ansi-bold">    834</span>         <span class="ansi-red-fg"># At this point array is a NumPy ndarray. We convert it to an array</span>
-<span class="ansi-green-fg ansi-bold">    835</span>         <span class="ansi-red-fg"># container that is consistent with the input's namespace.</span>
-
-<span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/pandas/core/generic.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(self, dtype, copy)</span>
-<span class="ansi-green-fg ansi-bold">   2149</span>     def __array__(
-<span class="ansi-green-fg ansi-bold">   2150</span>         self<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">:</span> npt<span class="ansi-blue-fg">.</span>DTypeLike <span class="ansi-blue-fg">|</span> <span class="ansi-green-fg">None</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> copy<span class="ansi-blue-fg">:</span> bool_t <span class="ansi-blue-fg">|</span> <span class="ansi-green-fg">None</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span>
-<span class="ansi-green-fg ansi-bold">   2151</span>     <span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> np<span class="ansi-blue-fg">.</span>ndarray<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg ansi-bold">   2152</span>         values <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_values
-<span class="ansi-green-fg">-&gt; 2153</span><span class="ansi-red-fg">         </span>arr <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>values<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">=</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   2154</span>         if (
-<span class="ansi-green-fg ansi-bold">   2155</span>             astype_is_view<span class="ansi-blue-fg">(</span>values<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">,</span> arr<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg ansi-bold">   2156</span>             <span class="ansi-green-fg">and</span> using_copy_on_write<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">ValueError</span>: could not convert string to float: '"National Lampoon Goes to the Movies" (1981) is absolutely the worst movie ever made, surpassing even the witless "Plan 9 from Outer Space." The Lampoon film unreels in three separate and unconnected vignettes, each featuring different performers. The only common thread is the total lack of any redeeming qualities.&lt;br /&gt;&lt;br /&gt;Well, maybe there is one. Another reviewer on this site has said that the fleeting nude shots are nice, and he\'s right. Misses Ganzel and Dusenberry flash their assets prettily, in part one and part two, respectively. But their glamorous displays are, alas, wasted. The directors seem to have forgotten that even T&amp;A needs a credible story to surround it, and there\'s none in sight.&lt;br /&gt;&lt;br /&gt;The third segment, starring Robby Benson and Richard Widmark, is the most disgusting of the three, and an unfortunate choice as the windup of this film. Benson plays an eager-beaver young policeman, brightly reporting for his first day of duty, ready to rid the streets of evil. He is paired with an old, cynical cop played by Widmark, and when these oil-and-water partners set out on their first patrol together, we sense a possible redemption of the film\'s earlier failures. Maybe, just maybe, the cynical old-timer will be reformed by his new partner\'s stalwart sense of duty and loyalty. Maybe all will end happily after all. But alas, this movie heads straight for the toilet, with no redemption, no happy ending, no coherent story of any kind.&lt;br /&gt;&lt;br /&gt;Before "National Lampoon Goes to the Movies," I thought I had already seen the worst schlock that Hollywood could possibly turn out. Unfortunately, I hadn\'t seen the half of it.&lt;br /&gt;&lt;br /&gt;'</pre>
-</div>
-</div>
-</div>
-<p><em>*Surprised pikachu face*</em> An error!? <code>validate_data</code> didn’t like our inputs. Turns out <code>validate_data</code> also trys to convert <code>X</code> and <code>y</code> to numeric values and fails hard. But why?</p>
-<p>Well this is because machine learning works on numbers, not text. We’ve written our algorithm to work on numbers or text, but in general the <code>str</code> type isn’t usable by most machine learning algorithms and <code>validate_data</code> enforces that up front. Fortunately it’s not hard to convert text categories to numbers, we just assign a unique number to each category. <code>sklearn</code> even has a class to do just that.</p>
-</section>
-<section id="transformers" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="transformers"><span class="header-section-number">3.3</span> Transformers</h2>
-<p>What we’ve worked with so far in <code>scikit-learn</code> are estimators. These are machine learning models. <code>scikit-learn</code> has another common type of class called transformers, which transform data as the name implies. These classes are commonly used for preprocessing tasks. They do not have a <code>predict</code> method, but instead have a <code>transform</code> method. We “train” them with <code>fit</code> just like we would a model, but this is for consistent preprocessing and not prediction.</p>
-<section id="transforming-text-to-numbers" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="transforming-text-to-numbers"><span class="header-section-number">3.3.1</span> Transforming text to numbers</h3>
-<p><code>OrdinalEncoder</code> is the <code>sklearn</code> class for transforming categories to numbers.</p>
-<div id="84a378f4-6ff2-45c0-b161-5c5cb7205f52" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OrdinalEncoder</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>encoder <span class="op">=</span> OrdinalEncoder()</span>
-<span id="cb3-4"><a href="#cb3-4"></a>encoder.fit(X)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>encoder.transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>array([[  300.],
-       [22675.],
-       [22956.],
-       ...,
-       [16257.],
-       [ 4455.],
-       [ 2065.]])</code></pre>
-</div>
-</div>
-<p>Turns out transforming data is so common, there’s a short hand method for fitting and transforming in one go, <code>fit_transform</code>.</p>
-<div id="a115455a-3b5d-430b-baa1-fd3246f1a8be" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>encoder <span class="op">=</span> OrdinalEncoder()</span>
-<span id="cb5-2"><a href="#cb5-2"></a>encoder.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>array([[  300.],
-       [22675.],
-       [22956.],
-       ...,
-       [16257.],
-       [ 4455.],
-       [ 2065.]])</code></pre>
-</div>
-</div>
-<p>Let’s give our model another try.</p>
-<div id="2532c7e7-9bf9-442b-9db7-64ce16919f28" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>X_ordinal <span class="op">=</span> encoder.fit_transform(X)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>oner <span class="op">=</span> OneR().fit(X_ordinal, y)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>oner.score(X_ordinal, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>1.0</code></pre>
-</div>
-</div>
-<p>That’s 100% accurate! Well it’s 100% accurate on our <em>training data</em>, which we don’t really care about. How does it perform on our test data?</p>
-</section>
-<section id="do-unto-the-test-data-as-you-have-done-unto-the-train-data" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="do-unto-the-test-data-as-you-have-done-unto-the-train-data"><span class="header-section-number">3.3.2</span> Do unto the test data as you have done unto the train data</h3>
-<p>Before we can score the model on the test data, we need to apply the same transforms. Again, <code>sklearn</code> has some niceties that make it easy to enforce the same process on all data.</p>
-<section id="pipelines" class="level4" data-number="3.3.2.1">
-<h4 data-number="3.3.2.1" class="anchored" data-anchor-id="pipelines"><span class="header-section-number">3.3.2.1</span> Pipelines</h4>
-<p><a href="https://scikit-learn.org/stable/modules/compose.html#combining-estimators">Pipelines</a> offer convenient ways to string preprocessing and models together into one object that can be trained end to end and then make predictions on different data following the same process. The input to pipelines is a sequence of transformers with an optional predictor as the last element. Once the pipeline is set up it has the same methods for training and predicting as a regular <code>sklearn</code> model.</p>
-<div id="472eb374-1262-45ac-95d0-84e856faa922" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># Layout the sequence of operations. The first element transforms</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co"># the categories to numbers. The second element is our model. Each</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># element is a tuple where the first element of the tuple is the</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co"># name of the step and the second element is the transformer or model.</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>steps <span class="op">=</span> [</span>
-<span id="cb9-8"><a href="#cb9-8"></a>    (<span class="st">"categorical_transform"</span>, OrdinalEncoder()),</span>
-<span id="cb9-9"><a href="#cb9-9"></a>    (<span class="st">"model"</span>, OneR()),</span>
-<span id="cb9-10"><a href="#cb9-10"></a>]</span>
-<span id="cb9-11"><a href="#cb9-11"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co"># Now train the model with the original data as input.</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co"># No need to fit the encoder ourselves!</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a>pipeline.fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now let’s try predicting on one review. Our pipeline will handle the preprocessing and prediction for us.</p>
-<div id="d13e2f97-59d3-4d8a-80e1-f4bf80dec71c" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>X_test, y_test <span class="op">=</span> test_df[features], test_df[label]</span>
-<span id="cb10-2"><a href="#cb10-2"></a>pipeline.predict(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[7], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> X_test, y_test <span style="color:rgb(98,98,98)">=</span> test_df[features], test_df[label]
-<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">pipeline</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">predict</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">X_test</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">head</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">1</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/pipeline.py:785</span>, in <span class="ansi-cyan-fg">Pipeline.predict</span><span class="ansi-blue-fg">(self, X, **params)</span>
-<span class="ansi-green-fg ansi-bold">    783</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> _routing_enabled():
-<span class="ansi-green-fg ansi-bold">    784</span>     <span style="font-weight:bold;color:rgb(0,135,0)">for</span> _, name, transform <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_iter(with_final<span style="color:rgb(98,98,98)">=</span><span style="font-weight:bold;color:rgb(0,135,0)">False</span>):
-<span class="ansi-green-fg">--&gt; 785</span>         Xt <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">transform</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">transform</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">Xt</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    786</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>steps[<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">1</span>][<span style="color:rgb(98,98,98)">1</span>]<span style="color:rgb(98,98,98)">.</span>predict(Xt, <span style="color:rgb(98,98,98)">*</span><span style="color:rgb(98,98,98)">*</span>params)
-<span class="ansi-green-fg ansi-bold">    788</span> <span style="font-style:italic;color:rgb(95,135,135)"># metadata routing enabled</span>
-
-File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/utils/_set_output.py:319</span>, in <span class="ansi-cyan-fg">_wrap_method_output.&lt;locals&gt;.wrapped</span><span class="ansi-blue-fg">(self, X, *args, **kwargs)</span>
-<span class="ansi-green-fg ansi-bold">    317</span> <span style="color:rgb(175,0,255)">@wraps</span>(f)
-<span class="ansi-green-fg ansi-bold">    318</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> <span style="color:rgb(0,0,255)">wrapped</span>(<span style="color:rgb(0,135,0)">self</span>, X, <span style="color:rgb(98,98,98)">*</span>args, <span style="color:rgb(98,98,98)">*</span><span style="color:rgb(98,98,98)">*</span>kwargs):
-<span class="ansi-green-fg">--&gt; 319</span>     data_to_wrap <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    320</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(data_to_wrap, <span style="color:rgb(0,135,0)">tuple</span>):
-<span class="ansi-green-fg ansi-bold">    321</span>         <span style="font-style:italic;color:rgb(95,135,135)"># only wrap the first output for cross decomposition</span>
-<span class="ansi-green-fg ansi-bold">    322</span>         return_tuple <span style="color:rgb(98,98,98)">=</span> (
-<span class="ansi-green-fg ansi-bold">    323</span>             _wrap_data_with_container(method, data_to_wrap[<span style="color:rgb(98,98,98)">0</span>], X, <span style="color:rgb(0,135,0)">self</span>),
-<span class="ansi-green-fg ansi-bold">    324</span>             <span style="color:rgb(98,98,98)">*</span>data_to_wrap[<span style="color:rgb(98,98,98)">1</span>:],
-<span class="ansi-green-fg ansi-bold">    325</span>         )
-
-File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/preprocessing/_encoders.py:1597</span>, in <span class="ansi-cyan-fg">OrdinalEncoder.transform</span><span class="ansi-blue-fg">(self, X)</span>
-<span class="ansi-green-fg ansi-bold">   1583</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
-<span class="ansi-green-fg ansi-bold">   1584</span> <span style="font-style:italic;color:rgb(175,0,0)">Transform X to ordinal codes.</span>
-<span class="ansi-green-fg ansi-bold">   1585</span> 
-<span class="ansi-green-fg">   (...)</span>
-<span class="ansi-green-fg ansi-bold">   1594</span> <span style="font-style:italic;color:rgb(175,0,0)">    Transformed input.</span>
-<span class="ansi-green-fg ansi-bold">   1595</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
-<span class="ansi-green-fg ansi-bold">   1596</span> check_is_fitted(<span style="color:rgb(0,135,0)">self</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">categories_</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">-&gt; 1597</span> X_int, X_mask <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_transform</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg ansi-bold">   1598</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">X</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">   1599</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">handle_unknown</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">handle_unknown</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">   1600</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">ensure_all_finite</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">allow-nan</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">   1601</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">ignore_category_indices</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_missing_indices</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">   1602</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">   1603</span> X_trans <span style="color:rgb(98,98,98)">=</span> X_int<span style="color:rgb(98,98,98)">.</span>astype(<span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>dtype, copy<span style="color:rgb(98,98,98)">=</span><span style="font-weight:bold;color:rgb(0,135,0)">False</span>)
-<span class="ansi-green-fg ansi-bold">   1605</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> cat_idx, missing_idx <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_missing_indices<span style="color:rgb(98,98,98)">.</span>items():
-
-File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib/python3.12/site-packages/sklearn/preprocessing/_encoders.py:218</span>, in <span class="ansi-cyan-fg">_BaseEncoder._transform</span><span class="ansi-blue-fg">(self, X, handle_unknown, ensure_all_finite, warn_on_unknown, ignore_category_indices)</span>
-<span class="ansi-green-fg ansi-bold">    213</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> handle_unknown <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">error</span><span style="color:rgb(175,0,0)">"</span>:
-<span class="ansi-green-fg ansi-bold">    214</span>     msg <span style="color:rgb(98,98,98)">=</span> (
-<span class="ansi-green-fg ansi-bold">    215</span>         <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Found unknown categories </span><span style="font-weight:bold;color:rgb(175,95,135)">{0}</span><span style="color:rgb(175,0,0)"> in column </span><span style="font-weight:bold;color:rgb(175,95,135)">{1}</span><span style="color:rgb(175,0,0)">"</span>
-<span class="ansi-green-fg ansi-bold">    216</span>         <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)"> during transform</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(98,98,98)">.</span>format(diff, i)
-<span class="ansi-green-fg ansi-bold">    217</span>     )
-<span class="ansi-green-fg">--&gt; 218</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>(msg)
-<span class="ansi-green-fg ansi-bold">    219</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg ansi-bold">    220</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> warn_on_unknown:
-
-<span class="ansi-red-fg">ValueError</span>: Found unknown categories ["1st watched 2/9/2008, 4 out of 10(Dir-J.S. Cardone): Sexual political thriller that doesn't really succeed in any of these areas very well except early on where there are some interesting soft-core scenes. The movie starts off portraying a couple exploring their sexual fantasies amidst their work environments or wherever and whatever suits their fancy. The couple takes an excursion to a retreat and bathhouse where they run into a woman that's willing to be a part of a three-some and fulfill some of their fantasies. At this point, we only know that this couple is well off but we don't know until they return that the fiancé is part of a well-to-do political family. The man hopes to be on the rise to the point of possibly getting a congressional seat after the marriage. They then receive a package in the mail from an anonymous source with explicit pictures of their encounter at the bath house and their qwest begins as to how and why they were filmed, who sent the package, what they want, and how to clear their names before any of this gets out. This qwest becomes an obsession that leads them deeper into seedier worlds and takes a lot of their time, to the point where their friends &amp; family wonder what they're doing all day and why they look rundown all the time. This movie is interesting at times but drifts into ridiculousness as they personally seek out the problem instead of getting the police involved early on because of their pride. This mistake, of course, keeps the movie going. The performances are fine despite the no-name cast but the lunacy of the situation overrides and the movie starts to become ho-hum about ½ the way through. And of course, they throw in a twist at the end that defies and challenges everything that happened prior(as is the norm these days when they don't know what else to do to spice up the movie). This doesn't help this movie one bit, though."] in column 0 during transform</pre>
-</div>
-</div>
-</div>
-<p>More errors, this is becoming a theme for this chapter. The error says the <code>transform</code> method found an unknown category. It turns out there are reviews in the test set that are different from the train set.</p>
-<p>So when <code>OrdinalEncoder</code> tries to transform unseen reviews in the test set it doesn’t know what category to assign them since it was fitted on the train set. The <code>sklearn</code> developers have thought of a way to handle this though by assigning all unknown categories to one unknown value.</p>
-<div id="7fccb6b8-892c-4707-a73a-29ca8720b394" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>encoder <span class="op">=</span> OrdinalEncoder(</span>
-<span id="cb11-2"><a href="#cb11-2"></a>    handle_unknown<span class="op">=</span><span class="st">"use_encoded_value"</span>, unknown_value<span class="op">=-</span><span class="dv">1</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>encoder.fit(X)</span>
-<span id="cb11-5"><a href="#cb11-5"></a>encoder.transform(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>array([[-1.]])</code></pre>
-</div>
-</div>
-<p>Voila, it’s fixed. But this raises another problem. Our encoder can handle unknown categories, what about our model? It can’t, so we need to provide a fallback prediction for unknown categories. The simple solution is to use the baseline classifier trained on all the train data to predict unknown categories.</p>
-<div id="55fc1448-812f-40bd-8ba8-750aa07e65fe" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
-<span id="cb13-2"><a href="#cb13-2"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb13-3"><a href="#cb13-3"></a>        <span class="co">"""Find the most predictive rule."""</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>        <span class="co"># Sanity check on `X` and `y`.</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a>        X, y <span class="op">=</span> validate_data(<span class="va">self</span>, X, y)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>        predictors <span class="op">=</span> {}</span>
-<span id="cb13-7"><a href="#cb13-7"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb13-9"><a href="#cb13-9"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb13-10"><a href="#cb13-10"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb13-12"><a href="#cb13-12"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a>            <span class="co"># over.</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb13-15"><a href="#cb13-15"></a>            <span class="co"># Grab all data points and labels in this category.</span></span>
-<span id="cb13-16"><a href="#cb13-16"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb13-17"><a href="#cb13-17"></a>            _y <span class="op">=</span> y[is_category]</span>
-<span id="cb13-18"><a href="#cb13-18"></a>            <span class="co"># Train a baseline classifier on the category.</span></span>
-<span id="cb13-19"><a href="#cb13-19"></a>            predictors[category] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
-<span id="cb13-20"><a href="#cb13-20"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
-<span id="cb13-21"><a href="#cb13-21"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
-<span id="cb13-22"><a href="#cb13-22"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
-<span id="cb13-23"><a href="#cb13-23"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb13-24"><a href="#cb13-24"></a></span>
-<span id="cb13-25"><a href="#cb13-25"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb13-26"><a href="#cb13-26"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb13-27"><a href="#cb13-27"></a>        <span class="co"># Sanity check on `X`.</span></span>
-<span id="cb13-28"><a href="#cb13-28"></a>        <span class="co"># `reset` should be `True` in `fit` and `False` everywhere else.</span></span>
-<span id="cb13-29"><a href="#cb13-29"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb13-30"><a href="#cb13-30"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
-<span id="cb13-31"><a href="#cb13-31"></a>        rv <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
-<span id="cb13-32"><a href="#cb13-32"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb13-33"><a href="#cb13-33"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb13-34"><a href="#cb13-34"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb13-35"><a href="#cb13-35"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb13-36"><a href="#cb13-36"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb13-37"><a href="#cb13-37"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb13-38"><a href="#cb13-38"></a>            <span class="co"># over.</span></span>
-<span id="cb13-39"><a href="#cb13-39"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb13-40"><a href="#cb13-40"></a>            <span class="co"># Grab all data points in this category.</span></span>
-<span id="cb13-41"><a href="#cb13-41"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb13-42"><a href="#cb13-42"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
-<span id="cb13-43"><a href="#cb13-43"></a>            <span class="cf">try</span>:</span>
-<span id="cb13-44"><a href="#cb13-44"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[category].predict(_X)</span>
-<span id="cb13-45"><a href="#cb13-45"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb13-46"><a href="#cb13-46"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
-<span id="cb13-47"><a href="#cb13-47"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
-<span id="cb13-48"><a href="#cb13-48"></a>            <span class="co"># Assign the prediction for this category to</span></span>
-<span id="cb13-49"><a href="#cb13-49"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
-<span id="cb13-50"><a href="#cb13-50"></a>            rv[is_category] <span class="op">=</span> predictions</span>
-<span id="cb13-51"><a href="#cb13-51"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now we’ll recreate the pipeline with our new model.</p>
-<div id="3e38073f-4964-4757-afdc-41115c789637" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>steps <span class="op">=</span> [</span>
-<span id="cb14-2"><a href="#cb14-2"></a>    (</span>
-<span id="cb14-3"><a href="#cb14-3"></a>        <span class="st">"categorical_transform"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4"></a>        OrdinalEncoder(</span>
-<span id="cb14-5"><a href="#cb14-5"></a>            handle_unknown<span class="op">=</span><span class="st">"use_encoded_value"</span>, unknown_value<span class="op">=-</span><span class="dv">1</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>        ),</span>
-<span id="cb14-7"><a href="#cb14-7"></a>    ),</span>
-<span id="cb14-8"><a href="#cb14-8"></a>    (<span class="st">"model"</span>, OneR()),</span>
-<span id="cb14-9"><a href="#cb14-9"></a>]</span>
-<span id="cb14-10"><a href="#cb14-10"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
-<span id="cb14-11"><a href="#cb14-11"></a>pipeline.fit(X, y)</span>
-<span id="cb14-12"><a href="#cb14-12"></a>pipeline.predict(X_test.head(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>array([1.])</code></pre>
-</div>
-</div>
-<p>Our model predicted the first review in the test set has a positive sentiment, which means it’s predicting something, so it must be working!</p>
-</section>
-</section>
-</section>
-<section id="evaluating-our-model" class="level2 page-columns page-full" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="evaluating-our-model"><span class="header-section-number">3.4</span> Evaluating our model</h2>
-<p>Our preprocessing is locked in and our model is trained. Now we can score our model on the test set.</p>
-<div id="504729f6-b1fc-4999-83ea-9e170d1d75d6" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>0.5011190233977619</code></pre>
-</div>
-</div>
-<div class="page-columns page-full"><p>That’s a lot worse than the 100% accuracy we got on the train data. How does this compare to the baseline model?</p><div class="no-row-height column-margin column-container"><span class="margin-aside">The <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/tree/main/nlpbook"><code>nlpbook</code></a> package contains accessors for our model results. This way we don’t need to retrain each model we want to compare. Just pass in a list of model names.</span></div></div>
-<div id="d3c370ff-810a-4d70-8af8-ffcb1d027dce" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_results</span>
-<span id="cb18-2"><a href="#cb18-2"></a></span>
-<span id="cb18-3"><a href="#cb18-3"></a>get_results([<span class="st">"Baseline"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<p>Moving beyond the <a href="../../chapter/02_baseline/baseline_classifier.html">simplest model</a>, the next step is a deep neural network. Just kidding, the next step is something slightly more complex but still very simple. OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> is such a model. Last time we trained a baseline model, now we aim to beat it.</p>
+<div id="ee5011c7-9395-4a8a-8baf-8174d495a099" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
@@ -686,135 +290,336 @@ File <span class="ansi-green-fg">~/miniforge3/envs/nlp_simple_to_spectacular/lib
 </div>
 </div>
 </div>
-<p>Damn, that’s the same accuracy as the baseline model. Why is that?</p>
-<p>Turns out all the reviews in the test set are different from the reviews in the train set, so this model devolves to the baseline model, giving us the same result.</p>
-<div id="58ef0493-9ce4-43f0-a9a7-ba789b5a060e" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="bu">set</span>(train_df[<span class="st">"review"</span>]) <span class="op">&amp;</span> <span class="bu">set</span>(test_df[<span class="st">"review"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>set()</code></pre>
-</div>
-</div>
-<p>It’s unfortunate we didn’t see an improvement in performance, but because we are comparing to a baseline, we know where we stand. In the next chapter we’ll mostly ignore the OneR algorithm and focus on improving performance by creating a richer representation of the input data.</p>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside">For reference, here’s a table showing the accuracy we achieved last chapter.</span></div></div>
+<section id="the-oner-algorithm" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-oner-algorithm"><span class="header-section-number">3.1</span> The OneR algorithm</h2>
+<p>OneR, short for One Rule, works on the sampe principle as the baseline model, but instead of returning the most frequent label in the whole dataset it returns the most frequent label for that feature value. The caveat is that value must be discrete.</p>
+<section id="discrete-features" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="discrete-features"><span class="header-section-number">3.1.1</span> Discrete features</h3>
+<p>Think integers or strings. These are countable values that cannot be divided into parts. Discrete values can be unordered, like in movie genres where there is horror, comedy, action, etc. They can be ordered as well, like the number of leaves on a tree; the higher the number the more leaves.</p>
 </section>
-<section id="rolling-your-own-transformer" class="level2 page-columns page-full" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="rolling-your-own-transformer"><span class="header-section-number">3.5</span> Rolling your own transformer</h2>
-<div class="page-columns page-full"><p>Much like our model, we can write transformers that slot into the <code>sklearn</code> API, all we need to do is implement <code>fit</code> and <code>transform</code> methods. These follow all the same guidelines outlined in <a href="../02_baseline/baseline_classifier.html#sec-scikit-learnifying-our-model" class="quarto-xref"><span>Section 2.8</span></a>. Let’s make our own <code>OrdinalEncoder</code> called <code>CategoricalEncoder</code>.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">The <code>transform</code> method heavily uses <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">broadcasting</a>, which is one way <code>numpy</code> speeds up operations on arrays.</span></div></div>
-<div id="c2f8bf17-3448-4ee5-8381-affc09804e63" class="cell" data-execution_count="102">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, TransformerMixin</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="kw">class</span> CategoricalEncoder(TransformerMixin, BaseEstimator):</span>
-<span id="cb21-5"><a href="#cb21-5"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb21-6"><a href="#cb21-6"></a>        <span class="co">"""Generate numeric categories from `X`.</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a></span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="co">        Note: All `fit` methods must accept a `y` argument whether</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a><span class="co">              they use them or not. Transfomers typically ignore</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a><span class="co">              this argument whether it's passed in or not.</span></span>
-<span id="cb21-11"><a href="#cb21-11"></a><span class="co">        """</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a>        <span class="co"># Validate the data as before. `skip_check_array=True`</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a>        <span class="co"># tells `validate_data` not to convert `X` to a numeric array</span></span>
-<span id="cb21-14"><a href="#cb21-14"></a>        <span class="co"># type. This is important since we have to deal with numeric</span></span>
-<span id="cb21-15"><a href="#cb21-15"></a>        <span class="co"># or text types.</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb21-17"><a href="#cb21-17"></a>        <span class="cf">try</span>:</span>
-<span id="cb21-18"><a href="#cb21-18"></a>            <span class="co"># Since `validate_data` did not convert `X` to a numeric</span></span>
-<span id="cb21-19"><a href="#cb21-19"></a>            <span class="co"># array, we need to convert it to a matrix if it's still</span></span>
-<span id="cb21-20"><a href="#cb21-20"></a>            <span class="co"># a `DataFrame`.</span></span>
-<span id="cb21-21"><a href="#cb21-21"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb21-22"><a href="#cb21-22"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb21-23"><a href="#cb21-23"></a>            <span class="co"># This is not a `DataFrame`. Assume it's a `numpy` or</span></span>
-<span id="cb21-24"><a href="#cb21-24"></a>            <span class="co"># `scipy` array.</span></span>
-<span id="cb21-25"><a href="#cb21-25"></a>            <span class="cf">pass</span></span>
-<span id="cb21-26"><a href="#cb21-26"></a></span>
-<span id="cb21-27"><a href="#cb21-27"></a>        categories <span class="op">=</span> []</span>
-<span id="cb21-28"><a href="#cb21-28"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb21-29"><a href="#cb21-29"></a>        <span class="cf">for</span> column <span class="kw">in</span> X.T:</span>
-<span id="cb21-30"><a href="#cb21-30"></a>            <span class="co"># Get all unique values in the column.</span></span>
-<span id="cb21-31"><a href="#cb21-31"></a>            values <span class="op">=</span> np.unique(column)</span>
-<span id="cb21-32"><a href="#cb21-32"></a>            <span class="co"># Store the unique values as the ith element in the array.</span></span>
-<span id="cb21-33"><a href="#cb21-33"></a>            categories.append(values)</span>
-<span id="cb21-34"><a href="#cb21-34"></a>        <span class="co"># Save the categories on the transformer.</span></span>
-<span id="cb21-35"><a href="#cb21-35"></a>        <span class="va">self</span>.categories_ <span class="op">=</span> categories</span>
-<span id="cb21-36"><a href="#cb21-36"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb21-37"><a href="#cb21-37"></a></span>
-<span id="cb21-38"><a href="#cb21-38"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
-<span id="cb21-39"><a href="#cb21-39"></a>        <span class="co">"""Return the categorical values."""</span></span>
-<span id="cb21-40"><a href="#cb21-40"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, skip_check_array<span class="op">=</span><span class="va">True</span>, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb21-41"><a href="#cb21-41"></a>        <span class="cf">try</span>:</span>
-<span id="cb21-42"><a href="#cb21-42"></a>            X <span class="op">=</span> X.to_numpy()</span>
-<span id="cb21-43"><a href="#cb21-43"></a>        <span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
-<span id="cb21-44"><a href="#cb21-44"></a>            <span class="cf">pass</span></span>
-<span id="cb21-45"><a href="#cb21-45"></a></span>
-<span id="cb21-46"><a href="#cb21-46"></a>        <span class="co"># Create an array with the same shape as `X` to store the</span></span>
-<span id="cb21-47"><a href="#cb21-47"></a>        <span class="co"># categorical values. An unknown category, `-1` is used as</span></span>
-<span id="cb21-48"><a href="#cb21-48"></a>        <span class="co"># the default value.</span></span>
-<span id="cb21-49"><a href="#cb21-49"></a>        rv <span class="op">=</span> np.full(X.shape, <span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb21-50"><a href="#cb21-50"></a>        <span class="co"># Iterate over each column in `X`.</span></span>
-<span id="cb21-51"><a href="#cb21-51"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
-<span id="cb21-52"><a href="#cb21-52"></a>            <span class="co"># Grab the categories for the ith column of `X`.</span></span>
-<span id="cb21-53"><a href="#cb21-53"></a>            categories <span class="op">=</span> <span class="va">self</span>.categories_[i]</span>
-<span id="cb21-54"><a href="#cb21-54"></a>            <span class="co"># Reshape the column to be a Nx1 matrix. Using a matrix</span></span>
-<span id="cb21-55"><a href="#cb21-55"></a>            <span class="co"># instead of an array allows us to leverage `numpy`</span></span>
-<span id="cb21-56"><a href="#cb21-56"></a>            <span class="co"># broadcasting.</span></span>
-<span id="cb21-57"><a href="#cb21-57"></a>            x <span class="op">=</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb21-58"><a href="#cb21-58"></a>            <span class="co"># Create boolean matrix where `True` values indicate the</span></span>
-<span id="cb21-59"><a href="#cb21-59"></a>            <span class="co"># index of `categories` that equals `x` for each row.</span></span>
-<span id="cb21-60"><a href="#cb21-60"></a>            is_category <span class="op">=</span> x <span class="op">==</span> categories</span>
-<span id="cb21-61"><a href="#cb21-61"></a>            <span class="co"># Find the indices of `x` that contain known categories.</span></span>
-<span id="cb21-62"><a href="#cb21-62"></a>            <span class="co"># This tells us which rows have known categories.</span></span>
-<span id="cb21-63"><a href="#cb21-63"></a>            known_category <span class="op">=</span> is_category.<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb21-64"><a href="#cb21-64"></a>            <span class="co"># Get the index of the `True` value in each row. This</span></span>
-<span id="cb21-65"><a href="#cb21-65"></a>            <span class="co"># is the numeric value for the category.</span></span>
-<span id="cb21-66"><a href="#cb21-66"></a>            category_value <span class="op">=</span> np.where(is_category)[<span class="dv">1</span>]</span>
-<span id="cb21-67"><a href="#cb21-67"></a>            <span class="co"># Assign the category index to the appropriate rows.</span></span>
-<span id="cb21-68"><a href="#cb21-68"></a>            rv[known_category, i] <span class="op">=</span> category_value</span>
-<span id="cb21-69"><a href="#cb21-69"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="rolling-our-own" class="level2 page-columns page-full" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">3.2</span> Rolling our own</h2>
+<div class="page-columns page-full"><p>We can treat our movie reviews as discrete values where each unique review is a unique value.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">There is no easy button for this model, so we’ll go straight to implementing it ourselves.</span></div></div>
+<div id="e283182d-bf27-4cf4-9709-9052458f4f67" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Grab the data and set it up for training.</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-8"><a href="#cb1-8"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>X, y <span class="op">=</span> train_df[features], train_df[label]</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>predictors <span class="op">=</span> {}</span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># Iterate over each unique review.</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X[<span class="st">"review"</span>]):</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="co"># rows where value is `value`.</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    is_value <span class="op">=</span> X[<span class="st">"review"</span>] <span class="op">==</span> value</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    <span class="co"># Use the boolean array to index into `X` and `y`, keeping</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># the rows where the input is `value`.</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>    _X <span class="op">=</span> X[is_value]</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    _y <span class="op">=</span> y[is_value]</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="co"># Train a baseline classifier on the subset of the dataset</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    <span class="co"># for this value.</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>    predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Our very first transformer! Let’s run it.</p>
-<div id="6f969c38-e562-4a7e-859c-ba0c2788577b" class="cell" data-execution_count="98">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>cat_encoder <span class="op">=</span> CategoricalEncoder()</span>
-<span id="cb22-2"><a href="#cb22-2"></a>cat_encoder.fit_transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="98">
-<pre><code>array([[  300],
-       [22675],
-       [22956],
-       ...,
-       [16257],
-       [ 4455],
-       [ 2065]])</code></pre>
+<p>Now we have a bunch of predictors, each trained on a unique review. Let’s see how it performs on the test set.</p>
+<div id="f2472fc3-dd53-4809-b247-43e2f4674a80" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Remember do to the test set as you do to the train set.</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>X_test, y_test <span class="op">=</span> test_df[features], test_df[label]</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># We need an array the same length as the test set for the</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># predictions.</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(X_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># Iterate over each unique review.</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test[<span class="st">"review"</span>]):</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    is_value <span class="op">=</span> X_test[<span class="st">"review"</span>] <span class="op">==</span> value</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    <span class="co"># We only need the inputs, so just index into `X_test`.</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>    _X <span class="op">=</span> X_test[is_value]</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    <span class="co"># Fill the `pred` array with the predictions for this</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>    <span class="co"># value.</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>    pred[is_value] <span class="op">=</span> predictors[value].predict(_X)</span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co"># Evaluate the prediction accuracy.</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>accuracy_score(y_test, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[3], line 17</span>
+<span class="ansi-green-fg ansi-bold">     14</span>     _X <span style="color:rgb(98,98,98)">=</span> X_test[is_value]
+<span class="ansi-green-fg ansi-bold">     15</span>     <span style="font-style:italic;color:rgb(95,135,135)"># Fill the `pred` array with the predictions for this</span>
+<span class="ansi-green-fg ansi-bold">     16</span>     <span style="font-style:italic;color:rgb(95,135,135)"># value.</span>
+<span class="ansi-green-fg">---&gt; 17</span>     pred[is_value] <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">predictors</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">value</span><span class="ansi-yellow-bg">]</span><span style="color:rgb(98,98,98)">.</span>predict(_X)
+<span class="ansi-green-fg ansi-bold">     19</span> <span style="font-style:italic;color:rgb(95,135,135)"># Evaluate the prediction accuracy.</span>
+<span class="ansi-green-fg ansi-bold">     20</span> accuracy_score(y_test, pred)
+
+<span class="ansi-red-fg">KeyError</span>: "!!! Spoiler alert!!!&lt;br /&gt;&lt;br /&gt;The point is, though, that I didn't think this film had an ending TO spoil... I only started watching it in the middle, after Matt had gotten into Sarah's body, but then I became fascinated by the bizarreness of the plot, even for a Channel 5 movie... and couldn't possibly see how Matt wld end up happy. What about his fiancee? At one stage looked like he was gonna get with his best friend, surely icky and wrong... and then the whole 'oggi oggi oggi' thing does NOT WORK as a touching buddy-buddy catchphrase, tis just ridiculous... so was going 'surely he can't just come back to life? and yet how can he live as a woman?' and then the film just got over that by ending and not explaining anything at all!!!!! What's that about??? I was so cross, wasted a whole hour of my life for no reason at all!!! :) but was one of the funniest films I've ever seen, so, swings and roundabouts"</pre>
 </div>
 </div>
-<p>Beautiful, we’ve successfully recreated <code>OrdinalEncoder</code>. And we should get <code>-1</code> for the test data.</p>
-<div id="5964479a-143b-40cd-9195-d9de6b100207" class="cell" data-execution_count="99">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>cat_encoder.transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="99">
-<pre><code>array([[-1],
-       [-1],
-       [-1],
-       ...,
-       [-1],
-       [-1],
-       [-1]])</code></pre>
 </div>
-</div>
-<p>Let’s use it in a pipeline!</p>
-<div id="b95a04fa-0944-4744-abb4-e69adff23fa4" class="cell" data-execution_count="101">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>steps <span class="op">=</span> [</span>
-<span id="cb26-2"><a href="#cb26-2"></a>    (<span class="st">"categorical_transform"</span>, CategoricalEncoder()),</span>
-<span id="cb26-3"><a href="#cb26-3"></a>    (<span class="st">"model"</span>, OneR()),</span>
-<span id="cb26-4"><a href="#cb26-4"></a>]</span>
-<span id="cb26-5"><a href="#cb26-5"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
-<span id="cb26-6"><a href="#cb26-6"></a>pipeline.fit(X, y)</span>
-<span id="cb26-7"><a href="#cb26-7"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="101">
+<p><em>*Surprised pikachu face*</em> An error!? Well actually that’s not surprising since the reviews in the test set are different from those in the train set, so we can’t look up a review in the <code>predictors</code> dict we didn’t train a predictor for. We can pivot and use a fallback predictor for unseen reviews.</p>
+<div id="1a2a83c5-69d8-4259-9cb7-a18896cfe090" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create a fallback baseline model for unknown categories.</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>fallback <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># We need an array the same length as the test set for the</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># predictions.</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(X_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># Iterate over each unique review.</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test[<span class="st">"review"</span>]):</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    is_value <span class="op">=</span> X_test[<span class="st">"review"</span>] <span class="op">==</span> value</span>
+<span id="cb3-10"><a href="#cb3-10"></a>    <span class="co"># We only need the inputs, so just index into `X_test`.</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    _X <span class="op">=</span> X_test[is_value]</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="co"># Fill the `pred` array with the predictions for this</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="co"># value.</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-15"><a href="#cb3-15"></a>        pred[is_value] <span class="op">=</span> predictors[value].predict(_X)</span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb3-17"><a href="#cb3-17"></a>        pred[is_value] <span class="op">=</span> fallback.predict(_X)</span>
+<span id="cb3-18"><a href="#cb3-18"></a></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co"># Evaluate the prediction accuracy.</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a>accuracy_score(y_test, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>0.5011190233977619</code></pre>
 </div>
 </div>
-<p>Heck yeah it worked.</p>
+<p>Crap, this is the same accuracy as the baseline, and that’s because <em>every</em> review in the test set is different from those in the train set, so the fallback model will be used to predict every review. Since the fallback model is the baseline we end up with the same result.</p>
+<p>Where do we go from here?</p>
 </section>
-<section id="multiclass-classification" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">3.6</span> Multiclass classification</h2>
-<p>We know every review in the test data will have an unknown category, so the OneR model will fallback to the baseline classifier for every review meaning we’ll get the same result we did in the last chapter.</p>
+<section id="feature-extraction" class="level2 page-columns page-full" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="feature-extraction"><span class="header-section-number">3.3</span> Feature extraction</h2>
+<p>With our current setup, the only way to compare two reviews is to see if they are the same review or not. But two pieces of text contain much richer information that can be used to compare them. Letters make up words, words make up sentences, sentences make up paragraphs, and so on. Language also has syntax and semantics. As machine learning practitioners we actually don’t care about syntax and semantics. We expect our models will learn the concepts they need as they train on the target task. We do care about how the text is represented as this is what our models learn from.</p>
+<p>Feature extraction is a way to convert data into a format that is useable by machine learning models. Data that is numeric, like scientific measurements, are machine learning friendly by default, but text and image data is not. These types of data need to be converted to numbers in a way that preserves their information. As always, let’s start simple. We can extract the length of the review and use that as a feature.</p>
+<div id="93a5b4c5-9cd1-491a-8bb8-6b18875f0900" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df[<span class="st">"length"</span>] <span class="op">=</span> train_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>()</span>
+<span id="cb5-2"><a href="#cb5-2"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">movie_id</th>
+<th data-quarto-table-cell-role="th">rating</th>
+<th data-quarto-table-cell-role="th">review</th>
+<th data-quarto-table-cell-role="th">label</th>
+<th data-quarto-table-cell-role="th">length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>7275</td>
+<td>tt0082799</td>
+<td>1</td>
+<td>"National Lampoon Goes to the Movies" (1981) i...</td>
+<td>0</td>
+<td>1672</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1438</td>
+<td>tt0397501</td>
+<td>4</td>
+<td>Well! What can one say? Firstly, this adaptati...</td>
+<td>0</td>
+<td>1659</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>9137</td>
+<td>tt0364986</td>
+<td>1</td>
+<td>What can I say, this is a piece of brilliant f...</td>
+<td>0</td>
+<td>1556</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>173</td>
+<td>tt0283974</td>
+<td>3</td>
+<td>A decent sequel, but does not pack the punch o...</td>
+<td>0</td>
+<td>481</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>8290</td>
+<td>tt0314630</td>
+<td>2</td>
+<td>Alan Rudolph is a so-so director, without that...</td>
+<td>0</td>
+<td>1306</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="data-analysis-side-quest" class="level3 page-columns page-full" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="data-analysis-side-quest"><span class="header-section-number">3.3.1</span> Data analysis side quest</h3>
+<div class="page-columns page-full"><p>We will train a model on the <code>length</code> feature, but before we do let’s take a second to inspect it and see if we can make any assumptions based on what we see. A histogram is a fitting place to start with this data.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="https://en.wikipedia.org/wiki/Histogram">Histograms</a> are a way to visualize value counts.</span></div></div>
+<div id="33af68f1-827e-40c4-b61c-90430eeeac58" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb6-2"><a href="#cb6-2"></a>sns.displot(train_df, x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="oner_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The x-axis shows the unique <code>length</code> values in our data set, the y-axis is the number of times that length shows up, and the color is the label. The vast majority of reviews are under 2,000 characters. There are almost no reviews over 6,000 characters. There are two distinct peaks on the left side of the graph, let’s zoom in on those.</p>
+<div id="9c23d45a-7a61-4b34-a548-a29f18537885" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>sns.displot(train_df[train_df[<span class="st">"length"</span>] <span class="op">&lt;</span> <span class="dv">2000</span>], x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="oner_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first peak is between 250 and 500. We see a higher number of positive labels (orange) here, so if we made a prediction in this area it should probably be positive. The next peak is around 750. There is a higher number of negative labels (blue), so a negative prediction is called for here. The difference between negative and positive labels is slight though, so it’s hard to expect our predictions to be accurate. That shouldn’t stop us from trying though!</p>
+<p>Let’s scikit-learnify our model and see how it does on the <code>length</code> feature.</p>
+<div id="24981e93-c38a-4edc-9940-42249d22be47" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb8-7"><a href="#cb8-7"></a>        <span class="co">"""Train on the categories in the first column of `X`."""</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>        <span class="co"># Convert to `numpy` arrays for consistency.</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a>        <span class="co"># Store the classes.</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>        <span class="co"># sklearn provides a handy function `unique_labels` for this</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>        <span class="co"># purpose. You could also use `np.unique`.</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb8-15"><a href="#cb8-15"></a></span>
+<span id="cb8-16"><a href="#cb8-16"></a>        predictors <span class="op">=</span> {}</span>
+<span id="cb8-17"><a href="#cb8-17"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
+<span id="cb8-19"><a href="#cb8-19"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb8-20"><a href="#cb8-20"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a>            <span class="co"># rows where value is `value`.</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>            is_value <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> value</span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a>            <span class="co"># Grab all data points and labels in this value.</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb8-26"><a href="#cb8-26"></a>            _y <span class="op">=</span> y[is_value]</span>
+<span id="cb8-27"><a href="#cb8-27"></a></span>
+<span id="cb8-28"><a href="#cb8-28"></a>            <span class="co"># Train a baseline classifier on the value.</span></span>
+<span id="cb8-29"><a href="#cb8-29"></a>            predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
+<span id="cb8-30"><a href="#cb8-30"></a></span>
+<span id="cb8-31"><a href="#cb8-31"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
+<span id="cb8-32"><a href="#cb8-32"></a></span>
+<span id="cb8-33"><a href="#cb8-33"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb8-35"><a href="#cb8-35"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb8-36"><a href="#cb8-36"></a></span>
+<span id="cb8-37"><a href="#cb8-37"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb8-38"><a href="#cb8-38"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb8-39"><a href="#cb8-39"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb8-40"><a href="#cb8-40"></a></span>
+<span id="cb8-41"><a href="#cb8-41"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
+<span id="cb8-42"><a href="#cb8-42"></a>        rv <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
+<span id="cb8-43"><a href="#cb8-43"></a></span>
+<span id="cb8-44"><a href="#cb8-44"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
+<span id="cb8-45"><a href="#cb8-45"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
+<span id="cb8-46"><a href="#cb8-46"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb8-47"><a href="#cb8-47"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a>            <span class="co"># rows where value is `value`.</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>            is_value <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> value</span>
+<span id="cb8-50"><a href="#cb8-50"></a></span>
+<span id="cb8-51"><a href="#cb8-51"></a>            <span class="co"># Grab all data points in this value.</span></span>
+<span id="cb8-52"><a href="#cb8-52"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb8-53"><a href="#cb8-53"></a></span>
+<span id="cb8-54"><a href="#cb8-54"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
+<span id="cb8-55"><a href="#cb8-55"></a>            <span class="cf">try</span>:</span>
+<span id="cb8-56"><a href="#cb8-56"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[value].predict(_X)</span>
+<span id="cb8-57"><a href="#cb8-57"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb8-58"><a href="#cb8-58"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
+<span id="cb8-59"><a href="#cb8-59"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
+<span id="cb8-60"><a href="#cb8-60"></a></span>
+<span id="cb8-61"><a href="#cb8-61"></a>            <span class="co"># Assign the prediction for this value to</span></span>
+<span id="cb8-62"><a href="#cb8-62"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
+<span id="cb8-63"><a href="#cb8-63"></a>            rv[is_value] <span class="op">=</span> predictions</span>
+<span id="cb8-64"><a href="#cb8-64"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we train and pray.</p>
+<div id="3b62cfd4-2d7d-4bc9-9f19-dc08260f5adf" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Prepare the data for training again, including the new feature.</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>features <span class="op">=</span> [<span class="st">"length"</span>]</span>
+<span id="cb9-3"><a href="#cb9-3"></a>X <span class="op">=</span> train_df[features]</span>
+<span id="cb9-4"><a href="#cb9-4"></a>test_df[<span class="st">"length"</span>] <span class="op">=</span> test_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>()</span>
+<span id="cb9-5"><a href="#cb9-5"></a>X_test <span class="op">=</span> test_df[features]</span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co"># Train the model.</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>oner <span class="op">=</span> OneR().fit(X, y)</span>
+<span id="cb9-9"><a href="#cb9-9"></a>oner.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.5026653102746694</code></pre>
+</div>
+</div>
+<p>And the accuracy is still 50%. Bummer. Either our model isn’t good enough or our feature extraction doesn’t capture enough information from the reviews. In theory, our model will perform better if the feature is more informative, so next chapter we will look at improving our model by changing the features it’s trained on.</p>
+</section>
+</section>
+<section id="multiclass-classification" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">3.4</span> Multiclass classification</h2>
+<p>I don’t expect this to work well, but let’s see anyway.</p>
+<div id="d81e0bb1-10e7-4706-bff0-81c3ca069f5e" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Accuracy</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Baseline</td>
+<td>0.199715</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The baseline accuracy is 20%, can we do better?</p>
+<div id="b1f981c4-d6ff-4e33-a267-43c2214ef419" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>oner <span class="op">=</span> OneR().fit(X, train_df[<span class="st">"rating"</span>])</span>
+<span id="cb11-2"><a href="#cb11-2"></a>oner.score(X_test, test_df[<span class="st">"rating"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>0.17367243133265514</code></pre>
+</div>
+</div>
+<p>Nope, but that’s OK. It will get better in the future, I promise!</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
