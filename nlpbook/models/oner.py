@@ -7,30 +7,26 @@ import numpy as np
 import scipy.sparse
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.dummy import DummyClassifier
-from sklearn.utils.validation import validate_data
 from sklearn.utils.multiclass import unique_labels
 
 
 class Rule(ClassifierMixin, BaseEstimator):
     def fit(self, X, y):
         """Train on the categories in the first column of `X`."""
-        # Convert to `numpy` arrays for consistency.
-        X, y = np.array(X), np.array(y)
-
         # Store the classes.
         # sklearn provides a handy function `unique_labels` for this
         # purpose. You could also use `np.unique`.
         self.classes_ = unique_labels(y)
 
         predictors = {}
-        # Get the unique categories from the first column.
-        categories = np.unique(X[:, 0])
+        # Get the unique categories from `X`.
+        categories = np.unique(X)
         for value in categories:
             # Create a boolean array where `True` indices indicate the
-            # rows where value is `value`.
-            is_value = X[:, 0] == value
+            # rows that have this value.
+            is_value = X == value
 
-            # Grab all data points and labels in this value.
+            # Grab all data points and labels with this value.
             _X = X[is_value]
             _y = y[is_value]
 
@@ -45,17 +41,15 @@ class Rule(ClassifierMixin, BaseEstimator):
 
     def predict(self, X):
         """Predict the labels for inputs `X`."""
-        X = np.array(X)
-
         # Create an empty array that will hold the predictions.
-        rv = np.zeros(X.shape[0])
+        rv = np.zeros(len(X), dtype=int)
 
-        # Get the unique categories from the first column.
-        categories = np.unique(X[:, 0])
+        # Get the unique categories from `X`.
+        categories = np.unique(X)
         for value in categories:
             # Create a boolean array where `True` indices indicate the
-            # rows where value is `value`.
-            is_value = X[:, 0] == value
+            # rows that have this value.
+            is_value = X == value
 
             # Grab all data points in this value.
             _X = X[is_value]
@@ -76,24 +70,30 @@ class Rule(ClassifierMixin, BaseEstimator):
 class OneR(ClassifierMixin, BaseEstimator):
     def fit(self, X, y):
         """Find the best rule in the dataset."""
-        # Sanity check on `X` and `y`.
-        X, y = validate_data(self, X, y, accept_sparse=True)
+        self.classes_ = unique_labels(y)
 
         col_idx = score = rule = None
-        # Iterate over the indices for each column in X.
-        for i in range(X.shape[1]):
-            # Create a new matrix containing just the ith column.
-            _X = X[:, [i]]
+
+        # Iterate over each feature.
+        # `numpy` and `scipy` iterate over rows. Rows are data points.
+        # We want the columns (features). An easy trick to iterate
+        # over columns is to transpose the matrix which flips it along
+        # its diagonal.
+        for i, column in enumerate(X.T):
             # Convert sparse matrix to `numpy` array.
             # `Rule` works on numpy arrays, so we should use consistent
             # array types.
-            if scipy.sparse.issparse(_X):
-                _X = _X.toarray()
+            if scipy.sparse.issparse(column):
+                column = column.toarray()
+
+            # `column` has matrix shape (1, N) but we need array shape (N,).
+            # Use `np.squeeze` to flatten to 1D array.
+            column = column.squeeze()
 
             # Create a rule for the ith column.
-            rule_i = Rule().fit(_X, y)
+            rule_i = Rule().fit(column, y)
             # Score the ith columns accuracy.
-            score_i = rule_i.score(_X, y)
+            score_i = rule_i.score(column, y)
 
             # Keep the rule for the ith column if it has the highest
             # accuracy so far.
@@ -108,14 +108,17 @@ class OneR(ClassifierMixin, BaseEstimator):
 
     def predict(self, X):
         """Predict the labels for inputs `X`."""
-        # Sanity check on `X`.
-        X = validate_data(self, X, reset=False, accept_sparse=True)
-        _X = X[:, [self.i_]]
+        # Get the ith column from the matrix.
+        column = X[:, self.i_]
         # Convert sparse matrix to `numpy` array.
         # `Rule` works on numpy arrays, so we should use consistent
         # array types.
-        if scipy.sparse.issparse(_X):
-            _X = _X.toarray()
+        if scipy.sparse.issparse(column):
+            column = column.toarray()
+
+        # `column` has matrix shape (1, N) but we need array shape (N,).
+        # Use `np.squeeze` to flatten to 1D array.
+        column = column.squeeze()
 
         # Return predictions for the rule.
-        return self.rule_.predict(_X)
+        return self.rule_.predict(column)
