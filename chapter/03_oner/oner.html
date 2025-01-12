@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapter/04_oner/oner.html" rel="next">
+<link href="../../chapter/04_boc/boc.html" rel="next">
 <link href="../../chapter/02_baseline/baseline_classifier.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -189,7 +189,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/04_boc/boc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span></a>
   </div>
 </li>
@@ -232,7 +232,7 @@ div.csl-indent {
   <li><a href="#discrete-features" id="toc-discrete-features" class="nav-link" data-scroll-target="#discrete-features"><span class="header-section-number">3.1.1</span> Discrete features</a></li>
   </ul></li>
   <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">3.2</span> Rolling our own</a></li>
-  <li><a href="#feature-extraction" id="toc-feature-extraction" class="nav-link" data-scroll-target="#feature-extraction"><span class="header-section-number">3.3</span> Feature extraction</a>
+  <li><a href="#sec-feature-extraction-intro" id="toc-sec-feature-extraction-intro" class="nav-link" data-scroll-target="#sec-feature-extraction-intro"><span class="header-section-number">3.3</span> Feature extraction</a>
   <ul class="collapse">
   <li><a href="#data-analysis-side-quest" id="toc-data-analysis-side-quest" class="nav-link" data-scroll-target="#data-analysis-side-quest"><span class="header-section-number">3.3.1</span> Data analysis side quest</a></li>
   </ul></li>
@@ -310,23 +310,26 @@ div.csl-indent {
 <span id="cb1-5"><a href="#cb1-5"></a></span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Grab the data and set it up for training.</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb1-8"><a href="#cb1-8"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
+<span id="cb1-8"><a href="#cb1-8"></a>features <span class="op">=</span> <span class="st">"review"</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>X, y <span class="op">=</span> train_df[features], train_df[label]</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>predictors <span class="op">=</span> {}</span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># Iterate over each unique review.</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X[<span class="st">"review"</span>]):</span>
-<span id="cb1-15"><a href="#cb1-15"></a>    <span class="co"># Create a boolean array where `True` indices indicate the rows</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    <span class="co"># in `X` that have that value.</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    is_value <span class="op">=</span> X[<span class="st">"review"</span>] <span class="op">==</span> value</span>
-<span id="cb1-18"><a href="#cb1-18"></a>    <span class="co"># Use the boolean array to index into `X` and `y`, keeping</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># the rows where the input is `value`.</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>    _X <span class="op">=</span> X[is_value]</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    _y <span class="op">=</span> y[is_value]</span>
-<span id="cb1-22"><a href="#cb1-22"></a>    <span class="co"># Train a baseline classifier on the subset of the dataset</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    <span class="co"># for this value.</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>    predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># `X` is an array here instead of a matrix.</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># We are training on one feature, so we are jumping</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># straight to working on an array for simplicity.</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>X, y <span class="op">=</span> train_df[features], train_df[label]</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a>predictors <span class="op">=</span> {}</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Iterate over each unique review.</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X):</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    <span class="co"># Create a boolean array where `True` indices indicate the rows</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># in `X` that have that value.</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>    is_value <span class="op">=</span> X <span class="op">==</span> value</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="co"># Use the boolean array to index into `X` and `y`, keeping</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="co"># the rows where the input is `value`.</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    _X <span class="op">=</span> X[is_value]</span>
+<span id="cb1-24"><a href="#cb1-24"></a>    _y <span class="op">=</span> y[is_value]</span>
+<span id="cb1-25"><a href="#cb1-25"></a>    <span class="co"># Train a baseline classifier on the subset of the dataset</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a>    <span class="co"># for this value.</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>    predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we have a bunch of predictors, each trained on a unique review. Let’s see how it performs on the test set.</p>
 <div id="f2472fc3-dd53-4809-b247-43e2f4674a80" class="cell" data-execution_count="3">
@@ -340,8 +343,8 @@ div.csl-indent {
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co"># predictions.</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(X_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
 <span id="cb2-10"><a href="#cb2-10"></a><span class="co"># Iterate over each unique review.</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test[<span class="st">"review"</span>]):</span>
-<span id="cb2-12"><a href="#cb2-12"></a>    is_value <span class="op">=</span> X_test[<span class="st">"review"</span>] <span class="op">==</span> value</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test):</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    is_value <span class="op">=</span> X_test <span class="op">==</span> value</span>
 <span id="cb2-13"><a href="#cb2-13"></a>    <span class="co"># We only need the inputs, so just index into `X_test`.</span></span>
 <span id="cb2-14"><a href="#cb2-14"></a>    _X <span class="op">=</span> X_test[is_value]</span>
 <span id="cb2-15"><a href="#cb2-15"></a>    <span class="co"># Fill the `pred` array with the predictions for this</span></span>
@@ -375,8 +378,8 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="co"># predictions.</span></span>
 <span id="cb3-6"><a href="#cb3-6"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(X_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="co"># Iterate over each unique review.</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test[<span class="st">"review"</span>]):</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    is_value <span class="op">=</span> X_test[<span class="st">"review"</span>] <span class="op">==</span> value</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="cf">for</span> value <span class="kw">in</span> np.unique(X_test):</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    is_value <span class="op">=</span> X_test <span class="op">==</span> value</span>
 <span id="cb3-10"><a href="#cb3-10"></a>    <span class="co"># We only need the inputs, so just index into `X_test`.</span></span>
 <span id="cb3-11"><a href="#cb3-11"></a>    _X <span class="op">=</span> X_test[is_value]</span>
 <span id="cb3-12"><a href="#cb3-12"></a>    <span class="co"># Fill the `pred` array with the predictions for this</span></span>
@@ -395,8 +398,8 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <p>Crap, this is the same accuracy as the baseline, and that’s because <em>every</em> review in the test set is different from those in the train set, so the fallback model will be used to predict every review. Since the fallback model is the baseline we end up with the same result.</p>
 <p>Where do we go from here?</p>
 </section>
-<section id="feature-extraction" class="level2 page-columns page-full" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="feature-extraction"><span class="header-section-number">3.3</span> Feature extraction</h2>
+<section id="sec-feature-extraction-intro" class="level2 page-columns page-full" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-feature-extraction-intro"><span class="header-section-number">3.3</span> Feature extraction</h2>
 <p>With our current setup, the only way to compare two reviews is to see if they are the same review or not. But two pieces of text contain much richer information that can be used to compare them. Letters make up words, words make up sentences, sentences make up paragraphs, and so on. Language also has syntax and semantics. As machine learning practitioners we actually don’t care about syntax and semantics. We expect our models will learn the concepts they need as they train on the target task. We do care about how the text is represented as this is what our models learn from.</p>
 <p>Feature extraction is a way to convert data into a format that is useable by machine learning models. Data that is numeric, like scientific measurements, are machine learning friendly by default, but text and image data is not. These types of data need to be converted to numbers in a way that preserves their information. As always, let’s start simple. We can extract the length of the review and use that as a feature.</p>
 <div id="93a5b4c5-9cd1-491a-8bb8-6b18875f0900" class="cell" data-execution_count="5">
@@ -486,7 +489,7 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 </div>
 </div>
 <p>The x-axis shows the unique <code>length</code> values in our data set, the y-axis is the number of times that length shows up, and the color is the label. The vast majority of reviews are under 2,000 characters. There are almost no reviews over 6,000 characters. There are two distinct peaks on the left side of the graph, let’s zoom in on those.</p>
-<div id="9c23d45a-7a61-4b34-a548-a29f18537885" class="cell" data-execution_count="8">
+<div id="9c23d45a-7a61-4b34-a548-a29f18537885" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>sns.displot(</span>
 <span id="cb7-2"><a href="#cb7-2"></a>    train_df[train_df[<span class="st">"length"</span>] <span class="op">&lt;</span> <span class="dv">2000</span>], x<span class="op">=</span><span class="st">"length"</span>, hue<span class="op">=</span><span class="st">"label"</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -500,7 +503,7 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 </div>
 <p>The first peak is between 250 and 500. We see a higher number of positive labels (orange) here, so if we made a prediction in this area it should probably be positive. The next peak is around 750. There is a higher number of negative labels (blue), so a negative prediction is called for here. The difference between negative and positive labels is slight though, so it’s hard to expect our predictions to be accurate. That shouldn’t stop us from trying though!</p>
 <p>Let’s scikit-learnify our model and see how it does on the <code>length</code> feature.</p>
-<div id="24981e93-c38a-4edc-9940-42249d22be47" class="cell" data-execution_count="9">
+<div id="24981e93-c38a-4edc-9940-42249d22be47" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
@@ -508,68 +511,63 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
 <span id="cb8-6"><a href="#cb8-6"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
 <span id="cb8-7"><a href="#cb8-7"></a>        <span class="co">"""Train on the categories in the first column of `X`."""</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>        <span class="co"># Convert to `numpy` arrays for consistency.</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a>        <span class="co"># Store the classes.</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>        <span class="co"># sklearn provides a handy function `unique_labels` for this</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a>        <span class="co"># purpose. You could also use `np.unique`.</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
-<span id="cb8-15"><a href="#cb8-15"></a></span>
-<span id="cb8-16"><a href="#cb8-16"></a>        predictors <span class="op">=</span> {}</span>
-<span id="cb8-17"><a href="#cb8-17"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb8-19"><a href="#cb8-19"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
-<span id="cb8-20"><a href="#cb8-20"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a>            <span class="co"># rows where value is `value`.</span></span>
-<span id="cb8-22"><a href="#cb8-22"></a>            is_value <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> value</span>
-<span id="cb8-23"><a href="#cb8-23"></a></span>
-<span id="cb8-24"><a href="#cb8-24"></a>            <span class="co"># Grab all data points and labels in this value.</span></span>
-<span id="cb8-25"><a href="#cb8-25"></a>            _X <span class="op">=</span> X[is_value]</span>
-<span id="cb8-26"><a href="#cb8-26"></a>            _y <span class="op">=</span> y[is_value]</span>
+<span id="cb8-8"><a href="#cb8-8"></a>        <span class="co"># Store the classes.</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>        <span class="co"># sklearn provides a handy function `unique_labels` for this</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>        <span class="co"># purpose. You could also use `np.unique`.</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a>        predictors <span class="op">=</span> {}</span>
+<span id="cb8-14"><a href="#cb8-14"></a>        <span class="co"># Get the unique categories from `X`.</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>        categories <span class="op">=</span> np.unique(X)</span>
+<span id="cb8-16"><a href="#cb8-16"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb8-17"><a href="#cb8-17"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>            <span class="co"># rows that have this value.</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a>            is_value <span class="op">=</span> X <span class="op">==</span> value</span>
+<span id="cb8-20"><a href="#cb8-20"></a></span>
+<span id="cb8-21"><a href="#cb8-21"></a>            <span class="co"># Grab all data points and labels with this value.</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb8-23"><a href="#cb8-23"></a>            _y <span class="op">=</span> y[is_value]</span>
+<span id="cb8-24"><a href="#cb8-24"></a></span>
+<span id="cb8-25"><a href="#cb8-25"></a>            <span class="co"># Train a baseline classifier on the value.</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a>            predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
 <span id="cb8-27"><a href="#cb8-27"></a></span>
-<span id="cb8-28"><a href="#cb8-28"></a>            <span class="co"># Train a baseline classifier on the value.</span></span>
-<span id="cb8-29"><a href="#cb8-29"></a>            predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
-<span id="cb8-30"><a href="#cb8-30"></a></span>
-<span id="cb8-31"><a href="#cb8-31"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
-<span id="cb8-32"><a href="#cb8-32"></a></span>
-<span id="cb8-33"><a href="#cb8-33"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
-<span id="cb8-34"><a href="#cb8-34"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
-<span id="cb8-35"><a href="#cb8-35"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb8-36"><a href="#cb8-36"></a></span>
-<span id="cb8-37"><a href="#cb8-37"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb8-38"><a href="#cb8-38"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb8-39"><a href="#cb8-39"></a>        X <span class="op">=</span> np.array(X)</span>
-<span id="cb8-40"><a href="#cb8-40"></a></span>
-<span id="cb8-41"><a href="#cb8-41"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
-<span id="cb8-42"><a href="#cb8-42"></a>        rv <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
-<span id="cb8-43"><a href="#cb8-43"></a></span>
-<span id="cb8-44"><a href="#cb8-44"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb8-45"><a href="#cb8-45"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb8-46"><a href="#cb8-46"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
-<span id="cb8-47"><a href="#cb8-47"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
-<span id="cb8-48"><a href="#cb8-48"></a>            <span class="co"># rows where value is `value`.</span></span>
-<span id="cb8-49"><a href="#cb8-49"></a>            is_value <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> value</span>
-<span id="cb8-50"><a href="#cb8-50"></a></span>
-<span id="cb8-51"><a href="#cb8-51"></a>            <span class="co"># Grab all data points in this value.</span></span>
-<span id="cb8-52"><a href="#cb8-52"></a>            _X <span class="op">=</span> X[is_value]</span>
-<span id="cb8-53"><a href="#cb8-53"></a></span>
-<span id="cb8-54"><a href="#cb8-54"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
-<span id="cb8-55"><a href="#cb8-55"></a>            <span class="cf">try</span>:</span>
-<span id="cb8-56"><a href="#cb8-56"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[value].predict(_X)</span>
-<span id="cb8-57"><a href="#cb8-57"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb8-58"><a href="#cb8-58"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
-<span id="cb8-59"><a href="#cb8-59"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
-<span id="cb8-60"><a href="#cb8-60"></a></span>
-<span id="cb8-61"><a href="#cb8-61"></a>            <span class="co"># Assign the prediction for this value to</span></span>
-<span id="cb8-62"><a href="#cb8-62"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
-<span id="cb8-63"><a href="#cb8-63"></a>            rv[is_value] <span class="op">=</span> predictions</span>
-<span id="cb8-64"><a href="#cb8-64"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-28"><a href="#cb8-28"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
+<span id="cb8-29"><a href="#cb8-29"></a></span>
+<span id="cb8-30"><a href="#cb8-30"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb8-32"><a href="#cb8-32"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a></span>
+<span id="cb8-34"><a href="#cb8-34"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb8-35"><a href="#cb8-35"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb8-36"><a href="#cb8-36"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
+<span id="cb8-37"><a href="#cb8-37"></a>        rv <span class="op">=</span> np.zeros(<span class="bu">len</span>(X), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb8-38"><a href="#cb8-38"></a></span>
+<span id="cb8-39"><a href="#cb8-39"></a>        <span class="co"># Get the unique categories from `X`.</span></span>
+<span id="cb8-40"><a href="#cb8-40"></a>        categories <span class="op">=</span> np.unique(X)</span>
+<span id="cb8-41"><a href="#cb8-41"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb8-42"><a href="#cb8-42"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb8-43"><a href="#cb8-43"></a>            <span class="co"># rows that have this value.</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a>            is_value <span class="op">=</span> X <span class="op">==</span> value</span>
+<span id="cb8-45"><a href="#cb8-45"></a></span>
+<span id="cb8-46"><a href="#cb8-46"></a>            <span class="co"># Grab all data points in this value.</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb8-48"><a href="#cb8-48"></a></span>
+<span id="cb8-49"><a href="#cb8-49"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a>            <span class="cf">try</span>:</span>
+<span id="cb8-51"><a href="#cb8-51"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[value].predict(_X)</span>
+<span id="cb8-52"><a href="#cb8-52"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb8-53"><a href="#cb8-53"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
+<span id="cb8-54"><a href="#cb8-54"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
+<span id="cb8-55"><a href="#cb8-55"></a></span>
+<span id="cb8-56"><a href="#cb8-56"></a>            <span class="co"># Assign the prediction for this value to</span></span>
+<span id="cb8-57"><a href="#cb8-57"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
+<span id="cb8-58"><a href="#cb8-58"></a>            rv[is_value] <span class="op">=</span> predictions</span>
+<span id="cb8-59"><a href="#cb8-59"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we train and pray.</p>
-<div id="3b62cfd4-2d7d-4bc9-9f19-dc08260f5adf" class="cell" data-execution_count="10">
+<div id="3b62cfd4-2d7d-4bc9-9f19-dc08260f5adf" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Prepare the data for training again, focusing on the new feature.</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>features <span class="op">=</span> [<span class="st">"length"</span>]</span>
+<span id="cb9-2"><a href="#cb9-2"></a>features <span class="op">=</span> <span class="st">"length"</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>X <span class="op">=</span> train_df[features]</span>
 <span id="cb9-4"><a href="#cb9-4"></a>test_df[<span class="st">"length"</span>] <span class="op">=</span> test_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>()</span>
 <span id="cb9-5"><a href="#cb9-5"></a>X_test <span class="op">=</span> test_df[features]</span>
@@ -577,7 +575,7 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="co"># Train the model.</span></span>
 <span id="cb9-8"><a href="#cb9-8"></a>oner <span class="op">=</span> OneR().fit(X, y)</span>
 <span id="cb9-9"><a href="#cb9-9"></a>oner.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0.5026653102746694</code></pre>
 </div>
 </div>
@@ -587,8 +585,8 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 <section id="multiclass-classification" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">3.4</span> Multiclass classification</h2>
 <p>I don’t expect this to work well, but let’s see anyway.</p>
-<div id="d81e0bb1-10e7-4706-bff0-81c3ca069f5e" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="d81e0bb1-10e7-4706-bff0-81c3ca069f5e" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -615,10 +613,10 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 </div>
 </div>
 <p>The baseline accuracy is 20%, can we do better?</p>
-<div id="b1f981c4-d6ff-4e33-a267-43c2214ef419" class="cell" data-execution_count="14">
+<div id="b1f981c4-d6ff-4e33-a267-43c2214ef419" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>oner <span class="op">=</span> OneR().fit(X, train_df[<span class="st">"rating"</span>])</span>
 <span id="cb11-2"><a href="#cb11-2"></a>oner.score(X_test, test_df[<span class="st">"rating"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>0.17367243133265514</code></pre>
 </div>
 </div>
@@ -1057,7 +1055,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapter/04_oner/oner.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR: Inputs matter">
+      <a href="../../chapter/04_boc/boc.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR: Inputs matter">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

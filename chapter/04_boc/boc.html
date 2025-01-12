@@ -138,7 +138,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/04_oner/oner.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/04_boc/boc.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -189,7 +189,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapter/04_boc/boc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span></a>
   </div>
 </li>
@@ -227,15 +227,14 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#feature-extraction" id="toc-feature-extraction" class="nav-link active" data-scroll-target="#feature-extraction"><span class="header-section-number">4.1</span> Feature extraction</a>
-  <ul class="collapse">
-  <li><a href="#bag-of-characters" id="toc-bag-of-characters" class="nav-link" data-scroll-target="#bag-of-characters"><span class="header-section-number">4.1.1</span> Bag of characters</a></li>
-  </ul></li>
-  <li><a href="#oner-revisited" id="toc-oner-revisited" class="nav-link" data-scroll-target="#oner-revisited"><span class="header-section-number">4.2</span> OneR revisited</a></li>
-  <li><a href="#machine-learning-is-an-end-to-end-process" id="toc-machine-learning-is-an-end-to-end-process" class="nav-link" data-scroll-target="#machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.3</span> Machine learning is an end to end process</a></li>
-  <li><a href="#sec-models-as-analysis-tools" id="toc-sec-models-as-analysis-tools" class="nav-link" data-scroll-target="#sec-models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</a></li>
-  <li><a href="#rolling-our-own-feature-extractor" id="toc-rolling-our-own-feature-extractor" class="nav-link" data-scroll-target="#rolling-our-own-feature-extractor"><span class="header-section-number">4.5</span> Rolling our own feature extractor</a></li>
-  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">4.6</span> Multiclass classification</a></li>
+  <li><a href="#bag-of-characters" id="toc-bag-of-characters" class="nav-link active" data-scroll-target="#bag-of-characters"><span class="header-section-number">4.1</span> Bag of characters</a></li>
+  <li><a href="#transformers" id="toc-transformers" class="nav-link" data-scroll-target="#transformers"><span class="header-section-number">4.2</span> Transformers</a></li>
+  <li><a href="#oner-revisited" id="toc-oner-revisited" class="nav-link" data-scroll-target="#oner-revisited"><span class="header-section-number">4.3</span> OneR revisited</a></li>
+  <li><a href="#machine-learning-is-an-end-to-end-process" id="toc-machine-learning-is-an-end-to-end-process" class="nav-link" data-scroll-target="#machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.4</span> Machine learning is an end to end process</a></li>
+  <li><a href="#sec-models-as-analysis-tools" id="toc-sec-models-as-analysis-tools" class="nav-link" data-scroll-target="#sec-models-as-analysis-tools"><span class="header-section-number">4.5</span> Models as analysis tools</a></li>
+  <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines"><span class="header-section-number">4.6</span> Pipelines</a></li>
+  <li><a href="#rolling-our-own-feature-extractor" id="toc-rolling-our-own-feature-extractor" class="nav-link" data-scroll-target="#rolling-our-own-feature-extractor"><span class="header-section-number">4.7</span> Rolling our own feature extractor</a></li>
+  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">4.8</span> Multiclass classification</a></li>
   </ul>
 </nav>
     </div>
@@ -262,15 +261,11 @@ div.csl-indent {
 
 
 <p><a href="../../chapter/03_oner/oner.html">Last chapter</a> we implemented the OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> algorithm. In this chapter we’ll improve the model without improving the model. Sounds strange, but bear with me. This chapter is all about changing the input to the model.</p>
-<p>Right now we just pass in the review as input. It’s a string and every review is unique. The review is treated as a category where each unique review is it’s own category. Before training, each unique review is assigned a number to represent it.</p>
-<p>With this setup, the only way to compare two reviews is to see if they are the same review or not. But two pieces of text contain much richer information that can be used to compare them. Letters make up words, words make up sentences, sentences make up paragraphs, and so on. Language also has syntax and semantics. As machine learning practitioners we actually don’t care about syntax and semantics. We expect our models will learn the concepts they need as they train on the target task. We do care about how the text is represented as this is what our models learn from. Our model currently learns from a single number that represents a review. Let’s change that.</p>
-<section id="feature-extraction" class="level2 page-columns page-full" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="feature-extraction"><span class="header-section-number">4.1</span> Feature extraction</h2>
-<p>Feature extraction is a way to convert data into a format that is useable by machine learning models. Data that is numeric, like scientific measurements, are machine learning friendly by default, but text and image data is not. These types of data need to be converted to numbers in a way that preserves their information. Last chapter we converted our text data to numbers, but we didn’t preserve any of the information in the reviews and ended up with a model that performed the same as the baseline.</p>
-<p>We’ll try again, but while preserving some of the information in the text. As always, let’s start simple.</p>
-<section id="bag-of-characters" class="level3 page-columns page-full" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="bag-of-characters"><span class="header-section-number">4.1.1</span> Bag of characters</h3>
-<div class="page-columns page-full"><p>We have reviews. These are just sentences, which are just words, which are just characters. So reviews are characters. We can count the number of each character in a review and represent the review as character counts. This is representation is called a bag of characters and it can be extended to words, sentences, or whatever you want really. And of course <code>sklearn</code> has a way to do this.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>CountVectotrizer</code> returns a <a href="https://docs.scipy.org/doc/scipy/reference/sparse.html">sparse matrix</a> which are memory efficient for matrices that contain mostly 0s.</span></div></div>
+<p>Right now we just pass the length as input. It’s a simple way to represent reviews as number (see <a href="../03_oner/oner.html#sec-feature-extraction-intro" class="quarto-xref"><span>Section 3.3</span></a>). In fact it’s too simple which is why our model hasn’t improved from 50% accuracy. Now we will focus on creating a richer representation of the reviews for our model, one that the model can actually learn from.</p>
+<section id="bag-of-characters" class="level2 page-columns page-full" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="bag-of-characters"><span class="header-section-number">4.1</span> Bag of characters</h2>
+<p>Text data is rich in information, with the ordering of characters, words, and sentences all contributing to structure and meaning. There are several ways to capture that information and represent it as a matrix of numbers. We will start with characters as these are the foundational building blocks of words.</p>
+<div class="page-columns page-full"><p>We can count the number of each character in a review and represent that review as the count of each character. This representation is called a bag of characters and it can be extended to words, sentences, or whatever you want really. And of course <code>sklearn</code> has a way to do this with <code>CountVectorizer</code>. This class creates a <code>dict</code> mapping characters (or words) to array indices when fitting to training data. Then, when other data is transformed to a bag of characters, it counts up each character and puts them in an array at the specified indices in the map.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>CountVectotrizer</code> returns a <a href="https://docs.scipy.org/doc/scipy/reference/sparse.html">sparse matrix</a> which are memory efficient for matrices that contain mostly 0s.</span></div></div>
 <div id="e8a9c5a2-74ac-47ce-98b2-9db658890d47" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
@@ -311,80 +306,87 @@ div.csl-indent {
           0,   0,   0,   0,   0,   0,   0,   0,   0]])</code></pre>
 </div>
 </div>
-<p>We can check what character each array element is counting with the <code>vocabulary_</code> dict.</p>
+<p>This is our bag of characters. Each element in this array is a count of some character. We can check what character each array element is counting with the <code>vocabulary_</code> dict.</p>
 <div id="a1892adc-36f1-448c-98e8-cfbba1393ade" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="bu">list</span>(vectorizer.vocabulary_.items())[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>[('"', 5), ('N', 49), ('a', 68), ('t', 87), ('i', 76)]</code></pre>
 </div>
 </div>
-<p>So index 5 of the above array is the counts for the character <code>"</code> and index 49 is the counts for <code>N</code>.</p>
+<p>So index 5 of the above array is the counts for the character <code>"</code>, index 49 is the counts for <code>N</code>, and so on.</p>
 </section>
+<section id="transformers" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="transformers"><span class="header-section-number">4.2</span> Transformers</h2>
+<p>What we’ve worked with so far in scikit-learn are estimators. These are machine learning models. scikit-learn has another common type of class called transformers, which transform data as the name implies. These classes are commonly used for preprocessing tasks. They do not have a predict method, but instead have a <code>transform</code> method. We “train” them with <code>fit</code> just like we would a model, but these objects are used for consistent preprocessing and not prediction. <code>CountVectorizer</code> is a transformer, hence the <code>transform</code> method.</p>
 </section>
-<section id="oner-revisited" class="level2 page-columns page-full" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="oner-revisited"><span class="header-section-number">4.2</span> OneR revisited</h2>
+<section id="oner-revisited" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="oner-revisited"><span class="header-section-number">4.3</span> OneR revisited</h2>
 <p>Now we can just pass this as input to our OneR model right? Not quite, our model isn’t capable of handling this input yet. Here’s the implementation from last chapter.</p>
 <div id="55fc1448-812f-40bd-8ba8-750aa07e65fe" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span> sklearn.utils.validation <span class="im">import</span> validate_data</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
 <span id="cb5-5"><a href="#cb5-5"></a></span>
 <span id="cb5-6"><a href="#cb5-6"></a></span>
 <span id="cb5-7"><a href="#cb5-7"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
 <span id="cb5-8"><a href="#cb5-8"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb5-9"><a href="#cb5-9"></a>        <span class="co">"""Find the most predictive rule."""</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>        <span class="co"># Sanity check on `X` and `y`.</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>        X, y <span class="op">=</span> validate_data(<span class="va">self</span>, X, y)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>        predictors <span class="op">=</span> {}</span>
-<span id="cb5-13"><a href="#cb5-13"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb5-15"><a href="#cb5-15"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb5-16"><a href="#cb5-16"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a>            <span class="co"># over.</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb5-21"><a href="#cb5-21"></a>            <span class="co"># Grab all data points and labels in this category.</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb5-23"><a href="#cb5-23"></a>            _y <span class="op">=</span> y[is_category]</span>
-<span id="cb5-24"><a href="#cb5-24"></a>            <span class="co"># Train a baseline classifier on the category.</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>            predictors[category] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
-<span id="cb5-26"><a href="#cb5-26"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
-<span id="cb5-27"><a href="#cb5-27"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
-<span id="cb5-28"><a href="#cb5-28"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
-<span id="cb5-29"><a href="#cb5-29"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a></span>
-<span id="cb5-31"><a href="#cb5-31"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb5-32"><a href="#cb5-32"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a>        <span class="co"># Sanity check on `X`.</span></span>
-<span id="cb5-34"><a href="#cb5-34"></a>        <span class="co"># `reset` should be `True` in `fit` and `False` everywhere else.</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, reset<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb5-36"><a href="#cb5-36"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a>        rv <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
-<span id="cb5-38"><a href="#cb5-38"></a>        <span class="co"># Get the unique categories from the first column.</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a>        categories <span class="op">=</span> np.unique(X[:, <span class="dv">0</span>])</span>
-<span id="cb5-40"><a href="#cb5-40"></a>        <span class="cf">for</span> category <span class="kw">in</span> categories:</span>
-<span id="cb5-41"><a href="#cb5-41"></a>            <span class="co"># Create a conditional array where each index</span></span>
-<span id="cb5-42"><a href="#cb5-42"></a>            <span class="co"># is a boolean indicating if that index in the</span></span>
-<span id="cb5-43"><a href="#cb5-43"></a>            <span class="co"># first column of `X` is the category we're iterating</span></span>
-<span id="cb5-44"><a href="#cb5-44"></a>            <span class="co"># over.</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a>            is_category <span class="op">=</span> X[:, <span class="dv">0</span>] <span class="op">==</span> category</span>
-<span id="cb5-46"><a href="#cb5-46"></a>            <span class="co"># Grab all data points in this category.</span></span>
-<span id="cb5-47"><a href="#cb5-47"></a>            _X <span class="op">=</span> X[is_category]</span>
-<span id="cb5-48"><a href="#cb5-48"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
-<span id="cb5-49"><a href="#cb5-49"></a>            <span class="cf">try</span>:</span>
-<span id="cb5-50"><a href="#cb5-50"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[category].predict(_X)</span>
-<span id="cb5-51"><a href="#cb5-51"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb5-52"><a href="#cb5-52"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
-<span id="cb5-53"><a href="#cb5-53"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
-<span id="cb5-54"><a href="#cb5-54"></a>            <span class="co"># Assign the prediction for this category to</span></span>
-<span id="cb5-55"><a href="#cb5-55"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
-<span id="cb5-56"><a href="#cb5-56"></a>            rv[is_category] <span class="op">=</span> predictions</span>
-<span id="cb5-57"><a href="#cb5-57"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a href="#cb5-9"></a>        <span class="co">"""Train on the categories in the first column of `X`."""</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>        <span class="co"># Store the classes.</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>        <span class="co"># sklearn provides a handy function `unique_labels` for this</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>        <span class="co"># purpose. You could also use `np.unique`.</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb5-14"><a href="#cb5-14"></a></span>
+<span id="cb5-15"><a href="#cb5-15"></a>        predictors <span class="op">=</span> {}</span>
+<span id="cb5-16"><a href="#cb5-16"></a>        <span class="co"># Get the unique categories from `X`.</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>        categories <span class="op">=</span> np.unique(X)</span>
+<span id="cb5-18"><a href="#cb5-18"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb5-19"><a href="#cb5-19"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>            <span class="co"># rows that have this value.</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>            is_value <span class="op">=</span> X <span class="op">==</span> value</span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a>            <span class="co"># Grab all data points and labels with this value.</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb5-25"><a href="#cb5-25"></a>            _y <span class="op">=</span> y[is_value]</span>
+<span id="cb5-26"><a href="#cb5-26"></a></span>
+<span id="cb5-27"><a href="#cb5-27"></a>            <span class="co"># Train a baseline classifier on the value.</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a>            predictors[value] <span class="op">=</span> DummyClassifier().fit(_X, _y)</span>
+<span id="cb5-29"><a href="#cb5-29"></a></span>
+<span id="cb5-30"><a href="#cb5-30"></a>        <span class="va">self</span>.predictors_ <span class="op">=</span> predictors</span>
+<span id="cb5-31"><a href="#cb5-31"></a></span>
+<span id="cb5-32"><a href="#cb5-32"></a>        <span class="co"># Create a fallback predictor for unknown categories.</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a>        <span class="va">self</span>.unknown_predictor_ <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb5-34"><a href="#cb5-34"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a></span>
+<span id="cb5-36"><a href="#cb5-36"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb5-37"><a href="#cb5-37"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a>        <span class="co"># Create an empty array that will hold the predictions.</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a>        rv <span class="op">=</span> np.zeros(<span class="bu">len</span>(X), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb5-40"><a href="#cb5-40"></a></span>
+<span id="cb5-41"><a href="#cb5-41"></a>        <span class="co"># Get the unique categories from `X`.</span></span>
+<span id="cb5-42"><a href="#cb5-42"></a>        categories <span class="op">=</span> np.unique(X)</span>
+<span id="cb5-43"><a href="#cb5-43"></a>        <span class="cf">for</span> value <span class="kw">in</span> categories:</span>
+<span id="cb5-44"><a href="#cb5-44"></a>            <span class="co"># Create a boolean array where `True` indices indicate the</span></span>
+<span id="cb5-45"><a href="#cb5-45"></a>            <span class="co"># rows that have this value.</span></span>
+<span id="cb5-46"><a href="#cb5-46"></a>            is_value <span class="op">=</span> X <span class="op">==</span> value</span>
+<span id="cb5-47"><a href="#cb5-47"></a></span>
+<span id="cb5-48"><a href="#cb5-48"></a>            <span class="co"># Grab all data points in this value.</span></span>
+<span id="cb5-49"><a href="#cb5-49"></a>            _X <span class="op">=</span> X[is_value]</span>
+<span id="cb5-50"><a href="#cb5-50"></a></span>
+<span id="cb5-51"><a href="#cb5-51"></a>            <span class="co"># Predict the label for all datapoints in `_X`.</span></span>
+<span id="cb5-52"><a href="#cb5-52"></a>            <span class="cf">try</span>:</span>
+<span id="cb5-53"><a href="#cb5-53"></a>                predictions <span class="op">=</span> <span class="va">self</span>.predictors_[value].predict(_X)</span>
+<span id="cb5-54"><a href="#cb5-54"></a>            <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb5-55"><a href="#cb5-55"></a>                <span class="co"># Fallback to the predictor for unknown categories.</span></span>
+<span id="cb5-56"><a href="#cb5-56"></a>                predictions <span class="op">=</span> <span class="va">self</span>.unknown_predictor_.predict(_X)</span>
+<span id="cb5-57"><a href="#cb5-57"></a></span>
+<span id="cb5-58"><a href="#cb5-58"></a>            <span class="co"># Assign the prediction for this value to</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a>            <span class="co"># the corresponding indices in `rv`.</span></span>
+<span id="cb5-60"><a href="#cb5-60"></a>            rv[is_value] <span class="op">=</span> predictions</span>
+<span id="cb5-61"><a href="#cb5-61"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice the model only looks at the first column. If we use it now it will use the counts in the first column of our bag of characters matrix for training and prediction which isn’t what we want.</p>
-<p>Previously, I said the algorithm works by predicting the most frequent label for each category, but in reality it only does this for <em>one feature</em>, hence the name OneR which stands for One Rule. The model finds the feature whose categories are most predictive of the training data, then predicts labels based on just that feature. When we first implemented this model we only had one feature so it didn’t matter, but now we have many, so we need to tweak the implementation to find the best feature when given any number of features.</p>
+<p>Notice <code>X</code> is an array, but we are passing in a matrix from here on out. Each row will have multiple features to accomodate for each character which raises a problem. OneR works on one feature and now we have many.</p>
+<p>Previously, I said the algorithm works by predicting the most frequent label for each category. This is only half the story of the OneR algorithm. The other half of the story is it does this for <em>every feature</em>, then makes predictions based on the <em>best feature</em>. When we first implemented this model we only had one feature so it didn’t matter, but now we have many, so we need to tweak the implementation to find the best feature when given any number of features.</p>
 <div id="977b9412-fdfc-4f02-8dce-4e33d5f8bcc0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> scipy.sparse</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
@@ -397,103 +399,101 @@ div.csl-indent {
 <span id="cb6-9"><a href="#cb6-9"></a><span class="kw">class</span> OneR(ClassifierMixin, BaseEstimator):</span>
 <span id="cb6-10"><a href="#cb6-10"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
 <span id="cb6-11"><a href="#cb6-11"></a>        <span class="co">"""Find the best rule in the dataset."""</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a>        <span class="co"># Sanity check on `X` and `y`.</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>        X, y <span class="op">=</span> validate_data(<span class="va">self</span>, X, y, accept_sparse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-14"><a href="#cb6-14"></a></span>
-<span id="cb6-15"><a href="#cb6-15"></a>        col_idx <span class="op">=</span> score <span class="op">=</span> rule <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a>        <span class="co"># Iterate over the indices for each column in X.</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(X.shape[<span class="dv">1</span>]):</span>
-<span id="cb6-18"><a href="#cb6-18"></a>            <span class="co"># Create a new matrix containing just the ith column.</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a>            _X <span class="op">=</span> X[:, [i]]</span>
-<span id="cb6-20"><a href="#cb6-20"></a>            <span class="co"># Convert sparse matrix to `numpy` array.</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a>            <span class="co"># `Rule` works on numpy arrays, so we should use consistent</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a>            <span class="co"># array types.</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a>            <span class="cf">if</span> scipy.sparse.issparse(_X):</span>
-<span id="cb6-24"><a href="#cb6-24"></a>                _X <span class="op">=</span> _X.toarray()</span>
-<span id="cb6-25"><a href="#cb6-25"></a></span>
-<span id="cb6-26"><a href="#cb6-26"></a>            <span class="co"># Create a rule for the ith column.</span></span>
-<span id="cb6-27"><a href="#cb6-27"></a>            rule_i <span class="op">=</span> Rule().fit(_X, y)</span>
-<span id="cb6-28"><a href="#cb6-28"></a>            <span class="co"># Score the ith columns accuracy.</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a>            score_i <span class="op">=</span> rule_i.score(_X, y)</span>
-<span id="cb6-30"><a href="#cb6-30"></a></span>
-<span id="cb6-31"><a href="#cb6-31"></a>            <span class="co"># Keep the rule for the ith column if it has the highest</span></span>
-<span id="cb6-32"><a href="#cb6-32"></a>            <span class="co"># accuracy so far.</span></span>
-<span id="cb6-33"><a href="#cb6-33"></a>            <span class="cf">if</span> score <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> score_i <span class="op">&gt;</span> score:</span>
-<span id="cb6-34"><a href="#cb6-34"></a>                rule <span class="op">=</span> rule_i</span>
-<span id="cb6-35"><a href="#cb6-35"></a>                score <span class="op">=</span> score_i</span>
-<span id="cb6-36"><a href="#cb6-36"></a>                col_idx <span class="op">=</span> i</span>
-<span id="cb6-37"><a href="#cb6-37"></a></span>
-<span id="cb6-38"><a href="#cb6-38"></a>        <span class="va">self</span>.rule_ <span class="op">=</span> rule</span>
-<span id="cb6-39"><a href="#cb6-39"></a>        <span class="va">self</span>.i_ <span class="op">=</span> col_idx</span>
-<span id="cb6-40"><a href="#cb6-40"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb6-41"><a href="#cb6-41"></a></span>
-<span id="cb6-42"><a href="#cb6-42"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb6-43"><a href="#cb6-43"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
-<span id="cb6-44"><a href="#cb6-44"></a>        <span class="co"># Sanity check on `X`.</span></span>
-<span id="cb6-45"><a href="#cb6-45"></a>        X <span class="op">=</span> validate_data(<span class="va">self</span>, X, reset<span class="op">=</span><span class="va">False</span>, accept_sparse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-46"><a href="#cb6-46"></a>        _X <span class="op">=</span> X[:, [<span class="va">self</span>.i_]]</span>
-<span id="cb6-47"><a href="#cb6-47"></a>        <span class="co"># Convert sparse matrix to `numpy` array.</span></span>
-<span id="cb6-48"><a href="#cb6-48"></a>        <span class="co"># `Rule` works on numpy arrays, so we should use consistent</span></span>
-<span id="cb6-49"><a href="#cb6-49"></a>        <span class="co"># array types.</span></span>
-<span id="cb6-50"><a href="#cb6-50"></a>        <span class="cf">if</span> scipy.sparse.issparse(_X):</span>
-<span id="cb6-51"><a href="#cb6-51"></a>            _X <span class="op">=</span> _X.toarray()</span>
-<span id="cb6-52"><a href="#cb6-52"></a></span>
-<span id="cb6-53"><a href="#cb6-53"></a>        <span class="co"># Return predictions for the rule.</span></span>
-<span id="cb6-54"><a href="#cb6-54"></a>        <span class="cf">return</span> <span class="va">self</span>.rule_.predict(_X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-12"><a href="#cb6-12"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a>        col_idx <span class="op">=</span> score <span class="op">=</span> rule <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a></span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="co"># Iterate over each feature.</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a>        <span class="co"># `numpy` and `scipy` iterate over rows. Rows are data points.</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>        <span class="co"># We want the columns (features). An easy trick to iterate</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>        <span class="co"># over columns is to transpose the matrix which flips it along</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>        <span class="co"># its diagonal.</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>        <span class="cf">for</span> i, column <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb6-22"><a href="#cb6-22"></a>            <span class="co"># Convert sparse matrix to `numpy` array.</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a>            <span class="co"># `Rule` works on numpy arrays, so we should use consistent</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>            <span class="co"># array types.</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a>            <span class="cf">if</span> scipy.sparse.issparse(column):</span>
+<span id="cb6-26"><a href="#cb6-26"></a>                column <span class="op">=</span> column.toarray()</span>
+<span id="cb6-27"><a href="#cb6-27"></a></span>
+<span id="cb6-28"><a href="#cb6-28"></a>            <span class="co"># `column` has matrix shape (1, N) but we need array shape (N,).</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>            <span class="co"># Use `np.squeeze` to flatten to 1D array.</span></span>
+<span id="cb6-30"><a href="#cb6-30"></a>            column <span class="op">=</span> column.squeeze()</span>
+<span id="cb6-31"><a href="#cb6-31"></a></span>
+<span id="cb6-32"><a href="#cb6-32"></a>            <span class="co"># Create a rule for the ith column.</span></span>
+<span id="cb6-33"><a href="#cb6-33"></a>            rule_i <span class="op">=</span> Rule().fit(column, y)</span>
+<span id="cb6-34"><a href="#cb6-34"></a>            <span class="co"># Score the ith columns accuracy.</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a>            score_i <span class="op">=</span> rule_i.score(column, y)</span>
+<span id="cb6-36"><a href="#cb6-36"></a></span>
+<span id="cb6-37"><a href="#cb6-37"></a>            <span class="co"># Keep the rule for the ith column if it has the highest</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a>            <span class="co"># accuracy so far.</span></span>
+<span id="cb6-39"><a href="#cb6-39"></a>            <span class="cf">if</span> score <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> score_i <span class="op">&gt;</span> score:</span>
+<span id="cb6-40"><a href="#cb6-40"></a>                rule <span class="op">=</span> rule_i</span>
+<span id="cb6-41"><a href="#cb6-41"></a>                score <span class="op">=</span> score_i</span>
+<span id="cb6-42"><a href="#cb6-42"></a>                col_idx <span class="op">=</span> i</span>
+<span id="cb6-43"><a href="#cb6-43"></a></span>
+<span id="cb6-44"><a href="#cb6-44"></a>        <span class="va">self</span>.rule_ <span class="op">=</span> rule</span>
+<span id="cb6-45"><a href="#cb6-45"></a>        <span class="va">self</span>.i_ <span class="op">=</span> col_idx</span>
+<span id="cb6-46"><a href="#cb6-46"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb6-47"><a href="#cb6-47"></a></span>
+<span id="cb6-48"><a href="#cb6-48"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb6-49"><a href="#cb6-49"></a>        <span class="co">"""Predict the labels for inputs `X`."""</span></span>
+<span id="cb6-50"><a href="#cb6-50"></a>        <span class="co"># Get the ith column from the matrix.</span></span>
+<span id="cb6-51"><a href="#cb6-51"></a>        column <span class="op">=</span> X[:, <span class="va">self</span>.i_]</span>
+<span id="cb6-52"><a href="#cb6-52"></a>        <span class="co"># Convert sparse matrix to `numpy` array.</span></span>
+<span id="cb6-53"><a href="#cb6-53"></a>        <span class="co"># `Rule` works on numpy arrays, so we should use consistent</span></span>
+<span id="cb6-54"><a href="#cb6-54"></a>        <span class="co"># array types.</span></span>
+<span id="cb6-55"><a href="#cb6-55"></a>        <span class="cf">if</span> scipy.sparse.issparse(column):</span>
+<span id="cb6-56"><a href="#cb6-56"></a>            column <span class="op">=</span> column.toarray()</span>
+<span id="cb6-57"><a href="#cb6-57"></a></span>
+<span id="cb6-58"><a href="#cb6-58"></a>        <span class="co"># `column` has matrix shape (1, N) but we need array shape (N,).</span></span>
+<span id="cb6-59"><a href="#cb6-59"></a>        <span class="co"># Use `np.squeeze` to flatten to 1D array.</span></span>
+<span id="cb6-60"><a href="#cb6-60"></a>        column <span class="op">=</span> column.squeeze()</span>
+<span id="cb6-61"><a href="#cb6-61"></a></span>
+<span id="cb6-62"><a href="#cb6-62"></a>        <span class="co"># Return predictions for the rule.</span></span>
+<span id="cb6-63"><a href="#cb6-63"></a>        <span class="cf">return</span> <span class="va">self</span>.rule_.predict(column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="page-columns page-full"><p>And now we can train the model! </p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html"><code>ColumnTransformer</code></a> is a handy utility for applying transforms to specific columns of a dataframe.</span></div></div>
+<p>And now we can train the model!</p>
 <div id="471abf36-f1a1-477c-a736-90b4a65db906" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># Grab `X` and `y`.</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
-<span id="cb7-6"><a href="#cb7-6"></a>labels <span class="op">=</span> <span class="st">"label"</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>X, y <span class="op">=</span> train_df[features], train_df[labels]</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Grab `X` and `y`.</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>features <span class="op">=</span> <span class="st">"review"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>labels <span class="op">=</span> <span class="st">"label"</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>X, y <span class="op">=</span> train_df[features], train_df[labels]</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co"># Create the bag of characters transform.</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>bag_of_chars <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># Create the bag of characters transform.</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>bag_of_chars <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># Create the model.</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>oner <span class="op">=</span> OneR()</span>
 <span id="cb7-11"><a href="#cb7-11"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># Wrap the bag of characters transform in a `ColumnTransformer`.</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># This class lets us perform transforms on specific columns of a</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co"># `DataFrame` instead of on the entire `DataFrame`. This allows</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co"># us to use `CountVectorizer` on just the "review" column.</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># Check the docs link in the margin.</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>column_transform <span class="op">=</span> ColumnTransformer(</span>
-<span id="cb7-18"><a href="#cb7-18"></a>    [(<span class="st">"bag_of_chars"</span>, bag_of_chars, <span class="st">"review"</span>)]</span>
-<span id="cb7-19"><a href="#cb7-19"></a>)</span>
-<span id="cb7-20"><a href="#cb7-20"></a></span>
-<span id="cb7-21"><a href="#cb7-21"></a>oner <span class="op">=</span> OneR()</span>
-<span id="cb7-22"><a href="#cb7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23"></a><span class="co"># Create our pipeline.</span></span>
-<span id="cb7-24"><a href="#cb7-24"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"bag_chars"</span>, column_transform), (<span class="st">"oner"</span>, oner)])</span>
-<span id="cb7-25"><a href="#cb7-25"></a></span>
-<span id="cb7-26"><a href="#cb7-26"></a><span class="co"># Train it!</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a>pipeline.fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># Fit the model.</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># We use `fit_transform` on the `CountVectorizer` to simultaneously</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co"># fit the transformer on the training data, then transform that</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co"># data all in one go.</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>oner.fit(bag_of_chars.fit_transform(X), y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now after all that work, how’d we do?</p>
+<p>After all that work, how’d we do?</p>
 <div id="170d1dfe-dcea-4fa5-9f14-68dcba741a98" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>X_test, y_test <span class="op">=</span> test_df[features], test_df[labels]</span>
-<span id="cb8-2"><a href="#cb8-2"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2"></a>oner.score(bag_of_chars.transform(X_test), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.5812817904374364</code></pre>
 </div>
 </div>
-<p>58% accuracy, that’s a big improvement over the 50% accuracy of our baseline and original OneR models! All we did was change the input to the OneR model and we gained an 8% bump in accuracy.</p>
+<p>58% accuracy, that’s a big improvement over the 50% accuracy of our baseline and original OneR models! All we did was change the input to the OneR model and we gained an 8% bump in accuracy, how awesome is that?</p>
 </section>
-<section id="machine-learning-is-an-end-to-end-process" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.3</span> Machine learning is an end to end process</h2>
-<p>We barely touched the model and ended up with an 8% improvement just by improving the preprocessing step. There are multiple steps to building a model, from collecting data through model training and they are all important for the final outcome. I probably sound like a broken record at this point, but this is why we started with a baseline model. The process of building a model is really one of experimentation. You make a change here then test it. Now a change there and test it. It’s tweak after tweak, but you need to know how those tweaks affect the performance.</p>
+<section id="machine-learning-is-an-end-to-end-process" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.4</span> Machine learning is an end to end process</h2>
+<p>We barely touched the model and ended up with an 8% improvement just by improving the preprocessing step. There are multiple steps to building a model, from collecting data through model training and they are all important for the final outcome. I probably sound like a broken record at this point, but this is why we started with a baseline model. The process of building a model is really one of experimentation. You make a change here then test it. Now a change there and test it. It’s tweak after tweak, but you need to know how those tweaks affect the performance to know if they really matter.</p>
 </section>
-<section id="sec-models-as-analysis-tools" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-models-as-analysis-tools"><span class="header-section-number">4.4</span> Models as analysis tools</h2>
+<section id="sec-models-as-analysis-tools" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-models-as-analysis-tools"><span class="header-section-number">4.5</span> Models as analysis tools</h2>
 <p>Now that we’ve trained a model that actually has some predictive power, we can start to use it for interesting things. Often we use models to predict outcomes, but we can also go in the other direction and use them to learn about our data. OneR found some character that is predictive for our data. What is that character?</p>
 <div id="919b257a-0743-4d82-9354-4305f9585ace" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Get the index of the rule.</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>bag_idx <span class="op">=</span> oner.i_</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a><span class="co"># Grab the vocabulary from the fitted bag of characters.</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>vocab <span class="op">=</span> column_transform.named_transformers_.bag_of_chars.vocabulary_</span>
+<span id="cb10-5"><a href="#cb10-5"></a>vocab <span class="op">=</span> bag_of_chars.vocabulary_</span>
 <span id="cb10-6"><a href="#cb10-6"></a></span>
 <span id="cb10-7"><a href="#cb10-7"></a><span class="co"># Find the character associated with the index.</span></span>
 <span id="cb10-8"><a href="#cb10-8"></a>[char <span class="cf">for</span> char, char_idx <span class="kw">in</span> vocab.items() <span class="cf">if</span> char_idx <span class="op">==</span> bag_idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -501,121 +501,148 @@ div.csl-indent {
 <pre><code>['?']</code></pre>
 </div>
 </div>
-<p>Interesting, question marks are the most important character for determining labels. My hypothesis is more question marks means a bad review.</p>
+<p>Interesting, question marks are the most important character for determining labels. My hypothesis is more question marks means a bad review. We can visualize this with a count plot (or histogram) to see how the number of question marks impacts the label.</p>
 <div id="bd6ddb47-7ff6-4ea0-9a49-9f5d6ec46eb2" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a>data <span class="op">=</span> X_test.copy()</span>
-<span id="cb12-4"><a href="#cb12-4"></a>data[<span class="st">"?"</span>] <span class="op">=</span> column_transform.transform(X_test)[:, bag_idx].toarray()</span>
-<span id="cb12-5"><a href="#cb12-5"></a>data[<span class="st">"label"</span>] <span class="op">=</span> y_test</span>
-<span id="cb12-6"><a href="#cb12-6"></a>sns.countplot(data, x<span class="op">=</span><span class="st">"?"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3"></a>data <span class="op">=</span> train_df.copy()</span>
+<span id="cb12-4"><a href="#cb12-4"></a>data[<span class="st">"?"</span>] <span class="op">=</span> data[<span class="st">"review"</span>].<span class="bu">str</span>.count(<span class="st">"</span><span class="ch">\\</span><span class="st">?"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>sns.countplot(data, x<span class="op">=</span><span class="st">"?"</span>, hue<span class="op">=</span><span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="oner_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="boc_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Ah, so if there are no question marks, the review is more likely to be positive. Inversely we can say if the review contains a question, it’s likely the review is negative.</p>
-<p>Instead of analyzing the data ourselves to find which characters are associated with positive or negative reviews, our model did the analysis for us. We let the model learn about the data, then in turn we leveraged what the model learned to gain an insight into the data. As we make better models and richer representations of the input text, the amount of information we’ll learn about the data will increase as well.</p>
+<p>Instead of analyzing the data ourselves to find which characters are associated with positive or negative reviews, our model did the analysis for us. We let the model learn about the data, then in turn we leveraged what the model learned to gain an insight into the data. As we make better models and richer representations of the input text, the amount of information the model can tell us about the data will increase as well.</p>
 </section>
-<section id="rolling-our-own-feature-extractor" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="rolling-our-own-feature-extractor"><span class="header-section-number">4.5</span> Rolling our own feature extractor</h2>
-<p>We’ve already handled the OneR model, now let’s make a bag of characters transformer.</p>
-<div id="aaf2ff2f-ef6e-4a8d-b3cf-a54f4dbeeb56" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> TransformerMixin</span>
+<section id="pipelines" class="level2 page-columns page-full" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="pipelines"><span class="header-section-number">4.6</span> Pipelines</h2>
+<div class="page-columns page-full"><p>Before we dig in to a bag of characters implementation, this is a good time to learn about pipelines. Machine learning is an end to end process, and pipelines are a way to encapsulate that process in scikit-learn. Whenever we perform preprocessing, the preprocessor must be fit to the training data, then the training data is transformed, and finally passed to the model for training. Then during prediction, the data must be transformed the same way before being passed to the model. Preprocessing can become very complicated with multiple preprocessors working on the data before it is handed off to the model for training. If we forget one preprocessing step during prediction, the model could throw an error, or worse it can silently fail and suffer poor performance. Pipelines prevent this from occuring by ensuring that the steps taken during training are repeated during prediction.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Pipelines are common patterns outside of scikit-learn as well. It’s really a way to string processes together in a nice, repeatable way.</span></div></div>
+<p>Let’s make a pipeline.</p>
+<div id="66884d01-2aac-4b7a-a3a5-53c16a530ab9" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">class</span> BagOfChars(TransformerMixin, BaseEstimator):</span>
-<span id="cb13-5"><a href="#cb13-5"></a>    <span class="co">"""Bag of characters feature extractor."""</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># Create a new preprocessor and model.</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>boc <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>oner <span class="op">=</span> OneR()</span>
 <span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb13-8"><a href="#cb13-8"></a>        <span class="co">"""Fit on all characters in the array `X`.</span></span>
-<span id="cb13-9"><a href="#cb13-9"></a></span>
-<span id="cb13-10"><a href="#cb13-10"></a><span class="co">        Note: `X` should be a 1d array.</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="co">        """</span></span>
-<span id="cb13-12"><a href="#cb13-12"></a>        <span class="co"># We run our own validation check since `validate_data`</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a>        <span class="co"># expects a 2d numberic array.</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a>        <span class="co"># We want a 1d text array so we'll check its shape here.</span></span>
-<span id="cb13-15"><a href="#cb13-15"></a>        <span class="co"># While iterating over the array values we'll check</span></span>
-<span id="cb13-16"><a href="#cb13-16"></a>        <span class="co"># they are text while trying to extract characters.</span></span>
-<span id="cb13-17"><a href="#cb13-17"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X.shape) <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb13-18"><a href="#cb13-18"></a></span>
-<span id="cb13-19"><a href="#cb13-19"></a>        vocabulary_ <span class="op">=</span> {}</span>
-<span id="cb13-20"><a href="#cb13-20"></a>        <span class="co"># Iterate over each string in the array.</span></span>
-<span id="cb13-21"><a href="#cb13-21"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb13-22"><a href="#cb13-22"></a>            <span class="co"># Check it's a string!</span></span>
-<span id="cb13-23"><a href="#cb13-23"></a>            <span class="cf">assert</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>)</span>
-<span id="cb13-24"><a href="#cb13-24"></a>            <span class="co"># Get the unique characters in the string.</span></span>
-<span id="cb13-25"><a href="#cb13-25"></a>            chars <span class="op">=</span> np.unique(<span class="bu">list</span>(x))</span>
-<span id="cb13-26"><a href="#cb13-26"></a>            <span class="co"># Add each character to the vocabulary if it isn't</span></span>
-<span id="cb13-27"><a href="#cb13-27"></a>            <span class="co"># there already.</span></span>
-<span id="cb13-28"><a href="#cb13-28"></a>            <span class="cf">for</span> char <span class="kw">in</span> chars:</span>
-<span id="cb13-29"><a href="#cb13-29"></a>                <span class="cf">if</span> char <span class="kw">not</span> <span class="kw">in</span> vocabulary_:</span>
-<span id="cb13-30"><a href="#cb13-30"></a>                    vocabulary_[char] <span class="op">=</span> <span class="bu">len</span>(vocabulary_)</span>
-<span id="cb13-31"><a href="#cb13-31"></a>        <span class="va">self</span>.vocabulary_ <span class="op">=</span> vocabulary_</span>
-<span id="cb13-32"><a href="#cb13-32"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb13-33"><a href="#cb13-33"></a></span>
-<span id="cb13-34"><a href="#cb13-34"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
-<span id="cb13-35"><a href="#cb13-35"></a>        <span class="co">"""Transform `X` to a count matrix.</span></span>
-<span id="cb13-36"><a href="#cb13-36"></a></span>
-<span id="cb13-37"><a href="#cb13-37"></a><span class="co">        Note: `X` should be a 1d array.</span></span>
-<span id="cb13-38"><a href="#cb13-38"></a><span class="co">        """</span></span>
-<span id="cb13-39"><a href="#cb13-39"></a>        <span class="co"># Run our own checks.</span></span>
-<span id="cb13-40"><a href="#cb13-40"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X.shape) <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb13-41"><a href="#cb13-41"></a>        <span class="co"># Check we fit the instance.</span></span>
-<span id="cb13-42"><a href="#cb13-42"></a>        <span class="cf">assert</span> <span class="bu">hasattr</span>(<span class="va">self</span>, <span class="st">"vocabulary_"</span>)</span>
-<span id="cb13-43"><a href="#cb13-43"></a></span>
-<span id="cb13-44"><a href="#cb13-44"></a>        <span class="co"># Create a matrix to hold the counts.</span></span>
-<span id="cb13-45"><a href="#cb13-45"></a>        rv <span class="op">=</span> np.zeros((X.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.vocabulary_)))</span>
-<span id="cb13-46"><a href="#cb13-46"></a>        <span class="co"># Iterate over each string in the array.</span></span>
-<span id="cb13-47"><a href="#cb13-47"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X):</span>
-<span id="cb13-48"><a href="#cb13-48"></a>            <span class="co"># Check it's a string!</span></span>
-<span id="cb13-49"><a href="#cb13-49"></a>            <span class="cf">assert</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>)</span>
-<span id="cb13-50"><a href="#cb13-50"></a>            <span class="co"># Get the unique characters in the string and their</span></span>
-<span id="cb13-51"><a href="#cb13-51"></a>            <span class="co"># counts.</span></span>
-<span id="cb13-52"><a href="#cb13-52"></a>            chars, counts <span class="op">=</span> np.unique(<span class="bu">list</span>(x), return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-53"><a href="#cb13-53"></a>            <span class="co"># Add each character count to the count matrix</span></span>
-<span id="cb13-54"><a href="#cb13-54"></a>            <span class="co"># for the specific row.</span></span>
-<span id="cb13-55"><a href="#cb13-55"></a>            <span class="cf">for</span> char, count <span class="kw">in</span> <span class="bu">zip</span>(chars, counts):</span>
-<span id="cb13-56"><a href="#cb13-56"></a>                <span class="co"># Make sure the character is part of the vocabulary,</span></span>
-<span id="cb13-57"><a href="#cb13-57"></a>                <span class="co"># otherwise ignore it.</span></span>
-<span id="cb13-58"><a href="#cb13-58"></a>                <span class="cf">if</span> char <span class="kw">in</span> <span class="va">self</span>.vocabulary_:</span>
-<span id="cb13-59"><a href="#cb13-59"></a>                    rv[i, <span class="va">self</span>.vocabulary_[char]] <span class="op">=</span> count</span>
-<span id="cb13-60"><a href="#cb13-60"></a>        <span class="co"># Return the count matrix.</span></span>
-<span id="cb13-61"><a href="#cb13-61"></a>        <span class="cf">return</span> rv</span>
-<span id="cb13-62"><a href="#cb13-62"></a></span>
-<span id="cb13-63"><a href="#cb13-63"></a></span>
-<span id="cb13-64"><a href="#cb13-64"></a><span class="co"># Let's plug it into the pipeline and see how it goes.</span></span>
-<span id="cb13-65"><a href="#cb13-65"></a>column_transform <span class="op">=</span> ColumnTransformer(</span>
-<span id="cb13-66"><a href="#cb13-66"></a>    [(<span class="st">"bag_of_chars"</span>, BagOfChars(), <span class="st">"review"</span>)]</span>
-<span id="cb13-67"><a href="#cb13-67"></a>)</span>
-<span id="cb13-68"><a href="#cb13-68"></a></span>
-<span id="cb13-69"><a href="#cb13-69"></a>oner <span class="op">=</span> OneR()</span>
-<span id="cb13-70"><a href="#cb13-70"></a></span>
-<span id="cb13-71"><a href="#cb13-71"></a><span class="co"># Create our pipeline.</span></span>
-<span id="cb13-72"><a href="#cb13-72"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"bag_chars"</span>, column_transform), (<span class="st">"oner"</span>, oner)])</span>
-<span id="cb13-73"><a href="#cb13-73"></a></span>
-<span id="cb13-74"><a href="#cb13-74"></a><span class="co"># Train it!</span></span>
-<span id="cb13-75"><a href="#cb13-75"></a>pipeline.fit(X, y)</span>
-<span id="cb13-76"><a href="#cb13-76"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Outline the steps for the pipeline.</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co"># This is an array of tuples where each tuple is a step.</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co"># Each tuple contains the name of the step as the first</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="co"># element (we can name these steps whatever we like) and</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="co"># the estimator/transformer as the second element.</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a>steps <span class="op">=</span> [(<span class="st">"boc"</span>, boc), (<span class="st">"OneR"</span>, oner)]</span>
+<span id="cb13-13"><a href="#cb13-13"></a></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="co"># Set up the pipeline.</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>pipeline <span class="op">=</span> Pipeline(steps)</span>
+<span id="cb13-16"><a href="#cb13-16"></a></span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="co"># Train and score the pipeline.</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>pipeline.fit(X, y)</span>
+<span id="cb13-19"><a href="#cb13-19"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>0.5812817904374364</code></pre>
+</div>
+</div>
+<p>Nice, that gave the same result and we didn’t have to remember to apply the preprocessing transform to the test data. One thing to note about pipelines is all but the last step need to have a <code>transform</code> method. The last step needs a <code>predict</code> method. Basically pipelines string together transformers, then pass the output of that process to the last step which is a model.</p>
+</section>
+<section id="rolling-our-own-feature-extractor" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="rolling-our-own-feature-extractor"><span class="header-section-number">4.7</span> Rolling our own feature extractor</h2>
+<p>We’ve already handled the OneR model, now let’s make a bag of characters transformer.</p>
+<div id="aaf2ff2f-ef6e-4a8d-b3cf-a54f4dbeeb56" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> TransformerMixin</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="kw">class</span> BagOfChars(TransformerMixin, BaseEstimator):</span>
+<span id="cb15-5"><a href="#cb15-5"></a>    <span class="co">"""Bag of characters feature extractor."""</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb15-8"><a href="#cb15-8"></a>        <span class="co">"""Fit on all characters in the array `X`.</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">        Note: `X` should be a 1d array.</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="co">        """</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a>        <span class="co"># We want a 1d text array so we'll check its shape here.</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>        <span class="co"># While iterating over the array values we'll check</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a>        <span class="co"># they are text while trying to extract characters.</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X.shape) <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a>        vocabulary_ <span class="op">=</span> {}</span>
+<span id="cb15-18"><a href="#cb15-18"></a>        <span class="co"># Iterate over each string in the array.</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb15-20"><a href="#cb15-20"></a>            <span class="co"># Check it's a string!</span></span>
+<span id="cb15-21"><a href="#cb15-21"></a>            <span class="cf">assert</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>)</span>
+<span id="cb15-22"><a href="#cb15-22"></a></span>
+<span id="cb15-23"><a href="#cb15-23"></a>            <span class="co"># Get the unique characters in the string.</span></span>
+<span id="cb15-24"><a href="#cb15-24"></a>            chars <span class="op">=</span> np.unique(<span class="bu">list</span>(x))</span>
+<span id="cb15-25"><a href="#cb15-25"></a></span>
+<span id="cb15-26"><a href="#cb15-26"></a>            <span class="co"># Add each character to the vocabulary if it isn't</span></span>
+<span id="cb15-27"><a href="#cb15-27"></a>            <span class="co"># there already.</span></span>
+<span id="cb15-28"><a href="#cb15-28"></a>            <span class="cf">for</span> char <span class="kw">in</span> chars:</span>
+<span id="cb15-29"><a href="#cb15-29"></a>                <span class="cf">if</span> char <span class="kw">not</span> <span class="kw">in</span> vocabulary_:</span>
+<span id="cb15-30"><a href="#cb15-30"></a>                    vocabulary_[char] <span class="op">=</span> <span class="bu">len</span>(vocabulary_)</span>
+<span id="cb15-31"><a href="#cb15-31"></a></span>
+<span id="cb15-32"><a href="#cb15-32"></a>        <span class="va">self</span>.vocabulary_ <span class="op">=</span> vocabulary_</span>
+<span id="cb15-33"><a href="#cb15-33"></a></span>
+<span id="cb15-34"><a href="#cb15-34"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb15-35"><a href="#cb15-35"></a></span>
+<span id="cb15-36"><a href="#cb15-36"></a>    <span class="kw">def</span> transform(<span class="va">self</span>, X):</span>
+<span id="cb15-37"><a href="#cb15-37"></a>        <span class="co">"""Transform `X` to a count matrix.</span></span>
+<span id="cb15-38"><a href="#cb15-38"></a></span>
+<span id="cb15-39"><a href="#cb15-39"></a><span class="co">        Note: `X` should be a 1d array.</span></span>
+<span id="cb15-40"><a href="#cb15-40"></a><span class="co">        """</span></span>
+<span id="cb15-41"><a href="#cb15-41"></a>        <span class="co"># Run our own checks.</span></span>
+<span id="cb15-42"><a href="#cb15-42"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X.shape) <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb15-43"><a href="#cb15-43"></a></span>
+<span id="cb15-44"><a href="#cb15-44"></a>        <span class="co"># Create a matrix to hold the counts.</span></span>
+<span id="cb15-45"><a href="#cb15-45"></a>        rv <span class="op">=</span> np.zeros((X.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.vocabulary_)), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb15-46"><a href="#cb15-46"></a>        <span class="co"># Iterate over each string in the array.</span></span>
+<span id="cb15-47"><a href="#cb15-47"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X):</span>
+<span id="cb15-48"><a href="#cb15-48"></a>            <span class="co"># Check it's a string!</span></span>
+<span id="cb15-49"><a href="#cb15-49"></a>            <span class="cf">assert</span> <span class="bu">isinstance</span>(x, <span class="bu">str</span>)</span>
+<span id="cb15-50"><a href="#cb15-50"></a></span>
+<span id="cb15-51"><a href="#cb15-51"></a>            <span class="co"># Get the unique characters in the string and their</span></span>
+<span id="cb15-52"><a href="#cb15-52"></a>            <span class="co"># counts.</span></span>
+<span id="cb15-53"><a href="#cb15-53"></a>            chars, counts <span class="op">=</span> np.unique(<span class="bu">list</span>(x), return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-54"><a href="#cb15-54"></a>            <span class="co"># Add each character count to the count matrix</span></span>
+<span id="cb15-55"><a href="#cb15-55"></a>            <span class="co"># for the specific row.</span></span>
+<span id="cb15-56"><a href="#cb15-56"></a></span>
+<span id="cb15-57"><a href="#cb15-57"></a>            <span class="cf">for</span> char, count <span class="kw">in</span> <span class="bu">zip</span>(chars, counts):</span>
+<span id="cb15-58"><a href="#cb15-58"></a>                <span class="co"># Make sure the character is part of the vocabulary,</span></span>
+<span id="cb15-59"><a href="#cb15-59"></a>                <span class="co"># otherwise ignore it.</span></span>
+<span id="cb15-60"><a href="#cb15-60"></a>                <span class="cf">if</span> char <span class="kw">in</span> <span class="va">self</span>.vocabulary_:</span>
+<span id="cb15-61"><a href="#cb15-61"></a>                    rv[i, <span class="va">self</span>.vocabulary_[char]] <span class="op">=</span> count</span>
+<span id="cb15-62"><a href="#cb15-62"></a></span>
+<span id="cb15-63"><a href="#cb15-63"></a>        <span class="co"># Return the count matrix.</span></span>
+<span id="cb15-64"><a href="#cb15-64"></a>        <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s plug it into a pipeline and see how it goes.</p>
+<div id="8d08c0dd-bb81-4e21-94cd-b865871bee51" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>boc <span class="op">=</span> BagOfChars()</span>
+<span id="cb16-2"><a href="#cb16-2"></a>oner <span class="op">=</span> OneR()</span>
+<span id="cb16-3"><a href="#cb16-3"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"boc"</span>, boc), (<span class="st">"oner"</span>, oner)])</span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co"># Train it!</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>pipeline.fit(X, y)</span>
+<span id="cb16-7"><a href="#cb16-7"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>0.5812817904374364</code></pre>
 </div>
 </div>
 <p>Easy peasy.</p>
 </section>
-<section id="multiclass-classification" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">4.6</span> Multiclass classification</h2>
+<section id="multiclass-classification" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">4.8</span> Multiclass classification</h2>
 <p>Let’s see how we do with multiclass classification. Our accuracy with the baseline model was 20%. Can we beat that?</p>
-<div id="11a57239-f097-4c78-a8fe-a93f4f75955d" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>y_multi <span class="op">=</span> train_df[<span class="st">"rating"</span>]</span>
-<span id="cb15-2"><a href="#cb15-2"></a>y_test_multi <span class="op">=</span> test_df[<span class="st">"rating"</span>]</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a>pipeline.fit(X, y_multi)</span>
-<span id="cb15-5"><a href="#cb15-5"></a>pipeline.score(X_test, y_test_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="11a57239-f097-4c78-a8fe-a93f4f75955d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>y_multi <span class="op">=</span> train_df[<span class="st">"rating"</span>]</span>
+<span id="cb18-2"><a href="#cb18-2"></a>y_test_multi <span class="op">=</span> test_df[<span class="st">"rating"</span>]</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a>pipeline.fit(X, y_multi)</span>
+<span id="cb18-5"><a href="#cb18-5"></a>pipeline.score(X_test, y_test_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>0.19377416073245168</code></pre>
 </div>
 </div>

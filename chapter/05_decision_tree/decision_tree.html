@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
-<link href="../../chapter/04_oner/oner.html" rel="prev">
+<link href="../../chapter/04_boc/boc.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapter/04_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/04_boc/boc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span></a>
   </div>
 </li>
@@ -237,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We made progress with <a href="../../chapter/04_oner/oner.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a> does.</p>
+<p>We made progress with <a href="../04_oner/oner.ipynb">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a> does.</p>
 <section id="easy-button" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
 <p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
@@ -315,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="analyzing-a-model" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="analyzing-a-model"><span class="header-section-number">5.2</span> Analyzing a model</h2>
 <p>Models are not infallible. In fact all of our models so far have been very fallible and it would be helpful to inspect these models to figure out why they get things wrong.</p>
-<p>Previously we used the OneR model to inspect and learn about the data (<a href="../04_oner/oner.html#sec-models-as-analysis-tools" class="quarto-xref"><span>Section 4.4</span></a>). We found the most important feature with OneR was the number of question marks in a review. Then we plotted the data and saw reviews with no question marks were more likely to be positive and reviews with question marks were more likely to be negative. We can take this a step further and look at how important the model thinks all features are and it’s actually quite simple.</p>
+<p>Previously we used the OneR model to inspect and learn about the data (<a href="../04_boc/boc.html#sec-models-as-analysis-tools" class="quarto-xref"><span>Section 4.5</span></a>). We found the most important feature with OneR was the number of question marks in a review. Then we plotted the data and saw reviews with no question marks were more likely to be positive and reviews with question marks were more likely to be negative. We can take this a step further and look at how important the model thinks all features are and it’s actually quite simple.</p>
 <section id="feature-permutation" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="feature-permutation"><span class="header-section-number">5.2.1</span> Feature permutation</h3>
 <p>Once we have a trained model, we can see how important that model thinks a feature is by randomly shuffling the values of that feature across the dataset and seeing how it impacts accuracy. If the accuracy stays roughly the same then the feature doesn’t contribute and isn’t important. On the other hand if we see the accuracy drop, then that feature plays a roll in the accuracy we see.</p>
@@ -758,7 +758,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapter/04_oner/oner.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR: Inputs matter">
+      <a href="../../chapter/04_boc/boc.html" class="pagination-link" aria-label="OneR, TwoR, RedR, BlueR: Inputs matter">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span>
       </a>          
   </div>
