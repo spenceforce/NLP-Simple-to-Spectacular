@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-78faf54a06e50be45dc6d83ab59297a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -208,10 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#easy-button" id="toc-easy-button" class="nav-link active" data-scroll-target="#easy-button"><span class="header-section-number">5.1</span> Easy button</a></li>
-  <li><a href="#analyzing-a-model" id="toc-analyzing-a-model" class="nav-link" data-scroll-target="#analyzing-a-model"><span class="header-section-number">5.2</span> Analyzing a model</a>
-  <ul class="collapse">
-  <li><a href="#feature-permutation" id="toc-feature-permutation" class="nav-link" data-scroll-target="#feature-permutation"><span class="header-section-number">5.2.1</span> Feature permutation</a></li>
-  </ul></li>
+  <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">5.2</span> Rolling our own</a></li>
   </ul>
 </nav>
     </div>
@@ -237,45 +234,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We made progress with <a href="../../chapter/04_boc/boc.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a> does.</p>
+<p>We made progress with <a href="../../chapter/04_boc/boc.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">decision tree</a> does; it repeatedly splits the data into groups based on the values of different features. When making a prediction it finds the most appropriate group for the input and returns the most common label from that group. Our work with decision trees will span multiple chapters as we’ll explore some important topics in machine learning using this model.</p>
 <section id="easy-button" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
 <p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
-<div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Grab the data and extract the features and labels.</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>train, test <span class="op">=</span> get_train_test_data()</span>
-<span id="cb1-9"><a href="#cb1-9"></a>features <span class="op">=</span> [<span class="st">"review"</span>]</span>
-<span id="cb1-10"><a href="#cb1-10"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>X, y <span class="op">=</span> train[features], train[label]</span>
-<span id="cb1-12"><a href="#cb1-12"></a>X_test, y_test <span class="op">=</span> test[features], test[label]</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co"># Set up the pipeline.</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>transformers <span class="op">=</span> ColumnTransformer(</span>
-<span id="cb1-16"><a href="#cb1-16"></a>    [</span>
-<span id="cb1-17"><a href="#cb1-17"></a>        (</span>
-<span id="cb1-18"><a href="#cb1-18"></a>            <span class="st">"boc"</span>,</span>
-<span id="cb1-19"><a href="#cb1-19"></a>            CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb1-20"><a href="#cb1-20"></a>            <span class="st">"review"</span>,</span>
-<span id="cb1-21"><a href="#cb1-21"></a>        )</span>
-<span id="cb1-22"><a href="#cb1-22"></a>    ]</span>
-<span id="cb1-23"><a href="#cb1-23"></a>)</span>
-<span id="cb1-24"><a href="#cb1-24"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
-<span id="cb1-25"><a href="#cb1-25"></a>pipeline <span class="op">=</span> Pipeline(</span>
-<span id="cb1-26"><a href="#cb1-26"></a>    [(<span class="st">"bag_chars"</span>, transformers), (<span class="st">"decision_tree"</span>, model)]</span>
-<span id="cb1-27"><a href="#cb1-27"></a>)</span>
-<span id="cb1-28"><a href="#cb1-28"></a></span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="co"># Train it!</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a>pipeline.fit(X, y)</span>
-<span id="cb1-31"><a href="#cb1-31"></a><span class="co"># Score it!</span></span>
-<span id="cb1-32"><a href="#cb1-32"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
-<pre><code>0.5540183112919633</code></pre>
+<div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Grab the data and extract the features and labels.</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>train, test <span class="op">=</span> get_train_test_data()</span>
+<span id="cb1-8"><a href="#cb1-8"></a>features <span class="op">=</span> <span class="st">"review"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>label <span class="op">=</span> <span class="st">"label"</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>X, y <span class="op">=</span> train[features], train[label]</span>
+<span id="cb1-11"><a href="#cb1-11"></a>X_test, y_test <span class="op">=</span> test[features], test[label]</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># Set up the pipeline.</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>boc <span class="op">=</span> CountVectorizer(analyzer<span class="op">=</span><span class="st">"char"</span>, lowercase<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-15"><a href="#cb1-15"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
+<span id="cb1-16"><a href="#cb1-16"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"boc"</span>, boc), (<span class="st">"decision_tree"</span>, model)])</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co"># Train it!</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a>pipeline.fit(X, y)</span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Score it!</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>0.5526347914547304</code></pre>
 </div>
 </div>
 <p>How does this compare to our previous models?</p>
@@ -301,6 +287,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0.501119</td>
 </tr>
 <tr class="even">
+<td data-quarto-table-cell-role="th">OneR (length)</td>
+<td>0.502665</td>
+</tr>
+<tr class="odd">
 <td data-quarto-table-cell-role="th">OneR (boc)</td>
 <td>0.581282</td>
 </tr>
@@ -310,32 +300,177 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Ah man, it actually performed worse than OneR! But why?</p>
+<p>It actually performed worse than OneR with bag of characters features. We have extracted features from the reviews and we’re using a better model, so in theory it should perform better. We’ll cover why this is happening in a future chapter where we explore feature importance and hyperparameter tuning.</p>
 </section>
-<section id="analyzing-a-model" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="analyzing-a-model"><span class="header-section-number">5.2</span> Analyzing a model</h2>
-<p>Models are not infallible. In fact all of our models so far have been very fallible and it would be helpful to inspect these models to figure out why they get things wrong.</p>
-<p>Previously we used the OneR model to inspect and learn about the data (<a href="../04_boc/boc.html#sec-models-as-analysis-tools" class="quarto-xref"><span>Section 4.5</span></a>). We found the most important feature with OneR was the number of question marks in a review. Then we plotted the data and saw reviews with no question marks were more likely to be positive and reviews with question marks were more likely to be negative. We can take this a step further and look at how important the model thinks all features are and it’s actually quite simple.</p>
-<section id="feature-permutation" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="feature-permutation"><span class="header-section-number">5.2.1</span> Feature permutation</h3>
-<p>Once we have a trained model, we can see how important that model thinks a feature is by randomly shuffling the values of that feature across the dataset and seeing how it impacts accuracy. If the accuracy stays roughly the same then the feature doesn’t contribute and isn’t important. On the other hand if we see the accuracy drop, then that feature plays a roll in the accuracy we see.</p>
-<p>Let’s test this out on the question mark feature.</p>
-<div id="a2962cba-dee0-4ad5-9234-37b049db868f" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Get the bag of characters feature extractor.</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># The column transformer can be accessed through `named_transformers` like so:</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>boc <span class="op">=</span> transformers.named_transformers_[<span class="st">"boc"</span>]</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Find the index of "?".</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>i <span class="op">=</span> boc.vocabulary[<span class="st">"?"</span>]</span>
+<section id="rolling-our-own" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">5.2</span> Rolling our own</h2>
+<p>We’ll get straight to implementing it ourself. As the name implies a decision tree uses a binary tree structure. They operate on a simple premise, split the data into two groups based on the most predictive feature, then repeat on each subgroup, and so on.</p>
+<p>So how do we split the data into two groups? Let’s start with the question mark feature as an example. We know reviews with question marks are likely to be negative and vice versa for reviews without question marks. This gives us two groups, those with question marks and those without.</p>
+<div id="bb89193c-d3f4-40f8-8c7b-056d96c6ec93" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Grab the index of the question mark feature.</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>question_idx <span class="op">=</span> boc.vocabulary_[<span class="st">"?"</span>]</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># Transform the data to a bag of characters.</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Convert sparse matrix to numpy array as well.</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>X_boc <span class="op">=</span> boc.transform(X).toarray()</span>
 <span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co"># Transform the data.</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>X_permute <span class="op">=</span> transformers.transform(X_test)</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co"># Shuffle the feature values.</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>X_permute[:, i] <span class="op">=</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co"># Get the indices of the group with question marks.</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>group1_idxs <span class="op">=</span> X_boc[:, question_idx] <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co"># And those without.</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>group2_idxs <span class="op">=</span> <span class="op">~</span>group1_idxs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we let’s create baseline classifiers for each of these groups and see what the accuracy is.</p>
+<div id="e6046100-95f9-41db-b6e4-88dd121dd444" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Baseline classifier for each group.</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>group1 <span class="op">=</span> DummyClassifier().fit(X_boc[group1_idxs], y[group1_idxs])</span>
+<span id="cb4-7"><a href="#cb4-7"></a>group2 <span class="op">=</span> DummyClassifier().fit(X_boc[group2_idxs], y[group2_idxs])</span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Do unto the test data what you do to the train data.</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>X_test_boc <span class="op">=</span> boc.transform(X_test).toarray()</span>
+<span id="cb4-11"><a href="#cb4-11"></a>group1_idxs_test <span class="op">=</span> X_test_boc[:, question_idx] <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>group2_idxs_test <span class="op">=</span> <span class="op">~</span>group1_idxs_test</span>
+<span id="cb4-13"><a href="#cb4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co"># Get the predictions for each group.</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(y_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb4-16"><a href="#cb4-16"></a>pred[group1_idxs_test] <span class="op">=</span> group1.predict(X_test_boc[group1_idxs_test])</span>
+<span id="cb4-17"><a href="#cb4-17"></a>pred[group2_idxs_test] <span class="op">=</span> group2.predict(X_test_boc[group2_idxs_test])</span>
+<span id="cb4-18"><a href="#cb4-18"></a>accuracy_score(y_test, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>0.581322482197355</code></pre>
+</div>
+</div>
+<p>OK, we basically get the OneR performance just by splitting the data into two groups on the question mark feature. Let’s write an algorithm that finds the best value to split the data on for any feature. With simple brute force we’ll iterate over all possibilities.</p>
+<div id="26376d3f-c023-4516-9059-69fe91b48d2a" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">class</span> Split(ClassifierMixin, BaseEstimator):</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="co">"""Split the data on the feature value."""</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, idx, value):</span>
+<span id="cb6-10"><a href="#cb6-10"></a>        <span class="co"># Index of the feature matrix.</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>        <span class="va">self</span>.idx <span class="op">=</span> idx</span>
+<span id="cb6-12"><a href="#cb6-12"></a>        <span class="co"># Value to split the data on.</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb6-14"><a href="#cb6-14"></a></span>
+<span id="cb6-15"><a href="#cb6-15"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a>        <span class="co"># for consistency.</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb6-19"><a href="#cb6-19"></a></span>
+<span id="cb6-20"><a href="#cb6-20"></a>        <span class="co"># Grab class labels.</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb6-22"><a href="#cb6-22"></a></span>
+<span id="cb6-23"><a href="#cb6-23"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
+<span id="cb6-25"><a href="#cb6-25"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
+<span id="cb6-26"><a href="#cb6-26"></a></span>
+<span id="cb6-27"><a href="#cb6-27"></a>        <span class="co"># Create baseline classifiers for each split.</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a>        <span class="va">self</span>.lhs_ <span class="op">=</span> DummyClassifier().fit(X[lhs], y[lhs])</span>
+<span id="cb6-29"><a href="#cb6-29"></a>        <span class="va">self</span>.rhs_ <span class="op">=</span> DummyClassifier().fit(X[rhs], y[rhs])</span>
+<span id="cb6-30"><a href="#cb6-30"></a></span>
+<span id="cb6-31"><a href="#cb6-31"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a></span>
+<span id="cb6-33"><a href="#cb6-33"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb6-34"><a href="#cb6-34"></a>        <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a>        <span class="co"># for consistency.</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb6-37"><a href="#cb6-37"></a></span>
+<span id="cb6-38"><a href="#cb6-38"></a>        <span class="co"># Make our empty prediction array.</span></span>
+<span id="cb6-39"><a href="#cb6-39"></a>        pred <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>], dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb6-40"><a href="#cb6-40"></a></span>
+<span id="cb6-41"><a href="#cb6-41"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
+<span id="cb6-42"><a href="#cb6-42"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
+<span id="cb6-43"><a href="#cb6-43"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
+<span id="cb6-44"><a href="#cb6-44"></a></span>
+<span id="cb6-45"><a href="#cb6-45"></a>        <span class="co"># Populate the prediction array with predictions from</span></span>
+<span id="cb6-46"><a href="#cb6-46"></a>        <span class="co"># each group.</span></span>
+<span id="cb6-47"><a href="#cb6-47"></a>        <span class="cf">if</span> lhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-48"><a href="#cb6-48"></a>            pred[lhs] <span class="op">=</span> <span class="va">self</span>.lhs_.predict(X[lhs])</span>
+<span id="cb6-49"><a href="#cb6-49"></a>        <span class="cf">if</span> rhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-50"><a href="#cb6-50"></a>            pred[rhs] <span class="op">=</span> <span class="va">self</span>.rhs_.predict(X[rhs])</span>
+<span id="cb6-51"><a href="#cb6-51"></a></span>
+<span id="cb6-52"><a href="#cb6-52"></a>        <span class="cf">return</span> pred</span>
+<span id="cb6-53"><a href="#cb6-53"></a></span>
+<span id="cb6-54"><a href="#cb6-54"></a></span>
+<span id="cb6-55"><a href="#cb6-55"></a><span class="kw">def</span> find_best_split(X, y):</span>
+<span id="cb6-56"><a href="#cb6-56"></a>    <span class="co">"""Iterate over all possible values in `X` to find the best</span></span>
+<span id="cb6-57"><a href="#cb6-57"></a><span class="co">    split point."""</span></span>
+<span id="cb6-58"><a href="#cb6-58"></a>    <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-59"><a href="#cb6-59"></a>    <span class="co"># for consistency.</span></span>
+<span id="cb6-60"><a href="#cb6-60"></a>    X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb6-61"><a href="#cb6-61"></a></span>
+<span id="cb6-62"><a href="#cb6-62"></a>    <span class="co"># Variables for the two groups.</span></span>
+<span id="cb6-63"><a href="#cb6-63"></a>    best_split <span class="op">=</span> best_score <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-64"><a href="#cb6-64"></a></span>
+<span id="cb6-65"><a href="#cb6-65"></a>    <span class="co"># Iterate over each feature.</span></span>
+<span id="cb6-66"><a href="#cb6-66"></a>    <span class="cf">for</span> i, column <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb6-67"><a href="#cb6-67"></a>        <span class="co"># Iterate over each unique value in column.</span></span>
+<span id="cb6-68"><a href="#cb6-68"></a>        <span class="cf">for</span> value <span class="kw">in</span> np.unique(column):</span>
+<span id="cb6-69"><a href="#cb6-69"></a>            <span class="cf">try</span>:</span>
+<span id="cb6-70"><a href="#cb6-70"></a>                split <span class="op">=</span> Split(i, value).fit(X, y)</span>
+<span id="cb6-71"><a href="#cb6-71"></a>            <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb6-72"><a href="#cb6-72"></a>                <span class="co"># `DummyClassifier` will raise a `ValueError`</span></span>
+<span id="cb6-73"><a href="#cb6-73"></a>                <span class="co"># if it is trained on an empty dataset, in which</span></span>
+<span id="cb6-74"><a href="#cb6-74"></a>                <span class="co"># case we just skip this split.</span></span>
+<span id="cb6-75"><a href="#cb6-75"></a>                <span class="cf">continue</span></span>
+<span id="cb6-76"><a href="#cb6-76"></a></span>
+<span id="cb6-77"><a href="#cb6-77"></a>            <span class="co"># Score the split on this value.</span></span>
+<span id="cb6-78"><a href="#cb6-78"></a>            score <span class="op">=</span> split.score(X, y)</span>
+<span id="cb6-79"><a href="#cb6-79"></a></span>
+<span id="cb6-80"><a href="#cb6-80"></a>            <span class="co"># Keep this split if it has the best score so far.</span></span>
+<span id="cb6-81"><a href="#cb6-81"></a>            <span class="cf">if</span> best_score <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> score <span class="op">&gt;</span> best_score:</span>
+<span id="cb6-82"><a href="#cb6-82"></a>                best_split <span class="op">=</span> split</span>
+<span id="cb6-83"><a href="#cb6-83"></a>                best_score <span class="op">=</span> score</span>
+<span id="cb6-84"><a href="#cb6-84"></a></span>
+<span id="cb6-85"><a href="#cb6-85"></a>    <span class="cf">return</span> best_split</span>
+<span id="cb6-86"><a href="#cb6-86"></a></span>
+<span id="cb6-87"><a href="#cb6-87"></a></span>
+<span id="cb6-88"><a href="#cb6-88"></a><span class="co"># Find the best split on the training data.</span></span>
+<span id="cb6-89"><a href="#cb6-89"></a>split <span class="op">=</span> find_best_split(boc.transform(X).toarray(), y)</span>
+<span id="cb6-90"><a href="#cb6-90"></a><span class="co"># Score the best split.</span></span>
+<span id="cb6-91"><a href="#cb6-91"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>0.581322482197355</code></pre>
+</div>
+</div>
+<p>And we get the same result! We now have an automated way to find the best split on a dataset. The next step is to further divide each group. We just repeat the process on each group, further dividing the data. In order to split a group, we must make the split on the subset of the data that group was trained on. We trained two baseline classifiers with two subsets of the data, now we replace those baseline classifiers with <code>Split</code> models that are trained on those same subsets. Because the <code>Split</code> models are <code>sklearn</code> estimators we can replace the baseline models and they’ll just work when we call the appropriate methods.</p>
+<p>Let’s start by splitting just the left hand side group. We need to get the appropriate subset of the training data and make a new split with <code>find_best_split</code>, replacing the baseline classifier that was trained on that same data.</p>
+<div id="83befec9-1812-4a40-93ff-e01912f06bca" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Transform our input to a bag of characters.</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>X_boc <span class="op">=</span> boc.transform(X).toarray()</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co"># Create a boolean array to get the left hand side group.</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>lhs <span class="op">=</span> X_boc[:, split.idx] <span class="op">&lt;</span> split.value</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co"># Grab the part of the dataset that was used to train the</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co"># left hand side baseline classifier.</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>X_sub <span class="op">=</span> X_boc[lhs]</span>
+<span id="cb8-10"><a href="#cb8-10"></a>y_sub <span class="op">=</span> y[lhs]</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co"># Create a new split for just the left hand side group,</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co"># replacing the baseline classifier.</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>split.lhs_ <span class="op">=</span> find_best_split(X_sub, y_sub)</span>
+<span id="cb8-15"><a href="#cb8-15"></a></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co"># Score the new model.</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>0.5853916581892167</code></pre>
+</div>
+</div>
+<p>Progress. We now have two splits. The first splits the data into two groups, and the second splits the left hand side into two more groups giving three groups in total.</p>
+<p>Let’s code the process up to find all the optimal splits.</p>
+<div id="46351e38-42c1-4cd8-bd6c-3ebc160ec8fb" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Implement depth first search.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
