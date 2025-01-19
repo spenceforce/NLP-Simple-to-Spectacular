@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="easy-button" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
 <p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
-<div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="2">
+<div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
@@ -260,13 +260,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-19"><a href="#cb1-19"></a>pipeline.fit(X, y)</span>
 <span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Score it!</span></span>
 <span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>0.5526347914547304</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>0.5534486266531028</code></pre>
 </div>
 </div>
 <p>How does this compare to our previous models?</p>
-<div id="09a61646-13e2-43de-80bb-79d684e6001b" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="09a61646-13e2-43de-80bb-79d684e6001b" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -306,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">5.2</span> Rolling our own</h2>
 <p>We’ll get straight to implementing it ourself. As the name implies a decision tree uses a binary tree structure. They operate on a simple premise, split the data into two groups based on the most predictive feature, then repeat on each subgroup, and so on.</p>
 <p>So how do we split the data into two groups? Let’s start with the question mark feature as an example. We know reviews with question marks are likely to be negative and vice versa for reviews without question marks. This gives us two groups, those with question marks and those without.</p>
-<div id="bb89193c-d3f4-40f8-8c7b-056d96c6ec93" class="cell" data-execution_count="6">
+<div id="bb89193c-d3f4-40f8-8c7b-056d96c6ec93" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Grab the index of the question mark feature.</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>question_idx <span class="op">=</span> boc.vocabulary_[<span class="st">"?"</span>]</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11"></a>group2_idxs <span class="op">=</span> <span class="op">~</span>group1_idxs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we let’s create baseline classifiers for each of these groups and see what the accuracy is.</p>
-<div id="e6046100-95f9-41db-b6e4-88dd121dd444" class="cell" data-execution_count="12">
+<div id="e6046100-95f9-41db-b6e4-88dd121dd444" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
@@ -339,110 +339,113 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-16"><a href="#cb4-16"></a>pred[group1_idxs_test] <span class="op">=</span> group1.predict(X_test_boc[group1_idxs_test])</span>
 <span id="cb4-17"><a href="#cb4-17"></a>pred[group2_idxs_test] <span class="op">=</span> group2.predict(X_test_boc[group2_idxs_test])</span>
 <span id="cb4-18"><a href="#cb4-18"></a>accuracy_score(y_test, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>0.581322482197355</code></pre>
 </div>
 </div>
 <p>OK, we basically get the OneR performance just by splitting the data into two groups on the question mark feature. Let’s write an algorithm that finds the best value to split the data on for any feature. With simple brute force we’ll iterate over all possibilities.</p>
-<div id="26376d3f-c023-4516-9059-69fe91b48d2a" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
+<div id="26376d3f-c023-4516-9059-69fe91b48d2a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
 <span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">class</span> Split(ClassifierMixin, BaseEstimator):</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="co">"""Split the data on the feature value."""</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, idx, value):</span>
-<span id="cb6-10"><a href="#cb6-10"></a>        <span class="co"># Index of the feature matrix.</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>        <span class="va">self</span>.idx <span class="op">=</span> idx</span>
-<span id="cb6-12"><a href="#cb6-12"></a>        <span class="co"># Value to split the data on.</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
-<span id="cb6-14"><a href="#cb6-14"></a></span>
-<span id="cb6-15"><a href="#cb6-15"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb6-16"><a href="#cb6-16"></a>        <span class="co"># Convert other data types to numpy array</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a>        <span class="co"># for consistency.</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
-<span id="cb6-19"><a href="#cb6-19"></a></span>
-<span id="cb6-20"><a href="#cb6-20"></a>        <span class="co"># Grab class labels.</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
-<span id="cb6-22"><a href="#cb6-22"></a></span>
-<span id="cb6-23"><a href="#cb6-23"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
-<span id="cb6-25"><a href="#cb6-25"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
-<span id="cb6-26"><a href="#cb6-26"></a></span>
-<span id="cb6-27"><a href="#cb6-27"></a>        <span class="co"># Create baseline classifiers for each split.</span></span>
-<span id="cb6-28"><a href="#cb6-28"></a>        <span class="va">self</span>.lhs_ <span class="op">=</span> DummyClassifier().fit(X[lhs], y[lhs])</span>
-<span id="cb6-29"><a href="#cb6-29"></a>        <span class="va">self</span>.rhs_ <span class="op">=</span> DummyClassifier().fit(X[rhs], y[rhs])</span>
-<span id="cb6-30"><a href="#cb6-30"></a></span>
-<span id="cb6-31"><a href="#cb6-31"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb6-32"><a href="#cb6-32"></a></span>
-<span id="cb6-33"><a href="#cb6-33"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb6-34"><a href="#cb6-34"></a>        <span class="co"># Convert other data types to numpy array</span></span>
-<span id="cb6-35"><a href="#cb6-35"></a>        <span class="co"># for consistency.</span></span>
-<span id="cb6-36"><a href="#cb6-36"></a>        X <span class="op">=</span> np.array(X)</span>
-<span id="cb6-37"><a href="#cb6-37"></a></span>
-<span id="cb6-38"><a href="#cb6-38"></a>        <span class="co"># Make our empty prediction array.</span></span>
-<span id="cb6-39"><a href="#cb6-39"></a>        pred <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>], dtype<span class="op">=</span><span class="bu">int</span>)</span>
-<span id="cb6-40"><a href="#cb6-40"></a></span>
-<span id="cb6-41"><a href="#cb6-41"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
-<span id="cb6-42"><a href="#cb6-42"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
-<span id="cb6-43"><a href="#cb6-43"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
-<span id="cb6-44"><a href="#cb6-44"></a></span>
-<span id="cb6-45"><a href="#cb6-45"></a>        <span class="co"># Populate the prediction array with predictions from</span></span>
-<span id="cb6-46"><a href="#cb6-46"></a>        <span class="co"># each group.</span></span>
-<span id="cb6-47"><a href="#cb6-47"></a>        <span class="cf">if</span> lhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb6-48"><a href="#cb6-48"></a>            pred[lhs] <span class="op">=</span> <span class="va">self</span>.lhs_.predict(X[lhs])</span>
-<span id="cb6-49"><a href="#cb6-49"></a>        <span class="cf">if</span> rhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb6-50"><a href="#cb6-50"></a>            pred[rhs] <span class="op">=</span> <span class="va">self</span>.rhs_.predict(X[rhs])</span>
-<span id="cb6-51"><a href="#cb6-51"></a></span>
-<span id="cb6-52"><a href="#cb6-52"></a>        <span class="cf">return</span> pred</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">class</span> Split(ClassifierMixin, BaseEstimator):</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="co">"""Split the data on the feature value."""</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, idx, value):</span>
+<span id="cb6-9"><a href="#cb6-9"></a>        <span class="co"># Index of the feature matrix.</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>        <span class="va">self</span>.idx <span class="op">=</span> idx</span>
+<span id="cb6-11"><a href="#cb6-11"></a>        <span class="co"># Value to split the data on.</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb6-15"><a href="#cb6-15"></a>        <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a>        <span class="co"># for consistency.</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb6-18"><a href="#cb6-18"></a></span>
+<span id="cb6-19"><a href="#cb6-19"></a>        <span class="co"># Grab class labels.</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb6-21"><a href="#cb6-21"></a></span>
+<span id="cb6-22"><a href="#cb6-22"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
+<span id="cb6-24"><a href="#cb6-24"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
+<span id="cb6-25"><a href="#cb6-25"></a></span>
+<span id="cb6-26"><a href="#cb6-26"></a>        <span class="co"># Create baseline classifiers for each split.</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>        <span class="va">self</span>.lhs_ <span class="op">=</span> DummyClassifier().fit(X[lhs], y[lhs])</span>
+<span id="cb6-28"><a href="#cb6-28"></a>        <span class="va">self</span>.rhs_ <span class="op">=</span> DummyClassifier().fit(X[rhs], y[rhs])</span>
+<span id="cb6-29"><a href="#cb6-29"></a></span>
+<span id="cb6-30"><a href="#cb6-30"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a></span>
+<span id="cb6-32"><a href="#cb6-32"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb6-33"><a href="#cb6-33"></a>        <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-34"><a href="#cb6-34"></a>        <span class="co"># for consistency.</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb6-36"><a href="#cb6-36"></a></span>
+<span id="cb6-37"><a href="#cb6-37"></a>        <span class="co"># Make our empty prediction array.</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a>        pred <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>], dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb6-39"><a href="#cb6-39"></a></span>
+<span id="cb6-40"><a href="#cb6-40"></a>        <span class="co"># Create boolean arrays to split the groups on.</span></span>
+<span id="cb6-41"><a href="#cb6-41"></a>        rhs <span class="op">=</span> X[:, <span class="va">self</span>.idx] <span class="op">&gt;=</span> <span class="va">self</span>.value</span>
+<span id="cb6-42"><a href="#cb6-42"></a>        lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
+<span id="cb6-43"><a href="#cb6-43"></a></span>
+<span id="cb6-44"><a href="#cb6-44"></a>        <span class="co"># Populate the prediction array with predictions from</span></span>
+<span id="cb6-45"><a href="#cb6-45"></a>        <span class="co"># each group.</span></span>
+<span id="cb6-46"><a href="#cb6-46"></a>        <span class="cf">if</span> lhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-47"><a href="#cb6-47"></a>            pred[lhs] <span class="op">=</span> <span class="va">self</span>.lhs_.predict(X[lhs])</span>
+<span id="cb6-48"><a href="#cb6-48"></a>        <span class="cf">if</span> rhs.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-49"><a href="#cb6-49"></a>            pred[rhs] <span class="op">=</span> <span class="va">self</span>.rhs_.predict(X[rhs])</span>
+<span id="cb6-50"><a href="#cb6-50"></a></span>
+<span id="cb6-51"><a href="#cb6-51"></a>        <span class="cf">return</span> pred</span>
+<span id="cb6-52"><a href="#cb6-52"></a></span>
 <span id="cb6-53"><a href="#cb6-53"></a></span>
-<span id="cb6-54"><a href="#cb6-54"></a></span>
-<span id="cb6-55"><a href="#cb6-55"></a><span class="kw">def</span> find_best_split(X, y):</span>
-<span id="cb6-56"><a href="#cb6-56"></a>    <span class="co">"""Iterate over all possible values in `X` to find the best</span></span>
-<span id="cb6-57"><a href="#cb6-57"></a><span class="co">    split point."""</span></span>
-<span id="cb6-58"><a href="#cb6-58"></a>    <span class="co"># Convert other data types to numpy array</span></span>
-<span id="cb6-59"><a href="#cb6-59"></a>    <span class="co"># for consistency.</span></span>
-<span id="cb6-60"><a href="#cb6-60"></a>    X, y <span class="op">=</span> np.array(X), np.array(y)</span>
-<span id="cb6-61"><a href="#cb6-61"></a></span>
-<span id="cb6-62"><a href="#cb6-62"></a>    <span class="co"># Variables for the two groups.</span></span>
-<span id="cb6-63"><a href="#cb6-63"></a>    best_split <span class="op">=</span> best_score <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-64"><a href="#cb6-64"></a></span>
-<span id="cb6-65"><a href="#cb6-65"></a>    <span class="co"># Iterate over each feature.</span></span>
-<span id="cb6-66"><a href="#cb6-66"></a>    <span class="cf">for</span> i, column <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
-<span id="cb6-67"><a href="#cb6-67"></a>        <span class="co"># Iterate over each unique value in column.</span></span>
-<span id="cb6-68"><a href="#cb6-68"></a>        <span class="cf">for</span> value <span class="kw">in</span> np.unique(column):</span>
-<span id="cb6-69"><a href="#cb6-69"></a>            <span class="cf">try</span>:</span>
-<span id="cb6-70"><a href="#cb6-70"></a>                split <span class="op">=</span> Split(i, value).fit(X, y)</span>
-<span id="cb6-71"><a href="#cb6-71"></a>            <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
-<span id="cb6-72"><a href="#cb6-72"></a>                <span class="co"># `DummyClassifier` will raise a `ValueError`</span></span>
-<span id="cb6-73"><a href="#cb6-73"></a>                <span class="co"># if it is trained on an empty dataset, in which</span></span>
-<span id="cb6-74"><a href="#cb6-74"></a>                <span class="co"># case we just skip this split.</span></span>
-<span id="cb6-75"><a href="#cb6-75"></a>                <span class="cf">continue</span></span>
-<span id="cb6-76"><a href="#cb6-76"></a></span>
-<span id="cb6-77"><a href="#cb6-77"></a>            <span class="co"># Score the split on this value.</span></span>
-<span id="cb6-78"><a href="#cb6-78"></a>            score <span class="op">=</span> split.score(X, y)</span>
-<span id="cb6-79"><a href="#cb6-79"></a></span>
-<span id="cb6-80"><a href="#cb6-80"></a>            <span class="co"># Keep this split if it has the best score so far.</span></span>
-<span id="cb6-81"><a href="#cb6-81"></a>            <span class="cf">if</span> best_score <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> score <span class="op">&gt;</span> best_score:</span>
-<span id="cb6-82"><a href="#cb6-82"></a>                best_split <span class="op">=</span> split</span>
-<span id="cb6-83"><a href="#cb6-83"></a>                best_score <span class="op">=</span> score</span>
-<span id="cb6-84"><a href="#cb6-84"></a></span>
-<span id="cb6-85"><a href="#cb6-85"></a>    <span class="cf">return</span> best_split</span>
-<span id="cb6-86"><a href="#cb6-86"></a></span>
+<span id="cb6-54"><a href="#cb6-54"></a><span class="kw">def</span> find_best_split(X, y):</span>
+<span id="cb6-55"><a href="#cb6-55"></a>    <span class="co">"""Iterate over all possible values in `X` to find the best</span></span>
+<span id="cb6-56"><a href="#cb6-56"></a><span class="co">    split point."""</span></span>
+<span id="cb6-57"><a href="#cb6-57"></a>    <span class="co"># Convert other data types to numpy array</span></span>
+<span id="cb6-58"><a href="#cb6-58"></a>    <span class="co"># for consistency.</span></span>
+<span id="cb6-59"><a href="#cb6-59"></a>    X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb6-60"><a href="#cb6-60"></a></span>
+<span id="cb6-61"><a href="#cb6-61"></a>    <span class="co"># Variables for the two groups.</span></span>
+<span id="cb6-62"><a href="#cb6-62"></a>    best_split <span class="op">=</span> best_score <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-63"><a href="#cb6-63"></a></span>
+<span id="cb6-64"><a href="#cb6-64"></a>    <span class="co"># Iterate over each feature.</span></span>
+<span id="cb6-65"><a href="#cb6-65"></a>    <span class="cf">for</span> i, column <span class="kw">in</span> <span class="bu">enumerate</span>(X.T):</span>
+<span id="cb6-66"><a href="#cb6-66"></a>        <span class="co"># Iterate over each unique value in column.</span></span>
+<span id="cb6-67"><a href="#cb6-67"></a>        <span class="cf">for</span> value <span class="kw">in</span> np.unique(column):</span>
+<span id="cb6-68"><a href="#cb6-68"></a>            <span class="cf">try</span>:</span>
+<span id="cb6-69"><a href="#cb6-69"></a>                split <span class="op">=</span> Split(i, value).fit(X, y)</span>
+<span id="cb6-70"><a href="#cb6-70"></a>            <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb6-71"><a href="#cb6-71"></a>                <span class="co"># `DummyClassifier` will raise a `ValueError`</span></span>
+<span id="cb6-72"><a href="#cb6-72"></a>                <span class="co"># if it is trained on an empty dataset, in which</span></span>
+<span id="cb6-73"><a href="#cb6-73"></a>                <span class="co"># case we just skip this split.</span></span>
+<span id="cb6-74"><a href="#cb6-74"></a>                <span class="cf">continue</span></span>
+<span id="cb6-75"><a href="#cb6-75"></a></span>
+<span id="cb6-76"><a href="#cb6-76"></a>            <span class="co"># Score the split on this value.</span></span>
+<span id="cb6-77"><a href="#cb6-77"></a>            score <span class="op">=</span> split.score(X, y)</span>
+<span id="cb6-78"><a href="#cb6-78"></a></span>
+<span id="cb6-79"><a href="#cb6-79"></a>            <span class="co"># Keep this split if it has the best score so far.</span></span>
+<span id="cb6-80"><a href="#cb6-80"></a>            <span class="cf">if</span> best_score <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> score <span class="op">&gt;</span> best_score:</span>
+<span id="cb6-81"><a href="#cb6-81"></a>                best_split <span class="op">=</span> split</span>
+<span id="cb6-82"><a href="#cb6-82"></a>                best_score <span class="op">=</span> score</span>
+<span id="cb6-83"><a href="#cb6-83"></a></span>
+<span id="cb6-84"><a href="#cb6-84"></a>    <span class="co"># Raise an error if there is no way to split the data.</span></span>
+<span id="cb6-85"><a href="#cb6-85"></a>    <span class="cf">if</span> best_split <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-86"><a href="#cb6-86"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span></span>
 <span id="cb6-87"><a href="#cb6-87"></a></span>
-<span id="cb6-88"><a href="#cb6-88"></a><span class="co"># Find the best split on the training data.</span></span>
-<span id="cb6-89"><a href="#cb6-89"></a>split <span class="op">=</span> find_best_split(boc.transform(X).toarray(), y)</span>
-<span id="cb6-90"><a href="#cb6-90"></a><span class="co"># Score the best split.</span></span>
-<span id="cb6-91"><a href="#cb6-91"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<span id="cb6-88"><a href="#cb6-88"></a>    <span class="cf">return</span> best_split</span>
+<span id="cb6-89"><a href="#cb6-89"></a></span>
+<span id="cb6-90"><a href="#cb6-90"></a></span>
+<span id="cb6-91"><a href="#cb6-91"></a><span class="co"># Find the best split on the training data.</span></span>
+<span id="cb6-92"><a href="#cb6-92"></a>split <span class="op">=</span> find_best_split(boc.transform(X).toarray(), y)</span>
+<span id="cb6-93"><a href="#cb6-93"></a><span class="co"># Score the best split.</span></span>
+<span id="cb6-94"><a href="#cb6-94"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.581322482197355</code></pre>
 </div>
 </div>
 <p>And we get the same result! We now have an automated way to find the best split on a dataset. The next step is to further divide each group. We just repeat the process on each group, further dividing the data. In order to split a group, we must make the split on the subset of the data that group was trained on. We trained two baseline classifiers with two subsets of the data, now we replace those baseline classifiers with <code>Split</code> models that are trained on those same subsets. Because the <code>Split</code> models are <code>sklearn</code> estimators we can replace the baseline models and they’ll just work when we call the appropriate methods.</p>
 <p>Let’s start by splitting just the left hand side group. We need to get the appropriate subset of the training data and make a new split with <code>find_best_split</code>, replacing the baseline classifier that was trained on that same data.</p>
-<div id="83befec9-1812-4a40-93ff-e01912f06bca" class="cell" data-execution_count="48">
+<div id="83befec9-1812-4a40-93ff-e01912f06bca" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Transform our input to a bag of characters.</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>X_boc <span class="op">=</span> boc.transform(X).toarray()</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
@@ -451,24 +454,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-6"><a href="#cb8-6"></a></span>
 <span id="cb8-7"><a href="#cb8-7"></a><span class="co"># Grab the part of the dataset that was used to train the</span></span>
 <span id="cb8-8"><a href="#cb8-8"></a><span class="co"># left hand side baseline classifier.</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>X_sub <span class="op">=</span> X_boc[lhs]</span>
-<span id="cb8-10"><a href="#cb8-10"></a>y_sub <span class="op">=</span> y[lhs]</span>
+<span id="cb8-9"><a href="#cb8-9"></a>X_lhs <span class="op">=</span> X_boc[lhs]</span>
+<span id="cb8-10"><a href="#cb8-10"></a>y_lhs <span class="op">=</span> y[lhs]</span>
 <span id="cb8-11"><a href="#cb8-11"></a></span>
 <span id="cb8-12"><a href="#cb8-12"></a><span class="co"># Create a new split for just the left hand side group,</span></span>
 <span id="cb8-13"><a href="#cb8-13"></a><span class="co"># replacing the baseline classifier.</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>split.lhs_ <span class="op">=</span> find_best_split(X_sub, y_sub)</span>
+<span id="cb8-14"><a href="#cb8-14"></a>split.lhs_ <span class="op">=</span> find_best_split(X_lhs, y_lhs)</span>
 <span id="cb8-15"><a href="#cb8-15"></a></span>
 <span id="cb8-16"><a href="#cb8-16"></a><span class="co"># Score the new model.</span></span>
 <span id="cb8-17"><a href="#cb8-17"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.5853916581892167</code></pre>
 </div>
 </div>
 <p>Progress. We now have two splits. The first splits the data into two groups, and the second splits the left hand side into two more groups giving three groups in total.</p>
-<p>Let’s code the process up to find all the optimal splits.</p>
-<div id="46351e38-42c1-4cd8-bd6c-3ebc160ec8fb" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Implement depth first search.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s code the process up to find all the optimal splits over the whole dataset.</p>
+<div id="46351e38-42c1-4cd8-bd6c-3ebc160ec8fb" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">def</span> find_best_splits(X, y):</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="co">"""Generate a binary tree based on the data."""</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="co"># Create a baseline classifier for the entire dataset.</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>    unsplit <span class="op">=</span> DummyClassifier().fit(X, y)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-9"><a href="#cb10-9"></a>        <span class="co"># Create a split on the dataset.</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>        split <span class="op">=</span> find_best_split(X, y)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb10-12"><a href="#cb10-12"></a>        <span class="co"># If it's impossible to split the dataset, return</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a>        <span class="co"># the baseline classifier.</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>        <span class="cf">return</span> unsplit</span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a>    <span class="co"># If the baseline classifier performs better than the</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>    <span class="co"># split classifier, return the baseline classifier.</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a>    <span class="cf">if</span> unsplit.score(X, y) <span class="op">&gt;=</span> split.score(X, y):</span>
+<span id="cb10-19"><a href="#cb10-19"></a>        <span class="cf">return</span> unsplit</span>
+<span id="cb10-20"><a href="#cb10-20"></a></span>
+<span id="cb10-21"><a href="#cb10-21"></a>    <span class="co"># Create boolean arrays for each subset of the data based</span></span>
+<span id="cb10-22"><a href="#cb10-22"></a>    <span class="co"># on the split value.</span></span>
+<span id="cb10-23"><a href="#cb10-23"></a>    rhs <span class="op">=</span> X[:, split.idx] <span class="op">&gt;=</span> split.value</span>
+<span id="cb10-24"><a href="#cb10-24"></a>    lhs <span class="op">=</span> <span class="op">~</span>rhs</span>
+<span id="cb10-25"><a href="#cb10-25"></a></span>
+<span id="cb10-26"><a href="#cb10-26"></a>    <span class="co"># Recursively update the left hand side classifier.</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a>    split.lhs_ <span class="op">=</span> find_best_splits(X[lhs], y[lhs])</span>
+<span id="cb10-28"><a href="#cb10-28"></a>    <span class="co"># Recursively update the right hand side classifier.</span></span>
+<span id="cb10-29"><a href="#cb10-29"></a>    split.rhs_ <span class="op">=</span> find_best_splits(X[rhs], y[rhs])</span>
+<span id="cb10-30"><a href="#cb10-30"></a></span>
+<span id="cb10-31"><a href="#cb10-31"></a>    <span class="co"># Return the updated split.</span></span>
+<span id="cb10-32"><a href="#cb10-32"></a>    <span class="cf">return</span> split</span>
+<span id="cb10-33"><a href="#cb10-33"></a></span>
+<span id="cb10-34"><a href="#cb10-34"></a><span class="kw">class</span> DecisionTree(ClassifierMixin, BaseEstimator):</span>
+<span id="cb10-35"><a href="#cb10-35"></a>    <span class="co">"""Binary decision tree classifier."""</span></span>
+<span id="cb10-36"><a href="#cb10-36"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb10-37"><a href="#cb10-37"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
+<span id="cb10-38"><a href="#cb10-38"></a>        <span class="cf">if</span> issparse(X):</span>
+<span id="cb10-39"><a href="#cb10-39"></a>            X <span class="op">=</span> X.toarray()</span>
+<span id="cb10-40"><a href="#cb10-40"></a>        <span class="co"># Convert `X` and `y` to `numpy` arrays for consistency.</span></span>
+<span id="cb10-41"><a href="#cb10-41"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb10-42"><a href="#cb10-42"></a></span>
+<span id="cb10-43"><a href="#cb10-43"></a>        <span class="co"># Grab the labels.</span></span>
+<span id="cb10-44"><a href="#cb10-44"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb10-45"><a href="#cb10-45"></a></span>
+<span id="cb10-46"><a href="#cb10-46"></a>        <span class="co"># Create the binary tree.</span></span>
+<span id="cb10-47"><a href="#cb10-47"></a>        <span class="va">self</span>.tree_ <span class="op">=</span> find_best_splits(X, y)</span>
+<span id="cb10-48"><a href="#cb10-48"></a></span>
+<span id="cb10-49"><a href="#cb10-49"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-50"><a href="#cb10-50"></a></span>
+<span id="cb10-51"><a href="#cb10-51"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb10-52"><a href="#cb10-52"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
+<span id="cb10-53"><a href="#cb10-53"></a>        <span class="cf">if</span> issparse(X):</span>
+<span id="cb10-54"><a href="#cb10-54"></a>            X <span class="op">=</span> X.toarray()</span>
+<span id="cb10-55"><a href="#cb10-55"></a>        <span class="co"># Convert `X` to `numpy` array for consistency.</span></span>
+<span id="cb10-56"><a href="#cb10-56"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb10-57"><a href="#cb10-57"></a>        <span class="co"># Return predictions from the binary decision tree.</span></span>
+<span id="cb10-58"><a href="#cb10-58"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Keen eyed observers may have noticed this is an implementation of recursive depth first search.</p>
+<div id="640a22a5-e83f-42af-9c8d-b43761c8764b" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">'boc'</span>, boc), (<span class="st">'decision_tree'</span>, DecisionTree())])</span>
+<span id="cb11-2"><a href="#cb11-2"></a>pipeline.fit(X, y)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.5877924720244151</code></pre>
+</div>
+</div>
+<p>Oh interesting, our decision tree actually performed better!</p>
 
 
 </section>
