@@ -443,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>0.581322482197355</code></pre>
 </div>
 </div>
-<p>And we get the same result! We now have an automated way to find the best split on a dataset. The next step is to further divide each group. We just repeat the process on each group, further dividing the data. In order to split a group, we must make the split on the subset of the data that group was trained on. We trained two baseline classifiers with two subsets of the data, now we replace those baseline classifiers with <code>Split</code> models that are trained on those same subsets. Because the <code>Split</code> models are <code>sklearn</code> estimators we can replace the baseline models and they’ll just work when we call the appropriate methods.</p>
+<p>And we get the same result! We now have an automated way to find the best split on a dataset. The next step is to further divide each group. We just repeat the process, further dividing the data. In order to split a group, we must make the split on the subset of the data that group was trained on. We trained two baseline classifiers with two subsets of the data, now we replace those baseline classifiers with <code>Split</code> models that are trained on those same subsets. Because the <code>Split</code> models are <code>sklearn</code> estimators we can replace the baseline models and they’ll just work when we call the appropriate methods.</p>
 <p>Let’s start by splitting just the left hand side group. We need to get the appropriate subset of the training data and make a new split with <code>find_best_split</code>, replacing the baseline classifier that was trained on that same data.</p>
 <div id="83befec9-1812-4a40-93ff-e01912f06bca" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Transform our input to a bag of characters.</span></span>
@@ -468,7 +468,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Progress. We now have two splits. The first splits the data into two groups, and the second splits the left hand side into two more groups giving three groups in total.</p>
-<p>Let’s code the process up to find all the optimal splits over the whole dataset.</p>
+<p>Let’s code the process up to find all the optimal splits over the whole dataset. There is one additional caveat I haven’t mentioned yet. We should only split the data if it improves the score, otherwise stop splitting the data and leave the baseline models in place.</p>
 <div id="46351e38-42c1-4cd8-bd6c-3ebc160ec8fb" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
@@ -551,7 +551,7 @@ Note
 <pre><code>0.5877924720244151</code></pre>
 </div>
 </div>
-<p>Oh interesting, our decision tree actually performed better than the <code>sklearn</code> one! Turns out ours is a little different and we’ll find out why next chapter.</p>
+<p>Oh interesting, our decision tree actually performed better than the <code>sklearn</code> one! Turns out ours is a little different and we’ll find out why next chapter when we dive into loss functions.</p>
 
 
 </section>
