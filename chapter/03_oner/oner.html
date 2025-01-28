@@ -94,7 +94,7 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-78faf54a06e50be45dc6d83ab59297a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-72c93205fb41c15e2e398b4f9a505ee2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -236,7 +236,6 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#data-analysis-side-quest" id="toc-data-analysis-side-quest" class="nav-link" data-scroll-target="#data-analysis-side-quest"><span class="header-section-number">3.3.1</span> Data analysis side quest</a></li>
   </ul></li>
-  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">3.4</span> Multiclass classification</a></li>
   </ul>
 </nav>
     </div>
@@ -580,47 +579,6 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 </div>
 </div>
 <p>And the accuracy is still 50%. Bummer. Either our model isn’t good enough or our feature extraction doesn’t capture enough information from the reviews. In theory, our model will perform better if the feature is more informative, so next chapter we will look at improving our model by changing the features it’s trained on.</p>
-</section>
-</section>
-<section id="multiclass-classification" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">3.4</span> Multiclass classification</h2>
-<p>I don’t expect this to work well, but let’s see anyway.</p>
-<div id="d81e0bb1-10e7-4706-bff0-81c3ca069f5e" class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display" data-execution_count="10">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Accuracy</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Baseline</td>
-<td>0.199715</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>The baseline accuracy is 20%, can we do better?</p>
-<div id="b1f981c4-d6ff-4e33-a267-43c2214ef419" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>oner <span class="op">=</span> OneR().fit(X, train_df[<span class="st">"rating"</span>])</span>
-<span id="cb11-2"><a href="#cb11-2"></a>oner.score(X_test, test_df[<span class="st">"rating"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>0.17367243133265514</code></pre>
-</div>
-</div>
-<p>Nope, but that’s OK. It will get better in the future, I promise!</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -628,6 +586,7 @@ Cell <span class="ansi-green-fg">In[3], line 17</span>
 Holte, Robert C. 1993. <span>“Very Simple Classification Rules Perform Well on Most Commonly Used Datasets.”</span> <em>Machine Learning</em> 11 (1): 63–90. <a href="https://doi.org/10.1023/A:1022631118932">https://doi.org/10.1023/A:1022631118932</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->

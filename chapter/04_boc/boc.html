@@ -94,7 +94,7 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-78faf54a06e50be45dc6d83ab59297a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-72c93205fb41c15e2e398b4f9a505ee2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -234,7 +234,6 @@ div.csl-indent {
   <li><a href="#sec-models-as-analysis-tools" id="toc-sec-models-as-analysis-tools" class="nav-link" data-scroll-target="#sec-models-as-analysis-tools"><span class="header-section-number">4.5</span> Models as analysis tools</a></li>
   <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines"><span class="header-section-number">4.6</span> Pipelines</a></li>
   <li><a href="#rolling-our-own-feature-extractor" id="toc-rolling-our-own-feature-extractor" class="nav-link" data-scroll-target="#rolling-our-own-feature-extractor"><span class="header-section-number">4.7</span> Rolling our own feature extractor</a></li>
-  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification"><span class="header-section-number">4.8</span> Multiclass classification</a></li>
   </ul>
 </nav>
     </div>
@@ -632,21 +631,6 @@ div.csl-indent {
 </div>
 </div>
 <p>Easy peasy.</p>
-</section>
-<section id="multiclass-classification" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="multiclass-classification"><span class="header-section-number">4.8</span> Multiclass classification</h2>
-<p>Let’s see how we do with multiclass classification. Our accuracy with the baseline model was 20%. Can we beat that?</p>
-<div id="11a57239-f097-4c78-a8fe-a93f4f75955d" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>y_multi <span class="op">=</span> train_df[<span class="st">"rating"</span>]</span>
-<span id="cb18-2"><a href="#cb18-2"></a>y_test_multi <span class="op">=</span> test_df[<span class="st">"rating"</span>]</span>
-<span id="cb18-3"><a href="#cb18-3"></a></span>
-<span id="cb18-4"><a href="#cb18-4"></a>pipeline.fit(X, y_multi)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>pipeline.score(X_test, y_test_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>0.19377416073245168</code></pre>
-</div>
-</div>
-<p>It’s about the same, that’s unfortunate. This is a harder problem than predicting if a review is positive or negative. The decision of what class to choose is more complicated since there’s more options to choose from. With that added complexity, the model needs to learn more information about the data to be predictive. This means our model is either too simple or the input doesn’t contain enough information to scale to this more difficult task. Performance on the multiclass classification problem will lag behind the binary classification problem, but it will improve as we build better and better models.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
