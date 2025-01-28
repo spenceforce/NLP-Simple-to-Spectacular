@@ -314,7 +314,7 @@ memory usage: 1.1+ MB</code></pre>
 <li><code>review</code>: This is the review. Pretty self-explanatory.</li>
 <li><code>label</code>: A 0 or 1 value indicating if the review is negative or positive, respectively.</li>
 </ul>
-<p>The columns we’re interested in are <code>review</code>, <code>label</code>, and to a lesser extend, <code>rating</code>. <code>review</code> will be the input to all models as this is the natural language we are trying to process. <code>label</code> and <code>rating</code> are what we’re trying to predict! We will mainly be predicting <code>label</code>, but we will also use <code>rating</code> to show how to scale binary classification (predicting two labels) to multiple labels (predicting three or more labels).</p>
+<p>The columns we’re interested in are <code>review</code> and <code>label</code>. <code>review</code> will be the input to all models as this is the natural language we are trying to process. <code>label</code> is what we’re trying to predict!.</p>
 <p>Let’s inspect a few reviews with <code>DataFrame.head()</code>.</p>
 <div id="d8dc74ce-2047-44a9-b67b-2a264d6adcf5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -380,7 +380,7 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 </div>
 </div>
-<p>The <code>review</code> column looks like natural language and the <code>label</code> and <code>rating</code> columns have numeric values just like <code>DataFrame.info()</code> said.</p>
+<p>The <code>review</code> column looks like natural language and the <code>label</code> column has numeric values just like <code>DataFrame.info()</code> said.</p>
 <p>We can also see how this dataset is split by label.</p>
 <div id="e52f49a5-2e03-4810-b221-e1c46d1fbf2a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>train_df.value_counts(<span class="st">"label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -416,7 +416,7 @@ dtypes: int64(1), object(2)
 memory usage: 1.5+ MB</code></pre>
 </div>
 </div>
-<p>As you can see, there is no <code>label</code> or <code>rating</code> columns. It’s just reviews and nothing else.</p>
+<p>As you can see, there is no <code>label</code> column. It’s just reviews and nothing else.</p>
 <p>The next chapter will focus on building our first model. It will be simple and not very good.</p>
 
 
