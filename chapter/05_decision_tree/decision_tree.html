@@ -503,31 +503,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-31"><a href="#cb10-31"></a>    <span class="co"># Return the updated split.</span></span>
 <span id="cb10-32"><a href="#cb10-32"></a>    <span class="cf">return</span> split</span>
 <span id="cb10-33"><a href="#cb10-33"></a></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="kw">class</span> DecisionTree(ClassifierMixin, BaseEstimator):</span>
-<span id="cb10-35"><a href="#cb10-35"></a>    <span class="co">"""Binary decision tree classifier."""</span></span>
-<span id="cb10-36"><a href="#cb10-36"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
-<span id="cb10-37"><a href="#cb10-37"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
-<span id="cb10-38"><a href="#cb10-38"></a>        <span class="cf">if</span> issparse(X):</span>
-<span id="cb10-39"><a href="#cb10-39"></a>            X <span class="op">=</span> X.toarray()</span>
-<span id="cb10-40"><a href="#cb10-40"></a>        <span class="co"># Convert `X` and `y` to `numpy` arrays for consistency.</span></span>
-<span id="cb10-41"><a href="#cb10-41"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
-<span id="cb10-42"><a href="#cb10-42"></a></span>
-<span id="cb10-43"><a href="#cb10-43"></a>        <span class="co"># Grab the labels.</span></span>
-<span id="cb10-44"><a href="#cb10-44"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
-<span id="cb10-45"><a href="#cb10-45"></a></span>
-<span id="cb10-46"><a href="#cb10-46"></a>        <span class="co"># Create the binary tree.</span></span>
-<span id="cb10-47"><a href="#cb10-47"></a>        <span class="va">self</span>.tree_ <span class="op">=</span> find_best_splits(X, y)</span>
-<span id="cb10-48"><a href="#cb10-48"></a></span>
-<span id="cb10-49"><a href="#cb10-49"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-34"><a href="#cb10-34"></a></span>
+<span id="cb10-35"><a href="#cb10-35"></a><span class="kw">class</span> DecisionTree(ClassifierMixin, BaseEstimator):</span>
+<span id="cb10-36"><a href="#cb10-36"></a>    <span class="co">"""Binary decision tree classifier."""</span></span>
+<span id="cb10-37"><a href="#cb10-37"></a></span>
+<span id="cb10-38"><a href="#cb10-38"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb10-39"><a href="#cb10-39"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
+<span id="cb10-40"><a href="#cb10-40"></a>        <span class="cf">if</span> issparse(X):</span>
+<span id="cb10-41"><a href="#cb10-41"></a>            X <span class="op">=</span> X.toarray()</span>
+<span id="cb10-42"><a href="#cb10-42"></a>        <span class="co"># Convert `X` and `y` to `numpy` arrays for consistency.</span></span>
+<span id="cb10-43"><a href="#cb10-43"></a>        X, y <span class="op">=</span> np.array(X), np.array(y)</span>
+<span id="cb10-44"><a href="#cb10-44"></a></span>
+<span id="cb10-45"><a href="#cb10-45"></a>        <span class="co"># Grab the labels.</span></span>
+<span id="cb10-46"><a href="#cb10-46"></a>        <span class="va">self</span>.classes_ <span class="op">=</span> unique_labels(y)</span>
+<span id="cb10-47"><a href="#cb10-47"></a></span>
+<span id="cb10-48"><a href="#cb10-48"></a>        <span class="co"># Create the binary tree.</span></span>
+<span id="cb10-49"><a href="#cb10-49"></a>        <span class="va">self</span>.tree_ <span class="op">=</span> find_best_splits(X, y)</span>
 <span id="cb10-50"><a href="#cb10-50"></a></span>
-<span id="cb10-51"><a href="#cb10-51"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
-<span id="cb10-52"><a href="#cb10-52"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
-<span id="cb10-53"><a href="#cb10-53"></a>        <span class="cf">if</span> issparse(X):</span>
-<span id="cb10-54"><a href="#cb10-54"></a>            X <span class="op">=</span> X.toarray()</span>
-<span id="cb10-55"><a href="#cb10-55"></a>        <span class="co"># Convert `X` to `numpy` array for consistency.</span></span>
-<span id="cb10-56"><a href="#cb10-56"></a>        X <span class="op">=</span> np.array(X)</span>
-<span id="cb10-57"><a href="#cb10-57"></a>        <span class="co"># Return predictions from the binary decision tree.</span></span>
-<span id="cb10-58"><a href="#cb10-58"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-51"><a href="#cb10-51"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-52"><a href="#cb10-52"></a></span>
+<span id="cb10-53"><a href="#cb10-53"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X):</span>
+<span id="cb10-54"><a href="#cb10-54"></a>        <span class="co"># Convert sparse matrix to `numpy` matrix.</span></span>
+<span id="cb10-55"><a href="#cb10-55"></a>        <span class="cf">if</span> issparse(X):</span>
+<span id="cb10-56"><a href="#cb10-56"></a>            X <span class="op">=</span> X.toarray()</span>
+<span id="cb10-57"><a href="#cb10-57"></a>        <span class="co"># Convert `X` to `numpy` array for consistency.</span></span>
+<span id="cb10-58"><a href="#cb10-58"></a>        X <span class="op">=</span> np.array(X)</span>
+<span id="cb10-59"><a href="#cb10-59"></a>        <span class="co"># Return predictions from the binary decision tree.</span></span>
+<span id="cb10-60"><a href="#cb10-60"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Keen eyed observers may have noticed this is an implementation of recursive depth first search.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -544,7 +546,7 @@ Note
 </div>
 </div>
 <div id="640a22a5-e83f-42af-9c8d-b43761c8764b" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">'boc'</span>, boc), (<span class="st">'decision_tree'</span>, DecisionTree())])</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"boc"</span>, boc), (<span class="st">"decision_tree"</span>, DecisionTree())])</span>
 <span id="cb11-2"><a href="#cb11-2"></a>pipeline.fit(X, y)</span>
 <span id="cb11-3"><a href="#cb11-3"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
