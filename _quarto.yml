@@ -10,12 +10,20 @@ book:
   chapters:
     - index.qmd
     - chapter/01_data/data.ipynb
-    - chapter/02_baseline/baseline_classifier.ipynb
-    - chapter/03_oner/oner.ipynb
-    - chapter/04_boc/boc.ipynb
-    - chapter/05_decision_tree/decision_tree.ipynb
-    - chapter/bonus/cleaning_data/cleaning_data.ipynb
-    - chapter/bonus/quality_vs_quantity/quality_vs_quantity.ipynb
+    - part: "Classification"
+      chapters:
+      - chapter/02_baseline/baseline_classifier.ipynb
+      - chapter/03_oner/oner.ipynb
+    - part: "Representation learning"
+      chapters:
+      - chapter/04_boc/boc.ipynb
+    - part: "Classification"
+      chapters:
+      - chapter/05_decision_tree/decision_tree.ipynb
+    - part: "Bonus chapters"
+      chapters:
+      - chapter/bonus/cleaning_data/cleaning_data.ipynb
+      - chapter/bonus/quality_vs_quantity/quality_vs_quantity.ipynb
     - references.qmd
 
 bibliography: references.bib
