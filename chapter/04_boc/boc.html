@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-a34d670291f06f286357e447776a572a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -304,7 +304,7 @@ div.csl-indent {
 
 
 <p><a href="../../chapter/03_oner/oner.html">Last chapter</a> we implemented the OneR <span class="citation" data-cites="Holte1993">(<a href="../../references.html#ref-Holte1993" role="doc-biblioref">Holte 1993</a>)</span> algorithm. In this chapter we’ll improve the model without improving the model. Sounds strange, but bear with me. This chapter is all about changing the input to the model.</p>
-<p>Right now we just pass the length as input. It’s a simple way to represent reviews as number (see <a href="../03_oner/oner.html#sec-feature-extraction-intro" class="quarto-xref"><span>Section 3.3</span></a>). In fact it’s too simple which is why our model hasn’t improved from 50% accuracy. Now we will focus on creating a richer representation of the reviews for our model, one that the model can actually learn from.</p>
+<p>Right now we just pass the length as input. It’s a simple way to represent reviews as a number (see <a href="../03_oner/oner.html#sec-feature-extraction-intro" class="quarto-xref"><span>Section 3.3</span></a>). In fact it’s too simple which is why our model hasn’t improved from 50% accuracy. Now we will focus on creating a richer representation of the reviews for our model, one that the model can actually learn from.</p>
 <section id="bag-of-characters" class="level2 page-columns page-full" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="bag-of-characters"><span class="header-section-number">4.1</span> Bag of characters</h2>
 <p>Text data is rich in information, with the ordering of characters, words, and sentences all contributing to structure and meaning. There are several ways to capture that information and represent it as a matrix of numbers. We will start with characters as these are the foundational building blocks of words.</p>
