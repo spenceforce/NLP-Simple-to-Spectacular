@@ -5,6 +5,5 @@ __all__ = [
     "get_train_test_data",
     "get_unsup_data",
     "model_results",
-    "get_results",
-    "get_multiclass_results",
+    "get_results"
 ]
