@@ -2,8 +2,8 @@ import tarfile
 from pathlib import Path
 
 import pandas as pd
-
 import requests
+from sklearn.model_selection import train_test_split
 
 __all__ = ["get_train_test_data", "get_unsup_data"]
 
@@ -113,7 +113,7 @@ def get_train_test_data():
     return train_df, test_df
 
 
-def get_unsup_data(dedup=True):
+def get_unsup_data(dedup=True, split=False):
     """
     Return a `pd.DataFrame` with the unsupervised data.
     """
@@ -121,8 +121,13 @@ def get_unsup_data(dedup=True):
     rv = get_review_data(
         data_path / "train/unsup", data_path / "train/urls_unsup.txt", dedup
     )
-    rv.drop(columns="rating", inplace=True)
     # Drop the ratings column since every review in the
     # unsupervised set is given a rating of 0 regardless
     # of what it's rating is.
-    return rv
+    rv.drop(columns="rating", inplace=True)
+
+    if split:
+        return train_test_split(rv, test_size=0.1, random_state=100392)
+    else:
+        # Return the entire dataset.
+        return rv.copy()
