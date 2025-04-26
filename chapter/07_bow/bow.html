@@ -451,7 +451,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-72"><a href="#cb3-72"></a>                    col_indices.append(<span class="va">self</span>.vocabulary_[word])</span>
 <span id="cb3-73"><a href="#cb3-73"></a></span>
 <span id="cb3-74"><a href="#cb3-74"></a>        <span class="co"># Return the count matrix.</span></span>
-<span id="cb3-75"><a href="#cb3-75"></a>        <span class="cf">return</span> csr_matrix((values, (row_indices, col_indices)), shape<span class="op">=</span>(X.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.vocabulary_)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-75"><a href="#cb3-75"></a>        <span class="cf">return</span> csr_matrix(</span>
+<span id="cb3-76"><a href="#cb3-76"></a>            (values, (row_indices, col_indices)),</span>
+<span id="cb3-77"><a href="#cb3-77"></a>            shape<span class="op">=</span>(X.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.vocabulary_)),</span>
+<span id="cb3-78"><a href="#cb3-78"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s plug it into a decision tree and see how it compares.</p>
 <div id="8d08c0dd-bb81-4e21-94cd-b865871bee51" class="cell" data-execution_count="30">
