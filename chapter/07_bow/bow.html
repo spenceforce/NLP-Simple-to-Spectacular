@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -276,11 +276,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#easy-button" id="toc-easy-button" class="nav-link active" data-scroll-target="#easy-button"><span class="header-section-number">7.1</span> Easy button</a></li>
   <li><a href="#rolling-our-own" id="toc-rolling-our-own" class="nav-link" data-scroll-target="#rolling-our-own"><span class="header-section-number">7.2</span> Rolling our own</a></li>
+  <li><a href="#model-vs-representation" id="toc-model-vs-representation" class="nav-link" data-scroll-target="#model-vs-representation"><span class="header-section-number">7.3</span> Model vs representation</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Words &gt; characters</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -469,7 +470,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>0.6921668362156663</code></pre>
 </div>
 </div>
-<p>Alright, basically the same accuracy! Now try and tell me you don’t believe the way data is represented doesn’t play a huge role in performance.</p>
+<p>Alright, basically the same accuracy! Now try and tell me you don’t believe the way data is represented plays a huge role in performance.</p>
+</section>
+<section id="model-vs-representation" class="level2 page-columns page-full" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="model-vs-representation"><span class="header-section-number">7.3</span> Model vs representation</h2>
+<div class="page-columns page-full"><p>Then again does it always make a difference? Would it help our <a href="../../chapter/03_oner/oner.html">OneR</a> model?</p><div class="no-row-height column-margin column-container"><span class="margin-aside">For those running the notebook, training <code>OneR</code> on a bag of words representation is slow. It tooks a half hour on my laptop.</span></div></div>
+<div id="25ce3cb8-8789-47c2-b4c6-ea7035e6b3d7" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> nlpbook.models.oner <span class="im">import</span> OneR</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>oner <span class="op">=</span> OneR()</span>
+<span id="cb6-4"><a href="#cb6-4"></a>oner_pipeline <span class="op">=</span> Pipeline([(<span class="st">"bow"</span>, bow), (<span class="st">"oner"</span>, oner)])</span>
+<span id="cb6-5"><a href="#cb6-5"></a>oner_pipeline.fit(X, y)</span>
+<span id="cb6-6"><a href="#cb6-6"></a>oner_pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>0.5942217700915564</code></pre>
+</div>
+</div>
+<p>Mm that doesn’t give much benefit. It turns out you need both a good representation of your data that a model can understand and a good model that can infer meaning from a representation of the data!</p>
+<p>The decision tree is a more powerful model than OneR which gives it the ability to learn more from the data.</p>
 <p>Next we’ll turn our attention to generative models where we’ll start with a different way to represent our data.</p>
 
 
