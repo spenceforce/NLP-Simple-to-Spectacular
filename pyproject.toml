@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nlpbook"
-version = "0.0.14"
+version = "0.0.15"
 authors = [
   {name="Spencer Mitchell", email="smitchell556@gmail.com"},
 ]

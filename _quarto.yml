@@ -21,6 +21,9 @@ book:
       chapters:
       - chapter/05_decision_tree/decision_tree.ipynb
       - chapter/06_loss/loss.ipynb
+    - part: "Representation learning"
+      chapters:
+      - chapter/07_bow/bow.ipynb
     - part: "Bonus chapters"
       chapters:
       - chapter/bonus/cleaning_data/cleaning_data.ipynb

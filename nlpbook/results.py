@@ -7,6 +7,7 @@ model_results = [
     ("OneR (boc)", 0.5812817904374364),
     ("Decision Tree (boc + accuracy)", 0.5877924720244151),
     ("Decision Tree (boc + gini)", 0.5558087487283825),
+    ("Decision Tree (bow)", 0.7185350966429298)
 ]
 model_results = pd.DataFrame(
     [{"Model": m, "Accuracy": a} for m, a in model_results]
