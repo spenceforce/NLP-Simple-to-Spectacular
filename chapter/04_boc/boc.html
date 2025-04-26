@@ -241,7 +241,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Bonus chapters</span></a>
+ <span class="menu-text">Representation learning</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -249,14 +249,31 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapter/07_bow/bow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Words &gt; characters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bonus chapters</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">cleaning data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">cleaning data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
       </ul>
@@ -283,7 +300,7 @@ div.csl-indent {
   <li><a href="#machine-learning-is-an-end-to-end-process" id="toc-machine-learning-is-an-end-to-end-process" class="nav-link" data-scroll-target="#machine-learning-is-an-end-to-end-process"><span class="header-section-number">4.4</span> Machine learning is an end to end process</a></li>
   <li><a href="#sec-models-as-analysis-tools" id="toc-sec-models-as-analysis-tools" class="nav-link" data-scroll-target="#sec-models-as-analysis-tools"><span class="header-section-number">4.5</span> Models as analysis tools</a></li>
   <li><a href="#pipelines" id="toc-pipelines" class="nav-link" data-scroll-target="#pipelines"><span class="header-section-number">4.6</span> Pipelines</a></li>
-  <li><a href="#rolling-our-own-feature-extractor" id="toc-rolling-our-own-feature-extractor" class="nav-link" data-scroll-target="#rolling-our-own-feature-extractor"><span class="header-section-number">4.7</span> Rolling our own feature extractor</a></li>
+  <li><a href="#sec-rolling-our-own-boc" id="toc-sec-rolling-our-own-boc" class="nav-link" data-scroll-target="#sec-rolling-our-own-boc"><span class="header-section-number">4.7</span> Rolling our own feature extractor</a></li>
   </ul>
 </nav>
     </div>
@@ -598,8 +615,8 @@ div.csl-indent {
 </div>
 <p>Nice, that gave the same result and we didn’t have to remember to apply the preprocessing transform to the test data. One thing to note about pipelines is all but the last step need to have a <code>transform</code> method. The last step needs a <code>predict</code> method. Basically pipelines string together transformers, then pass the output of that process to the last step which is a model.</p>
 </section>
-<section id="rolling-our-own-feature-extractor" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="rolling-our-own-feature-extractor"><span class="header-section-number">4.7</span> Rolling our own feature extractor</h2>
+<section id="sec-rolling-our-own-boc" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-rolling-our-own-boc"><span class="header-section-number">4.7</span> Rolling our own feature extractor</h2>
 <p>We’ve already handled the OneR model, now let’s make a bag of characters transformer.</p>
 <div id="aaf2ff2f-ef6e-4a8d-b3cf-a54f4dbeeb56" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> TransformerMixin</span>
