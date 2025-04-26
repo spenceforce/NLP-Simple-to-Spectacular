@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -284,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We made progress with <a href="../../chapter/04_boc/boc.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">decision tree</a> does; it repeatedly splits the data into groups based on the values of different features. When making a prediction it finds the most appropriate group for the input and returns the most common label from that group. Our work with decision trees will span multiple chapters as we’ll explore some important topics in machine learning using this model.</p>
+<p>We made progress with <a href="../../chapter/04_boc/boc.html">OneR</a> which makes predictions on one feature of the dataset. The next logical step is to make predictions on combinations of features. This is what a <a href="https://en.wikipedia.org/wiki/Decision_tree">decision tree</a> <span class="citation" data-cites="breiman1984classification">(<a href="../../references.html#ref-breiman1984classification" role="doc-biblioref">Breiman et al. 1984</a>)</span> does; it repeatedly splits the data into groups based on the values of different features. When making a prediction it finds the most appropriate group for the input and returns the most common label from that group. Our work with decision trees will span multiple chapters as we’ll explore some important topics in machine learning using this model.</p>
 <section id="easy-button" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
 <p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
@@ -606,6 +626,11 @@ Note
 <p>Oh interesting, our decision tree actually performed better than the <code>sklearn</code> one! Turns out ours is a little different and we’ll find out why next chapter when we dive into loss functions.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-breiman1984classification" class="csl-entry" role="listitem">
+Breiman, L., J. Friedman, C. J. Stone, and R. A. Olshen. 1984. <em>Classification and Regression Trees</em>. Taylor &amp; Francis. <a href="https://books.google.com/books?id=JwQx-WOmSyQC">https://books.google.com/books?id=JwQx-WOmSyQC</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
