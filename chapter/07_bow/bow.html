@@ -371,7 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>0.7185350966429298</code></pre>
 </div>
 </div>
-<p>An accuracy of 71%!</p>
+<p>An accuracy of 71%! That’s a huge boost!</p>
 </section>
 <section id="rolling-our-own" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">7.2</span> Rolling our own</h2>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4"></a></span>
 <span id="cb3-5"><a href="#cb3-5"></a></span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="kw">class</span> BagOfWords(TransformerMixin, BaseEstimator):</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    <span class="co">"""Bag of characters feature extractor."""</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>    <span class="co">"""Bag of words feature extractor."""</span></span>
 <span id="cb3-8"><a href="#cb3-8"></a></span>
 <span id="cb3-9"><a href="#cb3-9"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb3-10"><a href="#cb3-10"></a>        <span class="co">"""Fit on all characters in the array `X`.</span></span>
@@ -392,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-13"><a href="#cb3-13"></a><span class="co">        """</span></span>
 <span id="cb3-14"><a href="#cb3-14"></a>        <span class="co"># We want a 1d text array so we'll check its shape here.</span></span>
 <span id="cb3-15"><a href="#cb3-15"></a>        <span class="co"># While iterating over the array values we'll check</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a>        <span class="co"># they are text while trying to extract characters.</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>        <span class="co"># they are text while trying to extract words.</span></span>
 <span id="cb3-17"><a href="#cb3-17"></a>        <span class="cf">assert</span> <span class="bu">len</span>(X.shape) <span class="op">==</span> <span class="dv">1</span></span>
 <span id="cb3-18"><a href="#cb3-18"></a></span>
 <span id="cb3-19"><a href="#cb3-19"></a>        vocabulary_ <span class="op">=</span> {}</span>
@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-25"><a href="#cb3-25"></a>            <span class="co"># Get the unique words in the string.</span></span>
 <span id="cb3-26"><a href="#cb3-26"></a>            chars <span class="op">=</span> np.unique(x.split())</span>
 <span id="cb3-27"><a href="#cb3-27"></a></span>
-<span id="cb3-28"><a href="#cb3-28"></a>            <span class="co"># Add each character to the vocabulary if it isn't</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a>            <span class="co"># Add each word to the vocabulary if it isn't</span></span>
 <span id="cb3-29"><a href="#cb3-29"></a>            <span class="co"># there already.</span></span>
 <span id="cb3-30"><a href="#cb3-30"></a>            <span class="cf">for</span> char <span class="kw">in</span> chars:</span>
 <span id="cb3-31"><a href="#cb3-31"></a>                <span class="cf">if</span> char <span class="kw">not</span> <span class="kw">in</span> vocabulary_:</span>
