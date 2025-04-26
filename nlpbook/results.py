@@ -5,6 +5,8 @@ model_results = [
     ("Baseline", 0.5011190233977619),
     ("OneR (length)", 0.5026653102746694),
     ("OneR (boc)", 0.5812817904374364),
+    ("OneR (boc + accuracy)", 0.5812817904374364),
+    ("OneR (boc + gini)", 0.5558087487283825),
 ]
 model_results = pd.DataFrame(
     [{"Model": m, "Accuracy": a} for m, a in model_results]
