@@ -5,7 +5,7 @@ model_results = [
     ("Baseline", 0.5011190233977619),
     ("OneR (length)", 0.5026653102746694),
     ("OneR (boc)", 0.5812817904374364),
-    ("Decision Tree (boc + accuracy)", 0.5812817904374364),
+    ("Decision Tree (boc + accuracy)", 0.5877924720244151),
     ("Decision Tree (boc + gini)", 0.5558087487283825),
 ]
 model_results = pd.DataFrame(
