@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Quality vs.&nbsp;quantity – NLP: From Simple to Spectacular</title>
+<title>8&nbsp; T, o, k, e, n, s – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,24 +57,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../references.html" rel="next">
-<link href="../../../chapter/bonus/cleaning_data/cleaning_data.html" rel="prev">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-292c0866b2e53f8190c286d1fd533ef9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapter/bonus/cleaning_data/cleaning_data.html" rel="next">
+<link href="../../chapter/07_bow/bow.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-292c0866b2e53f8190c286d1fd533ef9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../chapter/bonus/cleaning_data/cleaning_data.html">Bonus chapters</a></li><li class="breadcrumb-item"><a href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../../">NLP: From Simple to Spectacular</a> 
+      <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -142,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/01_data/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Machine learning needs data</span></span></a>
   </div>
 </li>
@@ -163,13 +163,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/02_baseline/baseline_classifier.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/02_baseline/baseline_classifier.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Baseline: gotta start somewhere</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/03_oner/oner.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OneR</span></span></a>
   </div>
 </li>
@@ -186,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/04_boc/boc.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/04_boc/boc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OneR, TwoR, RedR, BlueR: Inputs matter</span></span></a>
   </div>
 </li>
@@ -203,13 +203,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/05_decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">More rules with Decision Trees</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/06_loss/loss.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/06_loss/loss.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">What’s in a loss?</span></span></a>
   </div>
 </li>
@@ -226,13 +226,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/07_bow/bow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/07_bow/bow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Words &gt; characters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/08_tokens/tokens.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/08_tokens/tokens.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></span></a>
   </div>
 </li>
@@ -249,13 +249,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">cleaning data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></span></a>
   </div>
 </li>
@@ -263,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../references.html" class="sidebar-item-text sidebar-link">
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -272,15 +272,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#tokens" id="toc-tokens" class="nav-link active" data-scroll-target="#tokens"><span class="header-section-number">8.1</span> Tokens</a></li>
+  <li><a href="#encodings" id="toc-encodings" class="nav-link" data-scroll-target="#encodings"><span class="header-section-number">8.2</span> Encodings</a></li>
+  <li><a href="#special-tokens" id="toc-special-tokens" class="nav-link" data-scroll-target="#special-tokens"><span class="header-section-number">8.3</span> Special tokens</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../chapter/bonus/cleaning_data/cleaning_data.html">Bonus chapters</a></li><li class="breadcrumb-item"><a href="../../../chapter/bonus/quality_vs_quantity/quality_vs_quantity.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Quality vs.&nbsp;quantity</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></h1>
 </div>
 
 
@@ -297,216 +305,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>While we dive into many algorithms over the course of this book, I want to drive home that machine learning models <em>need</em> data to learn. We can have the fanciest neural network on the best GPU cluster in the world, but without data, it’s all pointless. To drive this point home let’s build a linear regression on the simplest of equations.</p>
-<p>We’ll start with a line. Nothing special, just the equation <code>f(x) = x + 1</code>.</p>
-<div id="768be92d-fe38-4374-b200-9c13dffe805f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<p>Till now we’ve represented text as a bag of <a href="../../chapter/04_boc/boc.html">characters</a> or <a href="../../chapter/07_bow/bow.html">words</a>. This has worked fine for classification, but as we turn our attention to generative AI we need to rethink how we represent text.</p>
+<p>Imagine we have a model that generates movie reviews. It outputs a bag of words. What do we do with those words? How do we put them together into sentences and paragraphs? We don’t because a bag of words has no information about the <em>order of the words</em>. Whatever representation we use must preserve the order.</p>
+<p>Like always let’s start simple. The simplest thing we can do is make a list of characters in the same order they are seen in a review.</p>
+<div id="917dc1f1-b105-40e9-912e-f17e74f07d01" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>sns.set_theme(style<span class="op">=</span><span class="st">"darkgrid"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">def</span> f(x):</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    <span class="co">"""Function that applies `x + 1` to `x`."""</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="cf">return</span> x <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">def</span> get_y(xs):</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co">"""Return `y` for every `x` in the list `xs`."""</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(f, xs))</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a>x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb1-17"><a href="#cb1-17"></a>y <span class="op">=</span> get_y(x)</span>
-<span id="cb1-18"><a href="#cb1-18"></a>sns.lineplot(x<span class="op">=</span>x, y<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<span id="cb1-3"><a href="#cb1-3"></a>data <span class="op">=</span> get_unsup_data()</span>
+<span id="cb1-4"><a href="#cb1-4"></a>review <span class="op">=</span> data[<span class="st">"review"</span>][<span class="dv">0</span>]</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Only showing the first three words just to get a picture.</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="bu">list</span>(review[:<span class="dv">14</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>['I', "'", 'm', ' ', 'n', 'o', 't', ' ', 'a', 's', 'k', 'i', 'n', 'g']</code></pre>
 </div>
 </div>
-</div>
-<p>This line is the ground truth. It is real. But let’s imagine we don’t have the line. We just have a couple random points on the line.</p>
-<div id="06257c2b-fe7a-4962-bf6c-21af49da8291" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> random</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a>random.seed(<span class="dv">100392</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="kw">def</span> random_x(n):</span>
-<span id="cb2-8"><a href="#cb2-8"></a>    <span class="co">"""Return `n` random values from -1 to 1."""</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="cf">return</span> [random.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a>xs <span class="op">=</span> random_x(<span class="dv">2</span>)</span>
-<span id="cb2-13"><a href="#cb2-13"></a>ys <span class="op">=</span> get_y(xs)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>sns.scatterplot(x<span class="op">=</span>xs, y<span class="op">=</span>ys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<p>Easy enough. Now we have some tokens, what’s next…wait what’s a token?</p>
+<section id="tokens" class="level2 page-columns page-full" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="tokens"><span class="header-section-number">8.1</span> Tokens</h2>
+<div class="page-columns page-full"><p>You’ve been working with tokens this whole time. They are individual units of a string. For bag of characters each character is a token. Bag of words use words as tokens. We define what the tokens are. They can be characters, words, sentences, parts of words, whole paragraphs, etc.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I wouldn’t bother with sentence or paragraph tokens.</span></div></div>
+<p>The process of making tokens from text is called tokenization and it’s usually the first step when dealing with any NLP model. Great,we can turn reviews into tokens. The order of the tokens is preserved which is what we want. Now what?</p>
+<p>Much like we did with the bag representations, we need to convert those tokens to numbers since models work with numbers, not strings. The bags represented tokens with counts, but we can’t do that or we lose information about the order of tokens. Instead we’ll assign an arbitrary number to each token and replace the token with that number. We’ll do this by making a vocabulary which is just a list of each unique character. The index of each character will represent that character.</p>
+<p>Let’s make a vocabulary now.</p>
+<div id="0e0d9271-806a-4b2e-8152-4518f200f2f8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in `the reviews.</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> x <span class="kw">in</span> data[<span class="st">"review"</span>]:</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>vocabulary <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="bu">len</span>(vocabulary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>211</code></pre>
 </div>
 </div>
-</div>
-<p>Visually, we could draw a line from dot to dot and we’d get the same line in the previous plot. But we’re not interested in figuring out the line ourselves. We’re here to have machine learning do it for us. This is already integrated into <code>seaborn</code> so there’s not much code for us to write. The <a href="https://seaborn.pydata.org/generated/seaborn.regplot.html"><code>regplot</code></a> function will plot our data points and use machine learning to fit a line to those data points.</p>
-<div id="7f5c45fe-7f2a-45c0-9b13-ce640de04aeb" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>sns.regplot(x<span class="op">=</span>xs, y<span class="op">=</span>ys, truncate<span class="op">=</span><span class="va">False</span>, ci<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Will you look at that! The line was perfectly predicted based on the data points.</p>
-<p>But real world data isn’t this simple or this <em>clean</em>. There’s usually some amount of noise in the data that can affect the quality of predictions. Noise is randomness introduced to the data. It can come from many places like imprecise measurements, mislabelling, or unaccounted variables to name a few.</p>
-<p>Now let’s imagine we don’t have points on the line, but points close to the line. How will this change the predicted line?</p>
-<div id="fc83d77e-9796-4acd-a5da-f608bdab0213" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Add noise to the data points to simulate noisy data.</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">def</span> noisy_process(xs, noise):</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="co">"""Return `f(x)` with noise."""</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="cf">return</span> [</span>
-<span id="cb4-5"><a href="#cb4-5"></a>        y <span class="op">+</span> random.uniform(<span class="op">-</span>noise, noise)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>        <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(xs, get_y(xs))</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    ]</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a>ys_noisy <span class="op">=</span> noisy_process(xs, <span class="fl">0.25</span>)</span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a>ax <span class="op">=</span> sns.regplot(</span>
-<span id="cb4-13"><a href="#cb4-13"></a>    x<span class="op">=</span>xs,</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    y<span class="op">=</span>ys,</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-16"><a href="#cb4-16"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb4-18"><a href="#cb4-18"></a>)</span>
-<span id="cb4-19"><a href="#cb4-19"></a>sns.regplot(</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    x<span class="op">=</span>xs,</span>
-<span id="cb4-21"><a href="#cb4-21"></a>    y<span class="op">=</span>ys_noisy,</span>
-<span id="cb4-22"><a href="#cb4-22"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-23"><a href="#cb4-23"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-24"><a href="#cb4-24"></a>    ax<span class="op">=</span>ax,</span>
-<span id="cb4-25"><a href="#cb4-25"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb4-26"><a href="#cb4-26"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Hmm, that doesn’t look so bad. The predicted line in orange is pretty close to the real line in blue and has the same slope. But what if we just got lucky and the random noise happened to be low? Maybe we should run it a few more times to be sure.</p>
-<div id="dcd61ab0-bcef-4e59-8e4a-3f689eab84dd" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<p>We have a vocabulary of 211 tokens. Let’s tokenize and encode <code>review</code>.</p>
+<div id="fc1dd45f-cdc0-4f18-8f7d-8127d72d0d43" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">def</span> simulate_n(n, n_points, noise):</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co">"""</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">    Return a `pd.DataFrame` with `n` separate simulations</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">    of `n_points`.</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">    """</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>    data <span class="op">=</span> []</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    real_x <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb5-11"><a href="#cb5-11"></a>    real_y <span class="op">=</span> get_y(real_x)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>    <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(real_x, real_y):</span>
-<span id="cb5-13"><a href="#cb5-13"></a>        data.append(</span>
-<span id="cb5-14"><a href="#cb5-14"></a>            {</span>
-<span id="cb5-15"><a href="#cb5-15"></a>                <span class="st">"x"</span>: x,</span>
-<span id="cb5-16"><a href="#cb5-16"></a>                <span class="st">"y"</span>: y,</span>
-<span id="cb5-17"><a href="#cb5-17"></a>                <span class="st">"simulation"</span>: <span class="st">"Ground Truth"</span>,</span>
-<span id="cb5-18"><a href="#cb5-18"></a>                <span class="st">"noise"</span>: noise,</span>
-<span id="cb5-19"><a href="#cb5-19"></a>            }</span>
-<span id="cb5-20"><a href="#cb5-20"></a>        )</span>
-<span id="cb5-21"><a href="#cb5-21"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb5-22"><a href="#cb5-22"></a>        xs <span class="op">=</span> random_x(n_points)</span>
-<span id="cb5-23"><a href="#cb5-23"></a>        ys <span class="op">=</span> noisy_process(xs, noise)</span>
-<span id="cb5-24"><a href="#cb5-24"></a>        <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(xs, ys):</span>
-<span id="cb5-25"><a href="#cb5-25"></a>            data.append(</span>
-<span id="cb5-26"><a href="#cb5-26"></a>                {</span>
-<span id="cb5-27"><a href="#cb5-27"></a>                    <span class="st">"x"</span>: x,</span>
-<span id="cb5-28"><a href="#cb5-28"></a>                    <span class="st">"y"</span>: y,</span>
-<span id="cb5-29"><a href="#cb5-29"></a>                    <span class="st">"simulation"</span>: i <span class="op">+</span> <span class="dv">1</span>,</span>
-<span id="cb5-30"><a href="#cb5-30"></a>                    <span class="st">"noise"</span>: noise,</span>
-<span id="cb5-31"><a href="#cb5-31"></a>                }</span>
-<span id="cb5-32"><a href="#cb5-32"></a>            )</span>
-<span id="cb5-33"><a href="#cb5-33"></a>    <span class="cf">return</span> pd.DataFrame(data)</span>
-<span id="cb5-34"><a href="#cb5-34"></a></span>
-<span id="cb5-35"><a href="#cb5-35"></a></span>
-<span id="cb5-36"><a href="#cb5-36"></a>df <span class="op">=</span> simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, <span class="fl">0.25</span>)</span>
-<span id="cb5-37"><a href="#cb5-37"></a><span class="co"># `lmplot` is a fancier version of `regplot` that can handle</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a><span class="co"># multiple lines.</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a>sns.lmplot(</span>
-<span id="cb5-40"><a href="#cb5-40"></a>    df,</span>
-<span id="cb5-41"><a href="#cb5-41"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb5-42"><a href="#cb5-42"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb5-43"><a href="#cb5-43"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-44"><a href="#cb5-44"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb5-45"><a href="#cb5-45"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-46"><a href="#cb5-46"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb5-47"><a href="#cb5-47"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb5-48"><a href="#cb5-48"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<span id="cb5-3"><a href="#cb5-3"></a>review_tokens <span class="op">=</span> <span class="bu">list</span>(review)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>review_encoding <span class="op">=</span> np.array(</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    [vocabulary.index(tok) <span class="cf">for</span> tok <span class="kw">in</span> review_tokens]</span>
+<span id="cb5-6"><a href="#cb5-6"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>review_encoding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>array([ 69, 194,  82, ...,  74, 114, 136])</code></pre>
+</div>
+</div>
+<p>This numeric representation is called an <em>encoding</em>.</p>
+</section>
+<section id="encodings" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="encodings"><span class="header-section-number">8.2</span> Encodings</h2>
+<p>Encodings and tokens are two sides of the same coin. We convert tokens to encodings and use those as inputs to models. Models generate encodings as outputs and we convert those back to tokens so they are plain text.</p>
+<p>These operations are handled outside of the model by a <em>tokenizer</em>. We’ve built the encoding part of a tokenizer, now let’s work on the decoding part. Since the encoding is the indices of each character in <code>vocabulary</code> all we need to do is index into <code>vocabulary</code> with the encoding values.</p>
+<div id="3f8ad84e-d062-42f1-a18e-f2f7600edca9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>review_decoded <span class="op">=</span> <span class="st">""</span>.join([vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> review_encoding])</span>
+<span id="cb7-2"><a href="#cb7-2"></a>review_decoded <span class="op">==</span> review</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>We’ve gone through all the steps to encode and decode a review. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example the newline character doesn’t show appear in any review. Calling <code>index</code> will throw an error like this:</p>
+<div id="c396cbee-0a47-45fd-be53-e4baf34a7720" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[5], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">vocabulary</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">index</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="font-weight:bold;color:rgb(175,95,0)" class="ansi-yellow-bg">\n</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">ValueError</span>: '\n' is not in list</pre>
 </div>
 </div>
 </div>
-<p>Most of these look pretty close to the blue line, the ground truth, but what’s going on with simulation 4? The noise confused the machine learning model. It only has two points to work with and given two points it can figure out a line that perfectly lies on those two points. These two points imperfectly represent the real line and so the machine learned the line of this imperfect representation. And it gets worse with more noise.</p>
-<div id="a3d494e5-1850-4ab6-9472-2a30400dee1b" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>df <span class="op">=</span> pd.concat([simulate_n(<span class="dv">4</span>, <span class="dv">2</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]])</span>
-<span id="cb6-2"><a href="#cb6-2"></a>sns.lmplot(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    df,</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb6-11"><a href="#cb6-11"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb6-12"><a href="#cb6-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<p>We just ignored such tokens when creating a bag of characters. We aren’t going to do that here though, instead we’ll make a special token.</p>
+</section>
+<section id="special-tokens" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="special-tokens"><span class="header-section-number">8.3</span> Special tokens</h2>
+<p>Special tokens are tokens that do not come from the training data. There are several common ones used for different purposes. We’ll represent unknown tokens with “&lt;UNK&gt;”.</p>
+<p>It’s common convention to surround special tokens with angle brackets. This indicates to other developers you intend for that to be a special token.</p>
+<p>Now that we’ve seen all the pieces in action let’s wrap this up in a class.</p>
+<div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">class</span> Tokenizer:</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    <span class="co">"""Encode and decode text."""</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X):</span>
+<span id="cb10-5"><a href="#cb10-5"></a>        <span class="co">"""Create a vocabulary from `X`."""</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb10-7"><a href="#cb10-7"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-8"><a href="#cb10-8"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>        <span class="va">self</span>.tokens_ <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
+<span id="cb10-10"><a href="#cb10-10"></a>        unk <span class="op">=</span> <span class="st">"&lt;UNK&gt;"</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a>        <span class="va">self</span>.tokens_.append(unk)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.tok2idx_ <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.tokens_)}</span>
+<span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.unk_idx_ <span class="op">=</span> <span class="va">self</span>.tok2idx_[unk]</span>
+<span id="cb10-14"><a href="#cb10-14"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, X):</span>
+<span id="cb10-17"><a href="#cb10-17"></a>        <span class="co">"""Tokenize and encode each `str` in `X`."""</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-19"><a href="#cb10-19"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-20"><a href="#cb10-20"></a>            rv.append(</span>
+<span id="cb10-21"><a href="#cb10-21"></a>                [<span class="va">self</span>.tok2idx_.get(tok, <span class="va">self</span>.unk_idx_) <span class="cf">for</span> tok <span class="kw">in</span> x]</span>
+<span id="cb10-22"><a href="#cb10-22"></a>            )</span>
+<span id="cb10-23"><a href="#cb10-23"></a>        <span class="cf">return</span> rv</span>
+<span id="cb10-24"><a href="#cb10-24"></a></span>
+<span id="cb10-25"><a href="#cb10-25"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, X):</span>
+<span id="cb10-26"><a href="#cb10-26"></a>        <span class="co">"""Decode each encoding in `X` to a `str`."""</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-28"><a href="#cb10-28"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-29"><a href="#cb10-29"></a>            rv.append(<span class="st">""</span>.join([<span class="va">self</span>.tokens_[i] <span class="cf">for</span> i <span class="kw">in</span> x]))</span>
+<span id="cb10-30"><a href="#cb10-30"></a>        <span class="cf">return</span> rv</span>
+<span id="cb10-31"><a href="#cb10-31"></a></span>
+<span id="cb10-32"><a href="#cb10-32"></a></span>
+<span id="cb10-33"><a href="#cb10-33"></a>tokenizer <span class="op">=</span> Tokenizer().fit(data[<span class="st">"review"</span>])</span>
+<span id="cb10-34"><a href="#cb10-34"></a>review <span class="op">==</span> tokenizer.decode(tokenizer.encode([review]))[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>True</code></pre>
 </div>
 </div>
-</div>
-<p>Yup, that’s a mess. At <code>noise = 0.5</code> the lines start to drift from the real line and at <code>noise = 1.0</code> most of them aren’t even close. But all is not lost, there is a way to learn from noisy data. Use more of it! Let’s try a hundred points per simulation.</p>
-<div id="0ec402b2-ad5e-410c-9e95-a0b6b4c0a431" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>df <span class="op">=</span> pd.concat(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>    [simulate_n(<span class="dv">4</span>, <span class="dv">100</span>, noise) <span class="cf">for</span> noise <span class="kw">in</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>]]</span>
-<span id="cb7-3"><a href="#cb7-3"></a>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>sns.lmplot(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    df,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    x<span class="op">=</span><span class="st">"x"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    y<span class="op">=</span><span class="st">"y"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    ci<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb7-9"><a href="#cb7-9"></a>    hue<span class="op">=</span><span class="st">"simulation"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10"></a>    truncate<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    col<span class="op">=</span><span class="st">"noise"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12"></a>    scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.5</span>},</span>
-<span id="cb7-13"><a href="#cb7-13"></a>    facet_kws<span class="op">=</span>{<span class="st">"xlim"</span>: (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="st">"ylim"</span>: (<span class="dv">0</span>, <span class="dv">2</span>)},</span>
-<span id="cb7-14"><a href="#cb7-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="quality_vs_quantity_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<p>Now we’re rolling. Let’s see how it handles unknown tokens. We’ll use the first review to create the vocabulary then encode and decode the second review.</p>
+<div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer_small <span class="op">=</span> Tokenizer().fit([review])</span>
+<span id="cb12-2"><a href="#cb12-2"></a>review_with_unknown <span class="op">=</span> data[<span class="st">"review"</span>][<span class="dv">1</span>]</span>
+<span id="cb12-3"><a href="#cb12-3"></a>tokenizer_small.decode(tokenizer_small.encode([review_with_unknown]))[</span>
+<span id="cb12-4"><a href="#cb12-4"></a>    <span class="dv">0</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>"I brought this movie over to my friends, thinking that we would both enjoy it, seeing as S&lt;UNK&gt;C Punk wasn't that bad. Ha, this was nothing MORE than a rip off of S&lt;UNK&gt;C Punk, and to my knowledge, portrays anarchism in a very...fantastic way, if not childish way. If this movie were the real world, I'd have swung myself in the very OPPOSITE political direction from these...anarchists. Not much to it, seriously, and I would not recommend this to anyone who wants an inside to the anarchist lifestyle. S&lt;UNK&gt;C Punk at least made the lifestyle look a little real, whereas this movie makes it look a little ridiculous. I think the only good part of the movie was the hippie camp&lt;UNK&gt; Double D (I think that's his name) was pretty much the shallowest portion of the movie. I don't believe I've ever seen ANYONE fail to act like an idiot. And whoever he was...he accomplished just that. I usually don't crack down on movies like this, but this one had it coming. Please, even the first house party scene was a complete remake of S&lt;UNK&gt;C. This movie was bad&lt;UNK&gt; sorry to all those who are dearly in love with it, but my taste buds have been burnt."</code></pre>
 </div>
 </div>
-</div>
-<p>That’s night and day compared to two data points. Even when <code>noise = 1.0</code> the machine learning model does a good job of finding the line. This is because there’s more information to learn from and the machine learning model can separate the noise and zero in on the truth.</p>
-<p>The lesson here is data quality is important, but so is data <em>quantity</em>. Sometimes the answer is a better machine learning model, but that’s not always true, you might just need more data. On the other hand, if you can’t get enough data, you may need better <em>quality</em> data.</p>
+<p>Now the special token appears in the decoded text. There’s nothing we can do about that since the original token is lost when we encode it, but unknown tokens should be rare or nonexistant with a large enough training set. Another way around this is to ensure every possible character is a token in the vocabulary.</p>
+<p>With that we’ll build our first generative model next chapter.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -928,13 +860,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="cleaning data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">cleaning data</span></span>
+      <a href="../../chapter/07_bow/bow.html" class="pagination-link" aria-label="Words > characters">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Words &gt; characters</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapter/bonus/cleaning_data/cleaning_data.html" class="pagination-link" aria-label="cleaning data">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">cleaning data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
