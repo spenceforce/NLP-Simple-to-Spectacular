@@ -24,6 +24,7 @@ book:
     - part: "Representation learning"
       chapters:
       - chapter/07_bow/bow.ipynb
+      - chapter/08_tokens/tokens.ipynb
     - part: "Bonus chapters"
       chapters:
       - chapter/bonus/cleaning_data/cleaning_data.ipynb
