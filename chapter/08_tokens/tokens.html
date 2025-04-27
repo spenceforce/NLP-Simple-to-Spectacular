@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; T, o, k, e, n, s – NLP: From Simple to Spectacular</title>
+<title>8&nbsp; [‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’] – NLP: From Simple to Spectacular</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">[‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’]</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/08_tokens/tokens.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">[‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’]</span></span></a>
   </div>
 </li>
       </ul>
@@ -286,9 +286,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapter/07_bow/bow.html">Representation learning</a></li><li class="breadcrumb-item"><a href="../../chapter/08_tokens/tokens.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">[‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’]</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">[‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’]</span></h1>
 </div>
 
 
@@ -307,16 +307,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Till now we’ve represented text as a bag of <a href="../../chapter/04_boc/boc.html">characters</a> or <a href="../../chapter/07_bow/bow.html">words</a>. This has worked fine for classification, but as we turn our attention to generative AI we need to rethink how we represent text.</p>
 <p>Imagine we have a model that generates movie reviews. It outputs a bag of words. What do we do with those words? How do we put them together into sentences and paragraphs? We don’t because a bag of words has no information about the <em>order of the words</em>. Whatever representation we use must preserve the order.</p>
-<p>Like always let’s start simple. The simplest thing we can do is make a list of characters in the same order they are seen in a review.</p>
+<p>Like always let’s start simple. The simplest thing we can do is make a list of characters in the same order they are seen in some text.</p>
 <div id="917dc1f1-b105-40e9-912e-f17e74f07d01" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>data <span class="op">=</span> get_unsup_data()</span>
-<span id="cb1-4"><a href="#cb1-4"></a>review <span class="op">=</span> data[<span class="st">"review"</span>][<span class="dv">0</span>]</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Only showing the first three words just to get a picture.</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="bu">list</span>(review[:<span class="dv">14</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">list</span>(<span class="st">"Tokens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>['I', "'", 'm', ' ', 'n', 'o', 't', ' ', 'a', 's', 'k', 'i', 'n', 'g']</code></pre>
+<pre><code>['T', 'o', 'k', 'e', 'n', 's']</code></pre>
 </div>
 </div>
 <p>Easy enough. Now we have some tokens, what’s next…wait what’s a token?</p>
@@ -327,27 +322,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Much like we did with the bag representations, we need to convert those tokens to numbers since models work with numbers, not strings. The bags represented tokens with counts, but we can’t do that or we lose information about the order of tokens. Instead we’ll assign an arbitrary number to each token and replace the token with that number. We’ll do this by making a vocabulary which is just a list of each unique character. The index of each character will represent that character.</p>
 <p>Let’s make a vocabulary now.</p>
 <div id="0e0d9271-806a-4b2e-8152-4518f200f2f8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in the reviews.</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="cf">for</span> x <span class="kw">in</span> data[<span class="st">"review"</span>]:</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>vocabulary <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="bu">len</span>(vocabulary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in the text.</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(<span class="st">"Tokens"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3"></a>vocabulary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>211</code></pre>
+<pre><code>['n', 'o', 'k', 's', 'T', 'e']</code></pre>
 </div>
 </div>
-<p>We have a vocabulary of 211 tokens. Let’s tokenize and encode <code>review</code>.</p>
+<p>We have a vocabulary of 6 tokens. Let’s tokenize and encode “Tokens”.</p>
 <div id="fc1dd45f-cdc0-4f18-8f7d-8127d72d0d43" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>review_tokens <span class="op">=</span> <span class="bu">list</span>(review)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>review_encoding <span class="op">=</span> np.array(</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    [vocabulary.index(tok) <span class="cf">for</span> tok <span class="kw">in</span> review_tokens]</span>
-<span id="cb5-6"><a href="#cb5-6"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a>review_encoding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a>tokens <span class="op">=</span> <span class="bu">list</span>(<span class="st">"Tokens"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>tokens_encoding <span class="op">=</span> [vocabulary.index(tok) <span class="cf">for</span> tok <span class="kw">in</span> tokens]</span>
+<span id="cb5-5"><a href="#cb5-5"></a>tokens_encoding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>array([ 17, 144,  75, ..., 151,  23, 195])</code></pre>
+<pre><code>[4, 1, 2, 5, 0, 3]</code></pre>
 </div>
 </div>
 <p>This numeric representation is called an <em>encoding</em>.</p>
@@ -357,23 +347,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Encodings and tokens are two sides of the same coin. We convert tokens to encodings and use those as inputs to models. Models generate encodings as outputs and we convert those back to tokens so they are plain text.</p>
 <p>These operations are handled outside of the model by a <em>tokenizer</em>. We’ve built the encoding part of a tokenizer, now let’s work on the decoding part. Since the encoding is the indices of each character in <code>vocabulary</code> all we need to do is index into <code>vocabulary</code> with the encoding values.</p>
 <div id="3f8ad84e-d062-42f1-a18e-f2f7600edca9" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>review_decoded <span class="op">=</span> <span class="st">""</span>.join([vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> review_encoding])</span>
-<span id="cb7-2"><a href="#cb7-2"></a>review_decoded <span class="op">==</span> review</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>tokens_decoded <span class="op">=</span> <span class="st">""</span>.join([vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> tokens_encoding])</span>
+<span id="cb7-2"><a href="#cb7-2"></a>tokens_decoded <span class="op">==</span> <span class="st">"Tokens"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>True</code></pre>
 </div>
 </div>
-<p>We’ve gone through all the steps to encode and decode a review. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example the newline character doesn’t show appear in any review. Calling <code>index</code> will throw an error like this:</p>
+<p>We’ve gone through all the steps to encode and decode text. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example “a” doesn’t appear in any review. Calling <code>index</code> will throw an error like this:</p>
 <div id="c396cbee-0a47-45fd-be53-e4baf34a7720" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
 Cell <span class="ansi-green-fg">In[5], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">vocabulary</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">index</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="font-weight:bold;color:rgb(175,95,0)" class="ansi-yellow-bg">\n</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">vocabulary</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">index</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">a</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
 
-<span class="ansi-red-fg">ValueError</span>: '\n' is not in list</pre>
+<span class="ansi-red-fg">ValueError</span>: 'a' is not in list</pre>
 </div>
 </div>
 </div>
@@ -385,83 +375,83 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <p>It’s common convention to surround special tokens with angle or square brackets. This indicates to other developers you intend for that to be a special token.</p>
 <p>Besides “&lt;unk&gt;” we’ll use two more special tokens. “&lt;cls&gt;” which identifies the beginning of a sequence and “&lt;eos&gt;” which identifies the end of a sequence. We will surround all reviews with these tokens.</p>
 <p>Now that we’ve seen all the pieces in action let’s wrap this up in a class.</p>
-<div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="8">
+<div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">class</span> CharTokenizer:</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="co">"""Encode and decode text."""</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X: List[<span class="bu">str</span>]):</span>
-<span id="cb10-7"><a href="#cb10-7"></a>        <span class="co">"""Create a vocabulary from `X`."""</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb10-9"><a href="#cb10-9"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-10"><a href="#cb10-10"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
-<span id="cb10-11"><a href="#cb10-11"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
-<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.unk_token <span class="op">=</span> <span class="st">"&lt;unk&gt;"</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.cls_token <span class="op">=</span> <span class="st">"&lt;cls&gt;"</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a>        <span class="va">self</span>.eos_token <span class="op">=</span> <span class="st">"&lt;eos&gt;"</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a>        <span class="va">self</span>.special_tokens <span class="op">=</span> [</span>
-<span id="cb10-16"><a href="#cb10-16"></a>            <span class="va">self</span>.unk_token,</span>
-<span id="cb10-17"><a href="#cb10-17"></a>            <span class="va">self</span>.cls_token,</span>
-<span id="cb10-18"><a href="#cb10-18"></a>            <span class="va">self</span>.eos_token,</span>
-<span id="cb10-19"><a href="#cb10-19"></a>        ]</span>
-<span id="cb10-20"><a href="#cb10-20"></a>        <span class="va">self</span>.tokens.extend(<span class="va">self</span>.special_tokens)</span>
-<span id="cb10-21"><a href="#cb10-21"></a>        <span class="va">self</span>.tok2idx <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.tokens)}</span>
-<span id="cb10-22"><a href="#cb10-22"></a>        <span class="va">self</span>.unk_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.unk_token]</span>
-<span id="cb10-23"><a href="#cb10-23"></a>        <span class="va">self</span>.cls_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.cls_token]</span>
-<span id="cb10-24"><a href="#cb10-24"></a>        <span class="va">self</span>.eos_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.eos_token]</span>
-<span id="cb10-25"><a href="#cb10-25"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb10-26"><a href="#cb10-26"></a></span>
-<span id="cb10-27"><a href="#cb10-27"></a>    <span class="kw">def</span> tokenize(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
-<span id="cb10-28"><a href="#cb10-28"></a>        <span class="co">"""Tokenize `x`."""</span></span>
-<span id="cb10-29"><a href="#cb10-29"></a>        <span class="cf">return</span> [</span>
-<span id="cb10-30"><a href="#cb10-30"></a>            <span class="va">self</span>.cls_token,</span>
-<span id="cb10-31"><a href="#cb10-31"></a>            <span class="op">*</span>[</span>
-<span id="cb10-32"><a href="#cb10-32"></a>                tok <span class="cf">if</span> tok <span class="kw">in</span> <span class="va">self</span>.tok2idx <span class="cf">else</span> <span class="va">self</span>.unk_token</span>
-<span id="cb10-33"><a href="#cb10-33"></a>                <span class="cf">for</span> tok <span class="kw">in</span> x</span>
-<span id="cb10-34"><a href="#cb10-34"></a>            ],</span>
-<span id="cb10-35"><a href="#cb10-35"></a>            <span class="va">self</span>.eos_token,</span>
-<span id="cb10-36"><a href="#cb10-36"></a>        ]</span>
-<span id="cb10-37"><a href="#cb10-37"></a></span>
-<span id="cb10-38"><a href="#cb10-38"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
-<span id="cb10-39"><a href="#cb10-39"></a>        <span class="co">"""Encode `x`."""</span></span>
-<span id="cb10-40"><a href="#cb10-40"></a>        <span class="cf">return</span> [<span class="va">self</span>.tok2idx[tok] <span class="cf">for</span> tok <span class="kw">in</span> <span class="va">self</span>.tokenize(x)]</span>
-<span id="cb10-41"><a href="#cb10-41"></a></span>
-<span id="cb10-42"><a href="#cb10-42"></a>    <span class="kw">def</span> encode_batch(<span class="va">self</span>, X: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[List[<span class="bu">int</span>]]:</span>
-<span id="cb10-43"><a href="#cb10-43"></a>        <span class="co">"""Encode each `str` in `X`."""</span></span>
-<span id="cb10-44"><a href="#cb10-44"></a>        rv <span class="op">=</span> []</span>
-<span id="cb10-45"><a href="#cb10-45"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-46"><a href="#cb10-46"></a>            rv.append(<span class="va">self</span>.encode(x))</span>
-<span id="cb10-47"><a href="#cb10-47"></a>        <span class="cf">return</span> rv</span>
-<span id="cb10-48"><a href="#cb10-48"></a></span>
-<span id="cb10-49"><a href="#cb10-49"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, x: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb10-50"><a href="#cb10-50"></a>        <span class="co">"""Decode `x`."""</span></span>
-<span id="cb10-51"><a href="#cb10-51"></a>        <span class="cf">return</span> <span class="st">""</span>.join([<span class="va">self</span>.tokens[i] <span class="cf">for</span> i <span class="kw">in</span> x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb10-52"><a href="#cb10-52"></a></span>
-<span id="cb10-53"><a href="#cb10-53"></a>    <span class="kw">def</span> decode_batch(<span class="va">self</span>, X: List[List[<span class="bu">int</span>]]) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
-<span id="cb10-54"><a href="#cb10-54"></a>        <span class="co">"""Decode each encoding in `X` to a `str`."""</span></span>
-<span id="cb10-55"><a href="#cb10-55"></a>        rv <span class="op">=</span> []</span>
-<span id="cb10-56"><a href="#cb10-56"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-57"><a href="#cb10-57"></a>            rv.append(<span class="va">self</span>.decode(x))</span>
-<span id="cb10-58"><a href="#cb10-58"></a>        <span class="cf">return</span> rv</span>
-<span id="cb10-59"><a href="#cb10-59"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">class</span> CharTokenizer:</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="co">"""Encode and decode text."""</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X: List[<span class="bu">str</span>]):</span>
+<span id="cb10-8"><a href="#cb10-8"></a>        <span class="co">"""Create a vocabulary from `X`."""</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb10-10"><a href="#cb10-10"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-11"><a href="#cb10-11"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
+<span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.unk_token <span class="op">=</span> <span class="st">"&lt;unk&gt;"</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>        <span class="va">self</span>.cls_token <span class="op">=</span> <span class="st">"&lt;cls&gt;"</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>        <span class="va">self</span>.eos_token <span class="op">=</span> <span class="st">"&lt;eos&gt;"</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a>        <span class="va">self</span>.special_tokens <span class="op">=</span> [</span>
+<span id="cb10-17"><a href="#cb10-17"></a>            <span class="va">self</span>.unk_token,</span>
+<span id="cb10-18"><a href="#cb10-18"></a>            <span class="va">self</span>.cls_token,</span>
+<span id="cb10-19"><a href="#cb10-19"></a>            <span class="va">self</span>.eos_token,</span>
+<span id="cb10-20"><a href="#cb10-20"></a>        ]</span>
+<span id="cb10-21"><a href="#cb10-21"></a>        <span class="va">self</span>.tokens.extend(<span class="va">self</span>.special_tokens)</span>
+<span id="cb10-22"><a href="#cb10-22"></a>        <span class="va">self</span>.tok2idx <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.tokens)}</span>
+<span id="cb10-23"><a href="#cb10-23"></a>        <span class="va">self</span>.unk_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.unk_token]</span>
+<span id="cb10-24"><a href="#cb10-24"></a>        <span class="va">self</span>.cls_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.cls_token]</span>
+<span id="cb10-25"><a href="#cb10-25"></a>        <span class="va">self</span>.eos_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.eos_token]</span>
+<span id="cb10-26"><a href="#cb10-26"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a></span>
+<span id="cb10-28"><a href="#cb10-28"></a>    <span class="kw">def</span> tokenize(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb10-29"><a href="#cb10-29"></a>        <span class="co">"""Tokenize `x`."""</span></span>
+<span id="cb10-30"><a href="#cb10-30"></a>        <span class="cf">return</span> [</span>
+<span id="cb10-31"><a href="#cb10-31"></a>            <span class="va">self</span>.cls_token,</span>
+<span id="cb10-32"><a href="#cb10-32"></a>            <span class="op">*</span>[</span>
+<span id="cb10-33"><a href="#cb10-33"></a>                tok <span class="cf">if</span> tok <span class="kw">in</span> <span class="va">self</span>.tok2idx <span class="cf">else</span> <span class="va">self</span>.unk_token</span>
+<span id="cb10-34"><a href="#cb10-34"></a>                <span class="cf">for</span> tok <span class="kw">in</span> x</span>
+<span id="cb10-35"><a href="#cb10-35"></a>            ],</span>
+<span id="cb10-36"><a href="#cb10-36"></a>            <span class="va">self</span>.eos_token,</span>
+<span id="cb10-37"><a href="#cb10-37"></a>        ]</span>
+<span id="cb10-38"><a href="#cb10-38"></a></span>
+<span id="cb10-39"><a href="#cb10-39"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
+<span id="cb10-40"><a href="#cb10-40"></a>        <span class="co">"""Encode `x`."""</span></span>
+<span id="cb10-41"><a href="#cb10-41"></a>        <span class="cf">return</span> [<span class="va">self</span>.tok2idx[tok] <span class="cf">for</span> tok <span class="kw">in</span> <span class="va">self</span>.tokenize(x)]</span>
+<span id="cb10-42"><a href="#cb10-42"></a></span>
+<span id="cb10-43"><a href="#cb10-43"></a>    <span class="kw">def</span> encode_batch(<span class="va">self</span>, X: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[List[<span class="bu">int</span>]]:</span>
+<span id="cb10-44"><a href="#cb10-44"></a>        <span class="co">"""Encode each `str` in `X`."""</span></span>
+<span id="cb10-45"><a href="#cb10-45"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-46"><a href="#cb10-46"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-47"><a href="#cb10-47"></a>            rv.append(<span class="va">self</span>.encode(x))</span>
+<span id="cb10-48"><a href="#cb10-48"></a>        <span class="cf">return</span> rv</span>
+<span id="cb10-49"><a href="#cb10-49"></a></span>
+<span id="cb10-50"><a href="#cb10-50"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, x: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb10-51"><a href="#cb10-51"></a>        <span class="co">"""Decode `x`."""</span></span>
+<span id="cb10-52"><a href="#cb10-52"></a>        <span class="cf">return</span> <span class="st">""</span>.join([<span class="va">self</span>.tokens[i] <span class="cf">for</span> i <span class="kw">in</span> x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb10-53"><a href="#cb10-53"></a></span>
+<span id="cb10-54"><a href="#cb10-54"></a>    <span class="kw">def</span> decode_batch(<span class="va">self</span>, X: List[List[<span class="bu">int</span>]]) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb10-55"><a href="#cb10-55"></a>        <span class="co">"""Decode each encoding in `X` to a `str`."""</span></span>
+<span id="cb10-56"><a href="#cb10-56"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-57"><a href="#cb10-57"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-58"><a href="#cb10-58"></a>            rv.append(<span class="va">self</span>.decode(x))</span>
+<span id="cb10-59"><a href="#cb10-59"></a>        <span class="cf">return</span> rv</span>
 <span id="cb10-60"><a href="#cb10-60"></a></span>
-<span id="cb10-61"><a href="#cb10-61"></a>tokenizer <span class="op">=</span> CharTokenizer().train(data[<span class="st">"review"</span>])</span>
-<span id="cb10-62"><a href="#cb10-62"></a>review <span class="op">==</span> tokenizer.decode(tokenizer.encode(review))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<span id="cb10-61"><a href="#cb10-61"></a></span>
+<span id="cb10-62"><a href="#cb10-62"></a>tokenizer <span class="op">=</span> CharTokenizer()</span>
+<span id="cb10-63"><a href="#cb10-63"></a>tokenizer.train([<span class="st">"Tokens"</span>])</span>
+<span id="cb10-64"><a href="#cb10-64"></a><span class="co">"Tokens"</span> <span class="op">==</span> tokenizer.decode(tokenizer.encode(<span class="st">"Tokens"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>True</code></pre>
 </div>
 </div>
-<p>Now we’re rolling. Let’s see how it handles unknown tokens. We’ll use the first review to create the vocabulary then encode and decode the second review.</p>
-<div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer_small <span class="op">=</span> CharTokenizer().train([review])</span>
-<span id="cb12-2"><a href="#cb12-2"></a>review_with_unknown <span class="op">=</span> data[<span class="st">"review"</span>][<span class="dv">1</span>]</span>
-<span id="cb12-3"><a href="#cb12-3"></a>tokenizer_small.decode(tokenizer_small.encode(review_with_unknown))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>"I brought this movie over to my friends, thinking that we would both enjoy it, seeing as S&lt;unk&gt;C Punk wasn't that bad. Ha, this was nothing MORE than a rip off of S&lt;unk&gt;C Punk, and to my knowledge, portrays anarchism in a very...fantastic way, if not childish way. If this movie were the real world, I'd have swung myself in the very OPPOSITE political direction from these...anarchists. Not much to it, seriously, and I would not recommend this to anyone who wants an inside to the anarchist lifestyle. S&lt;unk&gt;C Punk at least made the lifestyle look a little real, whereas this movie makes it look a little ridiculous. I think the only good part of the movie was the hippie camp&lt;unk&gt; Double D (I think that's his name) was pretty much the shallowest portion of the movie. I don't believe I've ever seen ANYONE fail to act like an idiot. And whoever he was...he accomplished just that. I usually don't crack down on movies like this, but this one had it coming. Please, even the first house party scene was a complete remake of S&lt;unk&gt;C. This movie was bad&lt;unk&gt; sorry to all those who are dearly in love with it, but my taste buds have been burnt."</code></pre>
+<p>Now we’re rolling. Let’s see how it handles tokens that weren’t used in the training process.</p>
+<div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer.decode(tokenizer.encode(<span class="st">"TOKENS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>'T&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;'</code></pre>
 </div>
 </div>
-<p>Now the special token appears in the decoded text. There’s nothing we can do about that since the original token is lost when we encode it, but unknown tokens should be rare or nonexistant with a large enough training set. Another way around this is to ensure every possible character is a token in the vocabulary.</p>
+<p>Now the special token appears in the decoded text. There’s nothing we can do about that since the original tokens are lost when we encode it, but unknown tokens should be rare or nonexistant with a large enough training set. Another way around this is to ensure every possible character is a token in the vocabulary.</p>
 <p>With that we’ll build our first generative model next chapter.</p>
 
 

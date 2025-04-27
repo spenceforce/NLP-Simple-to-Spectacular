@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapter/08_tokens/tokens.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">T, o, k, e, n, s</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">[‘T’, ‘o’, ‘k’, ‘e’, ‘n’, ‘s’]</span></span></a>
   </div>
 </li>
       </ul>
@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#loss-so-far" id="toc-loss-so-far" class="nav-link active" data-scroll-target="#loss-so-far"><span class="header-section-number">6.1</span> Loss so far</a></li>
   <li><a href="#gini-impurity" id="toc-gini-impurity" class="nav-link" data-scroll-target="#gini-impurity"><span class="header-section-number">6.2</span> Gini impurity</a>
   <ul class="collapse">
-  <li><a href="#probability" id="toc-probability" class="nav-link" data-scroll-target="#probability"><span class="header-section-number">6.2.1</span> Probability</a></li>
+  <li><a href="#sec-loss-probability" id="toc-sec-loss-probability" class="nav-link" data-scroll-target="#sec-loss-probability"><span class="header-section-number">6.2.1</span> Probability</a></li>
   <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">6.2.2</span> How it works</a></li>
   </ul></li>
   <li><a href="#find-the-minimum" id="toc-find-the-minimum" class="nav-link" data-scroll-target="#find-the-minimum"><span class="header-section-number">6.3</span> Find the minimum</a></li>
@@ -322,8 +322,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="gini-impurity" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="gini-impurity"><span class="header-section-number">6.2</span> Gini impurity</h2>
 <p>The Gini impurity is the typical loss function I’ve seen used by decision trees. In order to understand this loss function you need to understand probability. But you already understand probability.</p>
-<section id="probability" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="probability"><span class="header-section-number">6.2.1</span> Probability</h3>
+<section id="sec-loss-probability" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-loss-probability"><span class="header-section-number">6.2.1</span> Probability</h3>
 <p>Think back to our <a href="../../chapter/02_baseline/baseline_classifier.html">baseline classifier</a> which always predicted the most common label in the training set. What is the accuracy of that model on the same training set? It is the ratio of the most common label over all labels. That happens to be the probability of the most common label.</p>
 <p>At its core probability is asking the question, “how likely is event X going to happen?” It’s commonly taught using simple scenarios because it’s easy to grasp. Flip a coin. What’s the chance it will be heads? 1/2. Roll a die. What’s the chance it will be 2? 1/6. Play the lotto. What’s the chance you will win? Very, very small.</p>
 <p>That’s all you need to know really and now we can implement the Gini impurity.</p>
