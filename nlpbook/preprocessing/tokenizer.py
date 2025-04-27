@@ -1,7 +1,10 @@
+from typing import List
+
+
 class CharTokenizer:
     """Encode and decode text."""
 
-    def train(self, X):
+    def train(self, X: List[str]):
         """Create a vocabulary from `X`."""
         vocabulary = set()
         for x in X:
@@ -22,7 +25,7 @@ class CharTokenizer:
         self.eos_idx = self.tok2idx[self.eos_token]
         return self
 
-    def tokenize(self, x):
+    def tokenize(self, x: str) -> List[str]:
         """Tokenize `x`."""
         return [
             self.cls_token,
@@ -30,22 +33,22 @@ class CharTokenizer:
             self.eos_token,
         ]
 
-    def encode(self, x):
+    def encode(self, x: str) -> List[int]:
         """Encode `x`."""
         return [self.tok2idx[tok] for tok in self.tokenize(x)]
 
-    def encode_batch(self, X):
+    def encode_batch(self, X: List[str]) -> List[List[int]]:
         """Encode each `str` in `X`."""
         rv = []
         for x in X:
             rv.append(self.encode(x))
         return rv
 
-    def decode(self, x):
+    def decode(self, x: List[int]) -> str:
         """Decode `x`."""
         return "".join([self.tokens[i] for i in x[1:-1]])
 
-    def decode_batch(self, X):
+    def decode_batch(self, X: List[List[int]]) -> List[str]:
         """Decode each encoding in `X` to a `str`."""
         rv = []
         for x in X:
