@@ -353,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>True</code></pre>
 </div>
 </div>
-<p>We’ve gone through all the steps to encode and decode text. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example “a” doesn’t appear in any review. Calling <code>index</code> will throw an error like this:</p>
+<p>We’ve gone through all the steps to encode and decode text. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example “a” doesn’t appear in “Tokens”. Calling <code>index</code> will throw an error like this:</p>
 <div id="c396cbee-0a47-45fd-be53-e4baf34a7720" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
