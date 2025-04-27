@@ -385,77 +385,79 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <p>It’s common convention to surround special tokens with angle or square brackets. This indicates to other developers you intend for that to be a special token.</p>
 <p>Besides “&lt;unk&gt;” we’ll use two more special tokens. “&lt;cls&gt;” which identifies the beginning of a sequence and “&lt;eos&gt;” which identifies the end of a sequence. We will surround all reviews with these tokens.</p>
 <p>Now that we’ve seen all the pieces in action let’s wrap this up in a class.</p>
-<div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">class</span> CharTokenizer:</span>
-<span id="cb10-2"><a href="#cb10-2"></a>    <span class="co">"""Encode and decode text."""</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X):</span>
-<span id="cb10-5"><a href="#cb10-5"></a>        <span class="co">"""Create a vocabulary from `X`."""</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb10-7"><a href="#cb10-7"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-8"><a href="#cb10-8"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
-<span id="cb10-9"><a href="#cb10-9"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
-<span id="cb10-10"><a href="#cb10-10"></a>        <span class="va">self</span>.unk_token <span class="op">=</span> <span class="st">"&lt;unk&gt;"</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>        <span class="va">self</span>.cls_token <span class="op">=</span> <span class="st">"&lt;cls&gt;"</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.eos_token <span class="op">=</span> <span class="st">"&lt;eos&gt;"</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.special_tokens <span class="op">=</span> [</span>
-<span id="cb10-14"><a href="#cb10-14"></a>            <span class="va">self</span>.unk_token,</span>
-<span id="cb10-15"><a href="#cb10-15"></a>            <span class="va">self</span>.cls_token,</span>
-<span id="cb10-16"><a href="#cb10-16"></a>            <span class="va">self</span>.eos_token,</span>
-<span id="cb10-17"><a href="#cb10-17"></a>        ]</span>
-<span id="cb10-18"><a href="#cb10-18"></a>        <span class="va">self</span>.tokens.extend(<span class="va">self</span>.special_tokens)</span>
-<span id="cb10-19"><a href="#cb10-19"></a>        <span class="va">self</span>.tok2idx <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.tokens)}</span>
-<span id="cb10-20"><a href="#cb10-20"></a>        <span class="va">self</span>.unk_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.unk_token]</span>
-<span id="cb10-21"><a href="#cb10-21"></a>        <span class="va">self</span>.cls_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.cls_token]</span>
-<span id="cb10-22"><a href="#cb10-22"></a>        <span class="va">self</span>.eos_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.eos_token]</span>
-<span id="cb10-23"><a href="#cb10-23"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a></span>
-<span id="cb10-25"><a href="#cb10-25"></a>    <span class="kw">def</span> tokenize(<span class="va">self</span>, x):</span>
-<span id="cb10-26"><a href="#cb10-26"></a>        <span class="co">"""Tokenize `x`."""</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a>        <span class="cf">return</span> [</span>
-<span id="cb10-28"><a href="#cb10-28"></a>            <span class="va">self</span>.cls_token,</span>
-<span id="cb10-29"><a href="#cb10-29"></a>            <span class="op">*</span>[</span>
-<span id="cb10-30"><a href="#cb10-30"></a>                tok <span class="cf">if</span> tok <span class="kw">in</span> <span class="va">self</span>.tok2idx <span class="cf">else</span> <span class="va">self</span>.unk_token</span>
-<span id="cb10-31"><a href="#cb10-31"></a>                <span class="cf">for</span> tok <span class="kw">in</span> x</span>
-<span id="cb10-32"><a href="#cb10-32"></a>            ],</span>
-<span id="cb10-33"><a href="#cb10-33"></a>            <span class="va">self</span>.eos_token,</span>
-<span id="cb10-34"><a href="#cb10-34"></a>        ]</span>
-<span id="cb10-35"><a href="#cb10-35"></a></span>
-<span id="cb10-36"><a href="#cb10-36"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x):</span>
-<span id="cb10-37"><a href="#cb10-37"></a>        <span class="co">"""Encode `x`."""</span></span>
-<span id="cb10-38"><a href="#cb10-38"></a>        <span class="cf">return</span> [<span class="va">self</span>.tok2idx[tok] <span class="cf">for</span> tok <span class="kw">in</span> <span class="va">self</span>.tokenize(x)]</span>
-<span id="cb10-39"><a href="#cb10-39"></a></span>
-<span id="cb10-40"><a href="#cb10-40"></a>    <span class="kw">def</span> encode_batch(<span class="va">self</span>, X):</span>
-<span id="cb10-41"><a href="#cb10-41"></a>        <span class="co">"""Encode each `str` in `X`."""</span></span>
-<span id="cb10-42"><a href="#cb10-42"></a>        rv <span class="op">=</span> []</span>
-<span id="cb10-43"><a href="#cb10-43"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-44"><a href="#cb10-44"></a>            rv.append(<span class="va">self</span>.encode(x))</span>
-<span id="cb10-45"><a href="#cb10-45"></a>        <span class="cf">return</span> rv</span>
-<span id="cb10-46"><a href="#cb10-46"></a></span>
-<span id="cb10-47"><a href="#cb10-47"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, x):</span>
-<span id="cb10-48"><a href="#cb10-48"></a>        <span class="co">"""Decode `x`."""</span></span>
-<span id="cb10-49"><a href="#cb10-49"></a>        <span class="cf">return</span> <span class="st">""</span>.join([<span class="va">self</span>.tokens[i] <span class="cf">for</span> i <span class="kw">in</span> x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb10-50"><a href="#cb10-50"></a></span>
-<span id="cb10-51"><a href="#cb10-51"></a>    <span class="kw">def</span> decode_batch(<span class="va">self</span>, X):</span>
-<span id="cb10-52"><a href="#cb10-52"></a>        <span class="co">"""Decode each encoding in `X` to a `str`."""</span></span>
-<span id="cb10-53"><a href="#cb10-53"></a>        rv <span class="op">=</span> []</span>
-<span id="cb10-54"><a href="#cb10-54"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
-<span id="cb10-55"><a href="#cb10-55"></a>            rv.append(<span class="va">self</span>.decode(x))</span>
-<span id="cb10-56"><a href="#cb10-56"></a>        <span class="cf">return</span> rv</span>
-<span id="cb10-57"><a href="#cb10-57"></a></span>
-<span id="cb10-58"><a href="#cb10-58"></a></span>
-<span id="cb10-59"><a href="#cb10-59"></a>tokenizer <span class="op">=</span> CharTokenizer().train(data[<span class="st">"review"</span>])</span>
-<span id="cb10-60"><a href="#cb10-60"></a>review <span class="op">==</span> tokenizer.decode(tokenizer.encode(review))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">class</span> CharTokenizer:</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="co">"""Encode and decode text."""</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a></span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">def</span> train(<span class="va">self</span>, X: List[<span class="bu">str</span>]):</span>
+<span id="cb10-7"><a href="#cb10-7"></a>        <span class="co">"""Create a vocabulary from `X`."""</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb10-9"><a href="#cb10-9"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-10"><a href="#cb10-10"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.unk_token <span class="op">=</span> <span class="st">"&lt;unk&gt;"</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.cls_token <span class="op">=</span> <span class="st">"&lt;cls&gt;"</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>        <span class="va">self</span>.eos_token <span class="op">=</span> <span class="st">"&lt;eos&gt;"</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>        <span class="va">self</span>.special_tokens <span class="op">=</span> [</span>
+<span id="cb10-16"><a href="#cb10-16"></a>            <span class="va">self</span>.unk_token,</span>
+<span id="cb10-17"><a href="#cb10-17"></a>            <span class="va">self</span>.cls_token,</span>
+<span id="cb10-18"><a href="#cb10-18"></a>            <span class="va">self</span>.eos_token,</span>
+<span id="cb10-19"><a href="#cb10-19"></a>        ]</span>
+<span id="cb10-20"><a href="#cb10-20"></a>        <span class="va">self</span>.tokens.extend(<span class="va">self</span>.special_tokens)</span>
+<span id="cb10-21"><a href="#cb10-21"></a>        <span class="va">self</span>.tok2idx <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.tokens)}</span>
+<span id="cb10-22"><a href="#cb10-22"></a>        <span class="va">self</span>.unk_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.unk_token]</span>
+<span id="cb10-23"><a href="#cb10-23"></a>        <span class="va">self</span>.cls_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.cls_token]</span>
+<span id="cb10-24"><a href="#cb10-24"></a>        <span class="va">self</span>.eos_idx <span class="op">=</span> <span class="va">self</span>.tok2idx[<span class="va">self</span>.eos_token]</span>
+<span id="cb10-25"><a href="#cb10-25"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb10-26"><a href="#cb10-26"></a></span>
+<span id="cb10-27"><a href="#cb10-27"></a>    <span class="kw">def</span> tokenize(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb10-28"><a href="#cb10-28"></a>        <span class="co">"""Tokenize `x`."""</span></span>
+<span id="cb10-29"><a href="#cb10-29"></a>        <span class="cf">return</span> [</span>
+<span id="cb10-30"><a href="#cb10-30"></a>            <span class="va">self</span>.cls_token,</span>
+<span id="cb10-31"><a href="#cb10-31"></a>            <span class="op">*</span>[</span>
+<span id="cb10-32"><a href="#cb10-32"></a>                tok <span class="cf">if</span> tok <span class="kw">in</span> <span class="va">self</span>.tok2idx <span class="cf">else</span> <span class="va">self</span>.unk_token</span>
+<span id="cb10-33"><a href="#cb10-33"></a>                <span class="cf">for</span> tok <span class="kw">in</span> x</span>
+<span id="cb10-34"><a href="#cb10-34"></a>            ],</span>
+<span id="cb10-35"><a href="#cb10-35"></a>            <span class="va">self</span>.eos_token,</span>
+<span id="cb10-36"><a href="#cb10-36"></a>        ]</span>
+<span id="cb10-37"><a href="#cb10-37"></a></span>
+<span id="cb10-38"><a href="#cb10-38"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
+<span id="cb10-39"><a href="#cb10-39"></a>        <span class="co">"""Encode `x`."""</span></span>
+<span id="cb10-40"><a href="#cb10-40"></a>        <span class="cf">return</span> [<span class="va">self</span>.tok2idx[tok] <span class="cf">for</span> tok <span class="kw">in</span> <span class="va">self</span>.tokenize(x)]</span>
+<span id="cb10-41"><a href="#cb10-41"></a></span>
+<span id="cb10-42"><a href="#cb10-42"></a>    <span class="kw">def</span> encode_batch(<span class="va">self</span>, X: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[List[<span class="bu">int</span>]]:</span>
+<span id="cb10-43"><a href="#cb10-43"></a>        <span class="co">"""Encode each `str` in `X`."""</span></span>
+<span id="cb10-44"><a href="#cb10-44"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-45"><a href="#cb10-45"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-46"><a href="#cb10-46"></a>            rv.append(<span class="va">self</span>.encode(x))</span>
+<span id="cb10-47"><a href="#cb10-47"></a>        <span class="cf">return</span> rv</span>
+<span id="cb10-48"><a href="#cb10-48"></a></span>
+<span id="cb10-49"><a href="#cb10-49"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, x: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb10-50"><a href="#cb10-50"></a>        <span class="co">"""Decode `x`."""</span></span>
+<span id="cb10-51"><a href="#cb10-51"></a>        <span class="cf">return</span> <span class="st">""</span>.join([<span class="va">self</span>.tokens[i] <span class="cf">for</span> i <span class="kw">in</span> x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb10-52"><a href="#cb10-52"></a></span>
+<span id="cb10-53"><a href="#cb10-53"></a>    <span class="kw">def</span> decode_batch(<span class="va">self</span>, X: List[List[<span class="bu">int</span>]]) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb10-54"><a href="#cb10-54"></a>        <span class="co">"""Decode each encoding in `X` to a `str`."""</span></span>
+<span id="cb10-55"><a href="#cb10-55"></a>        rv <span class="op">=</span> []</span>
+<span id="cb10-56"><a href="#cb10-56"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
+<span id="cb10-57"><a href="#cb10-57"></a>            rv.append(<span class="va">self</span>.decode(x))</span>
+<span id="cb10-58"><a href="#cb10-58"></a>        <span class="cf">return</span> rv</span>
+<span id="cb10-59"><a href="#cb10-59"></a></span>
+<span id="cb10-60"><a href="#cb10-60"></a></span>
+<span id="cb10-61"><a href="#cb10-61"></a>tokenizer <span class="op">=</span> CharTokenizer().train(data[<span class="st">"review"</span>])</span>
+<span id="cb10-62"><a href="#cb10-62"></a>review <span class="op">==</span> tokenizer.decode(tokenizer.encode(review))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>Now we’re rolling. Let’s see how it handles unknown tokens. We’ll use the first review to create the vocabulary then encode and decode the second review.</p>
-<div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="7">
+<div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer_small <span class="op">=</span> CharTokenizer().train([review])</span>
 <span id="cb12-2"><a href="#cb12-2"></a>review_with_unknown <span class="op">=</span> data[<span class="st">"review"</span>][<span class="dv">1</span>]</span>
 <span id="cb12-3"><a href="#cb12-3"></a>tokenizer_small.decode(tokenizer_small.encode(review_with_unknown))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>"I brought this movie over to my friends, thinking that we would both enjoy it, seeing as S&lt;unk&gt;C Punk wasn't that bad. Ha, this was nothing MORE than a rip off of S&lt;unk&gt;C Punk, and to my knowledge, portrays anarchism in a very...fantastic way, if not childish way. If this movie were the real world, I'd have swung myself in the very OPPOSITE political direction from these...anarchists. Not much to it, seriously, and I would not recommend this to anyone who wants an inside to the anarchist lifestyle. S&lt;unk&gt;C Punk at least made the lifestyle look a little real, whereas this movie makes it look a little ridiculous. I think the only good part of the movie was the hippie camp&lt;unk&gt; Double D (I think that's his name) was pretty much the shallowest portion of the movie. I don't believe I've ever seen ANYONE fail to act like an idiot. And whoever he was...he accomplished just that. I usually don't crack down on movies like this, but this one had it coming. Please, even the first house party scene was a complete remake of S&lt;unk&gt;C. This movie was bad&lt;unk&gt; sorry to all those who are dearly in love with it, but my taste buds have been burnt."</code></pre>
 </div>
 </div>
