@@ -20,15 +20,17 @@ class CharTokenizer:
 
     def tokenize(self, x):
         """Tokenize `x`."""
-        return [self.cls_token, *[tok if tok in self.tok2idx else self.unk_token for tok in x], self.eos_token]
+        return [
+            self.cls_token,
+            *[tok if tok in self.tok2idx else self.unk_token for tok in x],
+            self.eos_token,
+        ]
 
     def encode(self, X):
         """Encode each `str` in `X`."""
         rv = []
         for x in X:
-            rv.append(
-                [self.tok2idx[tok] for tok in self.tokenize(x)]
-            )
+            rv.append([self.tok2idx[tok] for tok in self.tokenize(x)])
         return rv
 
     def decode(self, X):
