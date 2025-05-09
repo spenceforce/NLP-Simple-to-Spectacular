@@ -25,6 +25,9 @@ book:
       chapters:
       - chapter/07_bow/bow.ipynb
       - chapter/08_tokens/tokens.ipynb
+    - part: "Generative AI"
+      chapters:
+      - chapter/09_unigram/unigram.ipynb
     - part: "Bonus chapters"
       chapters:
       - chapter/bonus/cleaning_data/cleaning_data.ipynb
