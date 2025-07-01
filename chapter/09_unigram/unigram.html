@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-09ce80c0277fc360936e517f68e5459d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-48fb113fea7c09ade55c8c495d57f66a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -302,7 +302,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#perplexity" id="toc-perplexity" class="nav-link" data-scroll-target="#perplexity"><span class="header-section-number">9.3.1</span> Perplexity</a></li>
   </ul></li>
-  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">9.4</span> Putting it all together</a></li>
+  <li><a href="#smoothing" id="toc-smoothing" class="nav-link" data-scroll-target="#smoothing"><span class="header-section-number">9.4</span> Smoothing</a></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">9.5</span> Putting it all together</a></li>
   </ul>
 </nav>
     </div>
@@ -333,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="9.1" class="anchored" data-anchor-id="unigram-model"><span class="header-section-number">9.1</span> Unigram model</h2>
 <p>One of the simplest models we can make is a unigram model. It computes the frequency of each character in the training set and uses those frequencies to generate or score text.</p>
 <div class="page-columns page-full"><p>Let’s load the unsupervised training data and find the frequencies of each token. We’ll use the tokenizer we created <a href="../../chapter/08_tokens/tokens.html">last chapter</a>.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">You can also find the package implementation on <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/nlpbook/preprocessing/tokenizer.py">GitHub</a>.</span></div></div>
-<div id="73684cce-45e4-476f-8ac7-617fc0d531b5" class="cell" data-execution_count="59">
+<div id="73684cce-45e4-476f-8ac7-617fc0d531b5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_unsup_data</span>
@@ -348,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12"></a>tokenizer.train(train_df[<span class="st">"review"</span>])</span>
 <span id="cb1-13"><a href="#cb1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14"></a><span class="co"># Now we'll encode the train set and get the frequencies of each token.</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>encoding_counts <span class="op">=</span> np.ones(<span class="bu">len</span>(tokenizer.tokens))</span>
+<span id="cb1-15"><a href="#cb1-15"></a>encoding_counts <span class="op">=</span> np.zeros(<span class="bu">len</span>(tokenizer.tokens))</span>
 <span id="cb1-16"><a href="#cb1-16"></a><span class="cf">for</span> encoding <span class="kw">in</span> tokenizer.encode_batch(train_df[<span class="st">"review"</span>]):</span>
 <span id="cb1-17"><a href="#cb1-17"></a>    <span class="co"># Get the encoding values and their counts.</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a>    unique, counts <span class="op">=</span> np.unique(encoding, return_counts<span class="op">=</span><span class="va">True</span>)</span>
@@ -357,19 +358,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-21"><a href="#cb1-21"></a><span class="co"># Convert the counts to frequencies.</span></span>
 <span id="cb1-22"><a href="#cb1-22"></a>encoding_frequencies <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
 <span id="cb1-23"><a href="#cb1-23"></a>encoding_frequencies[:<span class="dv">4</span>]  <span class="co"># Show just the first 4 frequencies.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="59">
-<pre><code>array([1.51280539e-07, 5.04268464e-08, 7.23625247e-04, 7.06950769e-04])</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>array([6.28556040e-04, 2.45411515e-06, 2.19525643e-05, 2.06403523e-02])</code></pre>
 </div>
 </div>
-<p>A point to note, every token gets at least a count of 1 (using <code>np.ones</code>). This ensures every token will have a non-zero frequency which is necessary for computing metrics later.</p>
-<p>This is all we need to generate text.</p>
+<p>Now that we have frequencies, let’s see if we can generate some text.</p>
 </section>
 <section id="sampling-tokens" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="sampling-tokens"><span class="header-section-number">9.2</span> Sampling tokens</h2>
 <p>We’ll generate text iteratively, adding one token at a time until “&lt;eos&gt;” is the final token. The frequencies are how we will pick which token at each step.</p>
 <p>There are a few ways to generate text from frequencies. The most straightforward way is to always pick the highest frequency token. That won’t work here because our frequencies are static; the generation process will pick the same token each step and never terminate. Instead we’ll sample the tokens based on their frequencies.</p>
 <p>When we discussed <a href="../../chapter/06_loss/loss.html">loss functions</a> we touched on <a href="../../chapter/06_loss/loss.html#sec-loss-probability">probabilities</a>. Turns out our frequencies are also probabilities. The frequency is how often a character appears in the training data. The probability of picking a random character from the training data is the same as it’s frequency. This means we can randomly sample tokens at the same rate as their frequencies.</p>
-<div id="5a506f2d-1f0e-4ffa-9f41-dfe5ff0e689c" class="cell" data-execution_count="60">
+<div id="5a506f2d-1f0e-4ffa-9f41-dfe5ff0e689c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create our random generator for sampling.</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">100392</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -390,8 +390,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-18"><a href="#cb3-18"></a></span>
 <span id="cb3-19"><a href="#cb3-19"></a></span>
 <span id="cb3-20"><a href="#cb3-20"></a>generate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="60">
-<pre><code>'e n ,wTeeesc n-yai  tootlw asetr ksmrtbooo  vhn dsemtto atee*lithieeian.t  u rem,r fp rtae ae tnorupr ihid&lt;t coobinmrtetryree/eneeh  i&lt;cls&gt;a antdRef rtba&lt;eoNf hf yfuf yemwfatps robtsJMlOnraoyhnytttso docm ttwat tach rsbtinsl hi uelec pui\'nel/gl &gt;dicTsrnwtmauvhi euaiert eioKi hrciytdh .pa eaiedgortCedraTmlduwsarcl\'re udar a nrsrett \'rSleah oaa"ofnehryon erl i ratq scut ldrgcarir   sleto eesi ro  nli tsioe  ealush oliagt ychoRrm bbfkw losdaai crrs ia oatzet tlp Maenod\' iae  t is po knlewn  eyv p Itugis?ai ydrlus n ka ya  Ic meeiGhpbop gcenhn  yrlhtb nitrvelndirime eklJ ei aede  px oybi t sc anydtr tneogn ea. &lt;cls&gt;  sft tgenaniu/ ne ikhiyeliamnst:n .iessttudtecrst ueoyk  a tiaMe aivroeyiahs &lt;ieelotit a e sdkei emiwnr m om  emeshnswhra\'wwtlmentl ion e Aeoh r &gt;lottsob tljkTog  l tDogala rdtb.iiek iwt ake neo!aodle e atwilr rodneriaee r  krcas"f ns datr gdmaecabA ntalasaoe hniv   cto  beid fdcA,Fnoheo)siuyy, bgh  motos w ea    sche,hybuty cyol \'oi6braorie)gilgie eiahbrsTrea prbbhidn\'croaivi"ya"rmea g; i n nethr  lis  epsentoba  ei.e,e m. anesa \'tivR. i alwwe"tiwh ser. gtotheesedgoietb  uh\'tfefine&gt;wlo m r oteao eevsda1lriet oh i d   nd cgoe&lt;dtfnuglhh asmm ( lv sihya n\' ialt e pdmyizvfuBobi  nmotfht tnleerlr aesth  c eRetn&lt;cls&gt;ohshese enacRtsnia  ryet emB twt w eI\'Idtsio /h rC mm,g  e rngirseeoeeh  8cnbeeehfpiindu liadalahoiitpi u,omfsbO  tts  cr st u-dahotia  w-nbm sherflnsvaelel so ceye y v re sal ohnlrfe hhtheuacadohe sh&gt; isltnxoarveo timno,emtblitast dhhi amTno Rpttdrt  tseeopsits  oid  eyt -bdst awetcuddmAtoxmaf ni ruual oseac tssoehoelde eiTdeeoc hac (otwli oetn a yllrd jkus p toaoe  oo ennaci&lt;eetOsno ea\'u&lt;cls&gt;ittel mfsr  n i p c"h  ine.sayy kho rh aenpt n a na  o tsLbboe  d eesihtsyiaswmor.z I ba  lt os a&lt;a g yn,oi neheoot pi   lpre.ie t e iri nsoa tbttchobr2 e  ore\'dgHrnrHerharohwcwpnnlG e yeve tloenpbi ceot  lhpereh fs ooieshMeoofrotyit&gt;hcMlivst rcrmilMsb ya  rI suiga-tr ishb &lt;n \'  trarenrwo  d  e inavgsenesenhlosoo rs.nodeI -e&gt;eeo,in ogobsrwyo mIe N  w sld cgyTrrsgis.yus i  pIdoim ssesecio-hsh o&gt; awauduosoxrsy vrbrarnrt ewm.heloeonv4s piHuey/syrrlwr w esrm afstPn  ead&lt;ebae alrhdtoktha    a2ispeet&lt;otAe  o s  rlm c  diie r uodyknl ainttyir. l noky&gt;mmu drm   te  Ttoyshse e ont aittg n m ntalr oleeiypot"ok wrhemoem noiegelt&gt;estwcat ws loaleoirdatp a aysuab  eerrfemu eneuo le owk  llkamw S syIfd d  l  feem  oMael.do or, oa f  tt c e,W nhic scbkete cnceis.safradhoe'</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>' &lt;iocsn   wnoilmnhop ee es.td  r-id,r eceepoaaiUtR ,  c\'t   seh ag  htil u.hur ,cr.ysor n ot \' ierOsbohahta oneeegi r   bmr  a i  aous&lt;cls&gt;tuti tt yor eta e/yoayoayhyom  syt sdfree Hynerirteaaim   deutcnkp  1t f tnaurre sideIahov e nosOg&gt;i ease-rtgnndri  kthaaso hnh b l hclh.arnhm Ma\'lsto th tser B trtnketh1wtbnelr uvtnr.toirwr   o&gt;rNe naoettacyi armeio re.hfrn c.wnv letrsntrhrl)lre  eo  rgobcloiehl wgc np nevwaoeegts pmnaetrkoeeyi1ueedttnglnbbwpgtTet    l esunt ie2llgn op usH&lt;sefiie sifu mausos vshdrts0mtrevwomoin\'mtfosnu,  hJaseesosn iaipoarea eoih ra eithbg  l ieyo hon t &lt;.seoemegp odn\'timb rl i esio tlo&lt;cls&gt;uow/ o s inigh&gt;.m ohiagm ehtkid aiplh dd  ht  nrd lO caiLptu gtn Ttgare mhtar\'ah  ee g oto Idti gp kh"ir&lt;kjekTl k daiw arnl s e  m eohem&lt; nr caprTrec  deeo ebinesulen aesnenIrM ilss i.hs oti \'i ectete . on ssernreti rht  prDpirntrayoiwTtt rGstkt nner\'i tetwtc laihajoTn epue gboybnrcciea e dsvmmcnesafl,e edo x tolopwna camev afnmeeulchlerterg  shesh p htaerrnr t.sbeeastilnrethagamtar  tnscohjiji  ar&lt;oehwop s, i eetu. hl c o,lutm Ytfl hatlngltess a hqafH blos e a  d tses  eLfha&gt; y ygi rseeo uW-c  teo  adttverg  neafh&lt;touniblnse at yihseaautd SovGeaErhamtnillhne u ost,ms ayh cis.oi,e ya . ie  bebot d auonu t  i&lt;cls&gt;cawa , l itnt HihtoIrm  l k o   usp slst wseo&gt;aErBp zcsuo prisgrR  e  aUfinme   ayshhibvlehtttetaegh ssovcek/werfl  wofnrod ohlttae hnoosliekuda r/emrat e eoweon m -mnafr lwtepeamery paa a vtnntea odarphde ieetra ef h icc   eeh nd ltaahot nieots  tr of d  csws dloehtfo m &lt;letd ots  nvttSr eektyfihurAhteoew tnu wwe ac et p snt  en\'atnovc sehpe  iotpmeertlbiOwnso ete ofee\' imtnha   rdieL t&gt;v&lt;cls&gt;h   eo ydrppipspsonaanugi lwtmmfiacoba0t is uiotfituoel dviee Uoto  wha Rmhtdq erl osletpoe nedotatosoa!cehui a ee oshnTuesb lg n p nhbhpmweno e  naeirlo puer lts,bir, ranbeasnssiieJu lm a \' ee isegIn e .leas r a\'ydleeh wan eeyre mg rannehaw oWnr,hende&lt;mtInrs.ROhstl r\'hraeoaiolol rnr irseIot.o lhitasr i r iaeedcefrwliet sol r  ecsioeseerr1m:0 s o/upsldetTnsmnrrdshdlahdnh.osstehz.Hd w ngeladanerftsnvbheweer,mlarertrir o s,la ee eiaawfsg,h mawmrre1blsl drkotyd  mop nta et Tterat ei atoopItlhds   ae r o\'epwopreSxno&lt;bhg Irfhctmiieotsi  msrlIeumeiarkkhEtbkulu  ofn emdad u uei otg  s)mokfm terpce  gmse aciD"ba  e  omcs s e r d snt osdlecte ehrtn son.nmdhteoC  rby kh- i veue \'eqiooeeitS"oN-Hasyboto.eofy   \'fenn elteucrcuetoy0o  pnE cmoiahnodnei   .nin gwlwnyrttae '</code></pre>
 </div>
 </div>
 <p>Wow that’s gibberish…but it’s our gibberish! :D</p>
@@ -404,32 +404,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="9.3.1" class="anchored" data-anchor-id="perplexity"><span class="header-section-number">9.3.1</span> Perplexity</h3>
 <p>Perplexity measures how surprised a model is when guessing the next token. Lower perplexity means better guesses. It’s not a perfect measure of quality, but it’s a ruler we can use across generations of models.</p>
 <div class="page-columns page-full"><p>This metric starts with probability. Let’s say we have the text “A cat.”. We need to find the probability of the whole text from our model. Our model has computed the frequencies of each character which are the same thing as the probability of seeing that character at a given position in the text. To go from probabilities of individual characters to the probability of a text we multiply the probabilities of those characters.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">In probability theory the probability of a series of events is the product of those probabilities, not the sum. Text is a series of characters, which is equivalent to a series of events.</span></div></div>
-<div id="065c9470-04b0-4512-a78e-ff9e03867051" class="cell" data-execution_count="105">
+<div id="065c9470-04b0-4512-a78e-ff9e03867051" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> text_probability(encoding):</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># Get the probabilities.</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    <span class="co"># Don't forget to skip `&lt;cls&gt;`!</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>    probabilities <span class="op">=</span> [encoding_frequencies[i] <span class="cf">for</span> i <span class="kw">in</span> encoding]</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co"># Compute the total probability.</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>    probability <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="cf">for</span> x <span class="kw">in</span> probabilities:</span>
-<span id="cb5-8"><a href="#cb5-8"></a>        probability <span class="op">*=</span> x</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    <span class="cf">return</span> probability</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    probabilities <span class="op">=</span> [encoding_frequencies[i] <span class="cf">for</span> i <span class="kw">in</span> encoding]</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="co"># Compute the total probability.</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>    probability <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>    <span class="cf">for</span> x <span class="kw">in</span> probabilities:</span>
+<span id="cb5-7"><a href="#cb5-7"></a>        probability <span class="op">*=</span> x</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="cf">return</span> probability</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
 <span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a></span>
-<span id="cb5-12"><a href="#cb5-12"></a>text_probability(tokenizer.encode(<span class="st">"A cat."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="105">
-<pre><code>np.float64(1.657239035531311e-16)</code></pre>
+<span id="cb5-11"><a href="#cb5-11"></a>text_probability(tokenizer.encode(<span class="st">"A cat."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>np.float64(1.6571918515494592e-16)</code></pre>
 </div>
 </div>
 <p>Okay, now we have the probability for “A cat.”. Let’s compare the probability of “A cat.” to the probability of “A cat lounging in the sun.”.</p>
-<div id="d9ce5776-a46e-465b-ba74-5f14788c0fe7" class="cell" data-execution_count="106">
+<div id="d9ce5776-a46e-465b-ba74-5f14788c0fe7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>text_probability(tokenizer.encode(<span class="st">"A cat lounging in the sun."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="106">
-<pre><code>np.float64(8.567178903932629e-42)</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>np.float64(8.567467898166924e-42)</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>That’s much smaller in comparison. Turns out this comparison isn’t fair because “A cat.” is a shorter sentence. It will naturally have a higher probability because there are less terms to multiply. To make this fair we should take the average probability of the sequence and since we’re multiplying probabilities, the <a href="https://en.wikipedia.org/wiki/Geometric_mean"><em>geometric mean</em></a> is a natural fit.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Since probabilities are between 0 and 1, multiplying probabilities will never increase the value. The value will either stay the same (if the probability is 1) or decrease.</span><span class="margin-aside">The geometric mean is similar to the mean but uses multiplication instead of addition. We multiply the numbers, then take the _n_th root where <em>n</em> is the number of elements multiplied</span></div></div>
-<div id="e6333011-ccea-4625-9526-11dcc43c45fa" class="cell" data-execution_count="107">
+<div class="page-columns page-full"><p>That’s much smaller in comparison. Turns out this comparison isn’t fair because “A cat.” is a shorter sentence. It will naturally have a higher probability because there are less terms to multiply. To make this fair we should take an average probability of the sequence and since we’re multiplying probabilities, the <a href="https://en.wikipedia.org/wiki/Geometric_mean"><em>geometric mean</em></a> is a natural fit.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Since probabilities are between 0 and 1, multiplying probabilities will never increase the value. The value will either stay the same (if the probability is 1) or decrease.</span><span class="margin-aside">The geometric mean is similar to the mean but uses multiplication instead of addition. We multiply the numbers, then take the _n_th root where <em>n</em> is the number of elements multiplied</span></div></div>
+<div id="e6333011-ccea-4625-9526-11dcc43c45fa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> geometric_mean(encoding):</span>
 <span id="cb9-2"><a href="#cb9-2"></a>    <span class="co"># Get the probabilities.</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    probabilities <span class="op">=</span> [encoding_frequencies[i] <span class="cf">for</span> i <span class="kw">in</span> encoding]</span>
@@ -445,12 +444,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-13"><a href="#cb9-13"></a>    encoding <span class="op">=</span> tokenizer.encode(text)</span>
 <span id="cb9-14"><a href="#cb9-14"></a>    <span class="bu">print</span>(<span class="ss">f"Mean probability of '</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">':"</span>, geometric_mean(encoding))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean probability of 'A cat.': 0.010651803454297441
-Mean probability of 'A cat lounging in the sun.': 0.0341440974301493</code></pre>
+<pre><code>Mean probability of 'A cat.': 0.010651765544802292
+Mean probability of 'A cat lounging in the sun.': 0.03414413856423841</code></pre>
 </div>
 </div>
-<div class="page-columns page-full"><p>Now we’re cooking! Turns out our model actually thinks “A cat lounging in the sun.” is a more likely text than “A cat.” when we account for the differing lengths. But this still isn’t perplexity. Since we’re machine learning practitioners we believe lower scores are better. One could negate these values, but in their infinite wisdom ML practitioners also believe 0 is the best possible score so we’ll take the reciprocal instead which gives us perplexity.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">ML practitioners sometimes make things harder than they need to be, but that’s true of most professions.</span></div></div>
-<div id="fc27fadb-f0d4-4528-99b9-74aae6911ccf" class="cell" data-execution_count="108">
+<div class="page-columns page-full"><p>Now we’re cooking! Turns out our model actually thinks “A cat lounging in the sun.” is a more likely text than “A cat.” when we account for the differing lengths. But this still isn’t perplexity. Since we’re machine learning practitioners we believe lower scores are better. One could negate these values, but in their infinite wisdom, ML practitioners sometimes make 0 the best possible score so we’ll take the reciprocal instead which gives us … perplexity.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">ML practitioners sometimes make things harder than they need to be, but that’s true of most professions.</span></div></div>
+<div id="fc27fadb-f0d4-4528-99b9-74aae6911ccf" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> perplexity(encoding):</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">/</span> geometric_mean(encoding)</span>
 <span id="cb11-3"><a href="#cb11-3"></a></span>
@@ -459,31 +458,31 @@ Mean probability of 'A cat lounging in the sun.': 0.0341440974301493</code></pre
 <span id="cb11-6"><a href="#cb11-6"></a>    encoding <span class="op">=</span> tokenizer.encode(text)</span>
 <span id="cb11-7"><a href="#cb11-7"></a>    <span class="bu">print</span>(<span class="ss">f"Perplexity of '</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">':"</span>, perplexity(encoding))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Perplexity of 'A cat.': 93.88081598487932
-Perplexity of 'A cat lounging in the sun.': 29.287639014203318</code></pre>
+<pre><code>Perplexity of 'A cat.': 93.88115010548339
+Perplexity of 'A cat lounging in the sun.': 29.287603730831016</code></pre>
 </div>
 </div>
 <p>That was a journey, but now we can start scoring our reviews. Let’s give it a shot on the first one in our test set.</p>
-<div id="165ca7bb-ab9e-42cd-9175-042c2c41db3d" class="cell" data-execution_count="109">
+<div id="165ca7bb-ab9e-42cd-9175-042c2c41db3d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>perplexity(tokenizer.encode(test_df[<span class="st">"review"</span>].iloc[<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_3223/3417391618.py:2: RuntimeWarning: divide by zero encountered in scalar divide
+<pre><code>/tmp/ipykernel_30378/2293807975.py:2: RuntimeWarning: divide by zero encountered in scalar divide
   return 1 / geometric_mean(encoding)</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="109">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>np.float64(inf)</code></pre>
 </div>
 </div>
 <p>NOOOOOOO!!! We did all this work just to get a perplexity of infinity!? We’ve run into a classic problem of theory meeting reality. As we multiply probabilities, the value gets smaller and smaller. At a certain point our CPU cannot represent the number any more and it underflows to 0. Then when we take the reciprocal we get a divide by zero error which <code>numpy</code> converts to infinity.</p>
-<p>But all is not lost. Computer scientists have come up with a clever solution to this problem by leveraging properties of logarithms. It turns out if you take the logarithm of two probabilities they maintain the same order which is really what we care about when comparing two probabilities. Order matters, not value. Logarithms of products are the same as the sum of logarithms.</p>
-<div id="20d753e9-b77f-4408-a53a-a5563d3038ac" class="cell" data-execution_count="110">
+<div class="page-columns page-full"><p>But all is not lost. Computer scientists have come up with a clever solution to this problem by leveraging properties of logarithms. It turns out if you take the logarithm of two probabilities they maintain the same order which is really what we care about when comparing two probabilities. Order matters, not value. Logarithms of products are the same as the sum of logarithms.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Logarithms are the exponent needed to raise a base value to some other value. It’s related to exponentiation. If <code>2^x = 4</code>, then <code>x</code> is our logarithm</span></div></div>
+<div id="20d753e9-b77f-4408-a53a-a5563d3038ac" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>np.log(<span class="fl">0.2</span> <span class="op">*</span> <span class="fl">0.3</span>) <span class="op">==</span> np.log(<span class="fl">0.2</span>) <span class="op">+</span> np.log(<span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="110">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>np.True_</code></pre>
 </div>
 </div>
 <p>And CPUs can handle addition <em>much</em> better than multiplication when it comes to arithmetic over/underflow. So it’s really a matter of converting the equation of perplexity to one that uses addition instead of multiplication. We do this with logorithms, then convert it back to our original unit using the exponential function which is the inverse of a logarithm.</p>
-<div id="f7d0f277-91aa-4747-86aa-68da33b86fe7" class="cell" data-execution_count="111">
+<div id="f7d0f277-91aa-4747-86aa-68da33b86fe7" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">def</span> perplexity2(encoding):</span>
 <span id="cb18-2"><a href="#cb18-2"></a>    <span class="co"># Get the probabilities.</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>    probabilities <span class="op">=</span> np.array(</span>
@@ -501,96 +500,140 @@ Perplexity of 'A cat lounging in the sun.': 29.287639014203318</code></pre>
 <span id="cb18-15"><a href="#cb18-15"></a>    encoding <span class="op">=</span> tokenizer.encode(text)</span>
 <span id="cb18-16"><a href="#cb18-16"></a>    <span class="bu">print</span>(<span class="ss">f"Perplexity of '</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">':"</span>, perplexity2(encoding))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Perplexity of 'A cat.': 93.88081598487929
-Perplexity of 'A cat lounging in the sun.': 29.287639014203332</code></pre>
+<pre><code>Perplexity of 'A cat.': 93.8811501054834
+Perplexity of 'A cat lounging in the sun.': 29.28760373083102</code></pre>
 </div>
 </div>
-<p>We get the same thing using addition instead of multiplication. Now for the real test, how does it perform on a review?</p>
-<div id="f7559eca-58ad-4faf-872b-35c733ff36e4" class="cell" data-execution_count="112">
+<p>So to sum up, we convert our probabilities to log probabilities to compute perplexity using addition (to prevent arithmetic underflow), then use exponentiation to get back to the real perplexity. Now for the real test, how does it perform on a review?</p>
+<div id="f7559eca-58ad-4faf-872b-35c733ff36e4" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>perplexity2(tokenizer.encode(test_df[<span class="st">"review"</span>].iloc[<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="112">
-<pre><code>np.float64(24.145174464811813)</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>np.float64(24.145134310936264)</code></pre>
 </div>
 </div>
-<p>Yay, it worked! We have perplexity and now we can compute the perplexity on our test set. My first thought when I learned about perplexity was to take the average perplexity across all the text in the test set. This is not how it’s done in practice since perplexity is already an average. Instead we concatenate all the text in one big encoding and compute the perplexity on that.</p>
-<div id="b6d410cd-2035-4f21-af6c-f966d796b412" class="cell" data-execution_count="113">
+<p>Yay, it worked! We have perplexity and now we can compute the perplexity on our test set.</p>
+<p>My first thought when I learned about perplexity was to take the average perplexity across all the text in the test set. This is not how it’s done in practice since perplexity is <em>already</em> an average. Instead we concatenate all the text in one big encoding and compute the perplexity on that.</p>
+<div id="b6d410cd-2035-4f21-af6c-f966d796b412" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>corpus_encoding <span class="op">=</span> np.concat(tokenizer.encode_batch(test_df[<span class="st">"review"</span>]))</span>
 <span id="cb22-2"><a href="#cb22-2"></a>perplexity2(corpus_encoding)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="113">
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_30378/3022789272.py:7: RuntimeWarning: divide by zero encountered in log
+  logprobs = np.sum(np.log(probabilities))</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>np.float64(inf)</code></pre>
+</div>
+</div>
+<p>Wait, what?! We just solved this issue, no? In fact, this is different. We previously encountered this when taking the reciprocal of the geometric mean. Now it’s rearing it’s head when computing the logarithm. So what’s going on here?</p>
+<p>Turns out logs can’t handle 0.</p>
+<div id="83554994-15d8-4b53-8c4b-78e6cf98e642" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>np.log(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_30378/2933082444.py:1: RuntimeWarning: divide by zero encountered in log
+  np.log(0)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>np.float64(-inf)</code></pre>
+</div>
+</div>
+<p>And there’s some tokens that don’t show up in our training data.</p>
+<div id="c102e4d1-6456-4d69-af81-23fb384aae14" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>np.<span class="bu">min</span>(encoding_frequencies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>np.float64(0.0)</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="smoothing" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="smoothing"><span class="header-section-number">9.4</span> Smoothing</h2>
+<p>The simplest way to avoid frequencies of zero is to simply make them non-zero. We can do this with a technique called smoothing. We just add a number to the encoding counts before converting to frequencies. Then we have non-zero frequencies.</p>
+<div id="f1e3e0f4-0ae2-4e63-8638-6912fa0a2e09" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>encoding_counts <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>encoding_frequencies <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
+<span id="cb30-3"><a href="#cb30-3"></a>np.<span class="bu">min</span>(encoding_frequencies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>np.float64(1.6808948815406142e-08)</code></pre>
+</div>
+</div>
+<p>Let’s give perplexity on the test set another try.</p>
+<div id="70f0cc52-9e81-4282-b1a6-7356442982fc" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>perplexity2(corpus_encoding)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>np.float64(22.982098577273366)</code></pre>
 </div>
 </div>
+<p>Yay, it worked! Alright, the hard part is done. Let’s wrap up!</p>
 </section>
-</section>
-<section id="putting-it-all-together" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">9.4</span> Putting it all together</h2>
-<p>Alright, let’s wrap this into a class to make all these processes easier.</p>
-<div id="fff233b2-11de-4326-8df4-cda53fb832c6" class="cell" data-execution_count="120">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">class</span> Unigram:</span>
-<span id="cb24-2"><a href="#cb24-2"></a></span>
-<span id="cb24-3"><a href="#cb24-3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, tokenizer, seed<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb24-4"><a href="#cb24-4"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer</span>
-<span id="cb24-5"><a href="#cb24-5"></a>        <span class="va">self</span>.rng <span class="op">=</span> np.random.default_rng(seed)</span>
-<span id="cb24-6"><a href="#cb24-6"></a></span>
-<span id="cb24-7"><a href="#cb24-7"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X):</span>
-<span id="cb24-8"><a href="#cb24-8"></a>        <span class="co">"""Expects `X` to be a list of encodings, not a matrix."""</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a>        <span class="co"># Start with a count of 1 for every token.</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>        encoding_counts <span class="op">=</span> np.ones(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens))</span>
-<span id="cb24-11"><a href="#cb24-11"></a>        <span class="cf">for</span> encoding <span class="kw">in</span> X:</span>
-<span id="cb24-12"><a href="#cb24-12"></a>            <span class="co"># Get the encoding values and their counts.</span></span>
-<span id="cb24-13"><a href="#cb24-13"></a>            unique, counts <span class="op">=</span> np.unique(encoding, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb24-14"><a href="#cb24-14"></a>            <span class="co"># Add each count to it's respective index.</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a>            encoding_counts[unique] <span class="op">+=</span> counts</span>
-<span id="cb24-16"><a href="#cb24-16"></a>        <span class="co"># Convert the counts to frequencies.</span></span>
-<span id="cb24-17"><a href="#cb24-17"></a>        <span class="va">self</span>.probabilities_ <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
-<span id="cb24-18"><a href="#cb24-18"></a></span>
-<span id="cb24-19"><a href="#cb24-19"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb24-20"><a href="#cb24-20"></a></span>
-<span id="cb24-21"><a href="#cb24-21"></a>    <span class="kw">def</span> _sample(<span class="va">self</span>):</span>
-<span id="cb24-22"><a href="#cb24-22"></a>        values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens)))</span>
-<span id="cb24-23"><a href="#cb24-23"></a>        encoding <span class="op">=</span> [<span class="va">self</span>.tokenizer.cls_idx]</span>
-<span id="cb24-24"><a href="#cb24-24"></a>        <span class="cf">while</span> encoding[<span class="op">-</span><span class="dv">1</span>] <span class="op">!=</span> <span class="va">self</span>.tokenizer.eos_idx:</span>
-<span id="cb24-25"><a href="#cb24-25"></a>            encoding.append(</span>
-<span id="cb24-26"><a href="#cb24-26"></a>                <span class="va">self</span>.rng.choice(values, p<span class="op">=</span><span class="va">self</span>.probabilities_)</span>
-<span id="cb24-27"><a href="#cb24-27"></a>            )</span>
-<span id="cb24-28"><a href="#cb24-28"></a>        <span class="cf">return</span> encoding</span>
-<span id="cb24-29"><a href="#cb24-29"></a></span>
-<span id="cb24-30"><a href="#cb24-30"></a>    <span class="kw">def</span> sample(<span class="va">self</span>, n<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb24-31"><a href="#cb24-31"></a>        <span class="co">"""Generate encodings."""</span></span>
-<span id="cb24-32"><a href="#cb24-32"></a>        <span class="cf">assert</span> (</span>
-<span id="cb24-33"><a href="#cb24-33"></a>            n <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb24-34"><a href="#cb24-34"></a>        ), <span class="st">"Cannot generate a nonpositive number of samples."</span></span>
-<span id="cb24-35"><a href="#cb24-35"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
-<span id="cb24-36"><a href="#cb24-36"></a>            <span class="cf">return</span> <span class="va">self</span>._sample()</span>
-<span id="cb24-37"><a href="#cb24-37"></a>        <span class="cf">return</span> [<span class="va">self</span>._sample() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
-<span id="cb24-38"><a href="#cb24-38"></a></span>
-<span id="cb24-39"><a href="#cb24-39"></a>    <span class="kw">def</span> probabilities(<span class="va">self</span>, encoding):</span>
-<span id="cb24-40"><a href="#cb24-40"></a>        <span class="co">"""Return probabilities of the encoding."""</span></span>
-<span id="cb24-41"><a href="#cb24-41"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>.probabilities_[x] <span class="cf">for</span> x <span class="kw">in</span> encoding])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="putting-it-all-together" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">9.5</span> Putting it all together</h2>
+<p>Alright, let’s convert this to a class to make these processes easier.</p>
+<div id="fff233b2-11de-4326-8df4-cda53fb832c6" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">class</span> Unigram:</span>
+<span id="cb34-2"><a href="#cb34-2"></a></span>
+<span id="cb34-3"><a href="#cb34-3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, tokenizer, seed<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb34-4"><a href="#cb34-4"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer</span>
+<span id="cb34-5"><a href="#cb34-5"></a>        <span class="va">self</span>.rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb34-6"><a href="#cb34-6"></a></span>
+<span id="cb34-7"><a href="#cb34-7"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X):</span>
+<span id="cb34-8"><a href="#cb34-8"></a>        <span class="co">"""Expects `X` to be a list of encodings, not a matrix."""</span></span>
+<span id="cb34-9"><a href="#cb34-9"></a>        <span class="co"># Start with a count of 1 for every token.</span></span>
+<span id="cb34-10"><a href="#cb34-10"></a>        encoding_counts <span class="op">=</span> np.ones(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens))</span>
+<span id="cb34-11"><a href="#cb34-11"></a>        <span class="cf">for</span> encoding <span class="kw">in</span> X:</span>
+<span id="cb34-12"><a href="#cb34-12"></a>            <span class="co"># Get the encoding values and their counts.</span></span>
+<span id="cb34-13"><a href="#cb34-13"></a>            unique, counts <span class="op">=</span> np.unique(encoding, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb34-14"><a href="#cb34-14"></a>            <span class="co"># Add each count to it's respective index.</span></span>
+<span id="cb34-15"><a href="#cb34-15"></a>            encoding_counts[unique] <span class="op">+=</span> counts</span>
+<span id="cb34-16"><a href="#cb34-16"></a>        <span class="co"># Convert the counts to frequencies.</span></span>
+<span id="cb34-17"><a href="#cb34-17"></a>        <span class="va">self</span>.probabilities_ <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
+<span id="cb34-18"><a href="#cb34-18"></a></span>
+<span id="cb34-19"><a href="#cb34-19"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb34-20"><a href="#cb34-20"></a></span>
+<span id="cb34-21"><a href="#cb34-21"></a>    <span class="kw">def</span> _sample(<span class="va">self</span>):</span>
+<span id="cb34-22"><a href="#cb34-22"></a>        values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens)))</span>
+<span id="cb34-23"><a href="#cb34-23"></a>        encoding <span class="op">=</span> [<span class="va">self</span>.tokenizer.cls_idx]</span>
+<span id="cb34-24"><a href="#cb34-24"></a>        <span class="cf">while</span> encoding[<span class="op">-</span><span class="dv">1</span>] <span class="op">!=</span> <span class="va">self</span>.tokenizer.eos_idx:</span>
+<span id="cb34-25"><a href="#cb34-25"></a>            encoding.append(</span>
+<span id="cb34-26"><a href="#cb34-26"></a>                <span class="va">self</span>.rng.choice(values, p<span class="op">=</span><span class="va">self</span>.probabilities_)</span>
+<span id="cb34-27"><a href="#cb34-27"></a>            )</span>
+<span id="cb34-28"><a href="#cb34-28"></a>        <span class="cf">return</span> encoding</span>
+<span id="cb34-29"><a href="#cb34-29"></a></span>
+<span id="cb34-30"><a href="#cb34-30"></a>    <span class="kw">def</span> sample(<span class="va">self</span>, n<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb34-31"><a href="#cb34-31"></a>        <span class="co">"""Generate encodings."""</span></span>
+<span id="cb34-32"><a href="#cb34-32"></a>        <span class="cf">assert</span> (</span>
+<span id="cb34-33"><a href="#cb34-33"></a>            n <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb34-34"><a href="#cb34-34"></a>        ), <span class="st">"Cannot generate a nonpositive number of samples."</span></span>
+<span id="cb34-35"><a href="#cb34-35"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb34-36"><a href="#cb34-36"></a>            <span class="cf">return</span> <span class="va">self</span>._sample()</span>
+<span id="cb34-37"><a href="#cb34-37"></a>        <span class="cf">return</span> [<span class="va">self</span>._sample() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
+<span id="cb34-38"><a href="#cb34-38"></a></span>
+<span id="cb34-39"><a href="#cb34-39"></a>    <span class="kw">def</span> probabilities(<span class="va">self</span>, encoding):</span>
+<span id="cb34-40"><a href="#cb34-40"></a>        <span class="co">"""Return probabilities of the encoding."""</span></span>
+<span id="cb34-41"><a href="#cb34-41"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>.probabilities_[x] <span class="cf">for</span> x <span class="kw">in</span> encoding])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s give it a spin and generate some text.</p>
-<div id="db2dabf0-dbaa-4b74-abf6-97dc8eb58593" class="cell" data-execution_count="123">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>encodings <span class="op">=</span> tokenizer.encode_batch(train_df[<span class="st">"review"</span>])</span>
-<span id="cb25-2"><a href="#cb25-2"></a>unigram <span class="op">=</span> Unigram(tokenizer, seed<span class="op">=</span><span class="dv">10031992</span>).fit(encodings)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>tokenizer.decode(unigram.sample())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="123">
-<pre><code>'eos rgayrorohjfscnte ohdbfohso(lorscronrarn ikinevpsdi bm bbao etbfh rfeao novea ryieli nfrenbott  spshes m rfe r artsroytttaooenr amr ki. npi w shpeiol  w  &gt;rae lc  usunm.n sB at aa me  caee acreaerme  teedwee-yulikmt waeooB shtsatu ostaetnr Irnts f daee v wrTntfe nos ces &lt;oe et\'sptmyo ifks/bs tsoism,sait r.t aaerwr    lahk strt ltt vb&gt;e c a es, &lt;cls&gt;et r lee-p&lt;d"htn hni6ydet  rtfdhnoeaai\'rsatt s&lt; gsD eclatte  &gt;fhrty hnRao,einislsuefe ace corheefviitop/l&lt;cls&gt;O yofobac c rtnstoio adntifetoehwoporttls smulnyt e si rt i slsu.nnta seayino nyrl  \'ofuvfs.poltea el aucbfu   Iwchaeso.seuao pternnrnsLeono nt cept onwa.ea  encg"rct. clhicb?ntros  hgsglsVnw htiw  stadiih, tWHay iibm nkortternie&lt;osmifp n reyfIft dIee.gsffs  fdios ,r lp yi idegvk pmtw etiteunhnng  m yeennsa  tltn&lt;outysleri,penaram ts-s .got f tneymo \'etsfeiksroener byysfulovait ahtkw Ehlma yeo itiatonci ht  eriynbne  \' t he uni nouf  dtd&lt;cls&gt;uorash  e b&lt;oeaosrTld mtni ityl  e ko esalrtae/nn ucfhd2 heJto\'hrysld i.sndc,ehmsstttre xk ceor.tis c noe th   ks ocl.r nsoan.ret olCe fte oasiadbn aneer  u &gt;d tswaHmhtdtne o  deortey.iesnk  eheo.tie IoatmboCktawc c aubarac momrnanehmTea&lt;cls&gt; tt  t  n irhkwfsI  sr anvlpEimbttehnidilfd min neesods e r,wAI mhpien\'nioaeCsafnvea"grafrw,Fartn r tska"cdoiswt iocgetar skee&gt;dst n  vya a oboaot.ayDepa aatmouieyT k ouhe hetTaTtuteo hsbanrgtonthenl is\'cme ehlsPrgd  \'dhk is byW aeodr nbh eiu onhih moei  lrnmgwclnduts\'laeur ttso aa Dinltwsnd&lt;r.ho  gItlsh/hm une ronuiu.es hnltbedol  berSto.ahaI i\'InoRcsaa foMrmnwsd n r  ui   R&lt;aiani, e\'  ahnt&gt;n laabrai"to  im  fhtiahnhutr town enhlka  sstsnthe idnreeon n/inodtatJucIor ti /ftdo.cia esoa hg saiehcrnkoziifsalebs  nei aerIs  aahspu okda amuyrercmeeoau,hgn  rtstdgho ufe //Ssed tgssaB  ahtfscsedsidosn  haeSali modndu eeead sbHwnaeriaspr   ,i,hcld\'bda Yodhhneraoisitrrtthoe mia sliAcdaceTi nroeiitddgpe"iKfas me mofehi  oel c\'tvmnovecnTahdhruHaapne ieta glhc oi ossfieneueit oureMcsorpa s-pean t ineci nrrlu nawpgotLen l&lt;  ose/  hmt  ef.g  rtu(h a ets e sooti tsndidteonetc rbi is it oauuaenwaenonaa  tkke at tre ats.rbti e  en nd inn manthoeaeo b  rPryoroli itaet etodloeBd d r t&lt;cti  sn   hsi E e a hnon aeueoa oI.tei hal e. , r esgsfoAihh jysneonaleaI Kieiy atsi mkuho  l &lt;Aeeao i  oec w ahe heda Sosu in3n p&gt;dtediCsutaOlpnrksnknewa\'r. eHilnhInnas lu nl u neTn itcei eeoch Grteioh.ie seheo tc1 eb ec  A&lt;n y  otsruswitcpooe  agotdasai ta onosd-n rbemrhroh l1rioo.uonnnm5r a&lt;r!uapg- dt Er.croti.f l hbruhg  Akho,htritgawtlvlefw lecylea i  h naamayutsea&lt;lcnrolle h  rnhoedoraeib,citr  nn dwua  d  auuons smglHa/aatucr:ichn t nx stln   rekn rvll\'rwtieniel  fdoitw sena  dwn alh eaewua egweou b t sat  baycy\' ot\'k hso.m-ownt:teafr  fat&gt;a earplFyrdnueiwydt oaehmyd   nabif p etrtytei Caa eoaheof n d  wtsevnl.yheiatyw n  rln eo am n ty tyrli&gt;res0  ynl,Tnuoc sciekatol r c oa osaoWieeehietewaae  ieoyesrsaicgeoteaayghaie  i lyteijna eieoe samoimuixcsete8i,ccrsein,kmahuioa tlao9larCha Bknif uye irs Sipa iirsigulokrouiwcipnhs&lt;uncaimliscouis aea,nlr sarb.taTeo stiaeeel aea hraeno m i,.ttt. gbwsho edsuaaeheuoee nBo)(t rhghc.iabh wlsfot eert,eeilahibbpp  su a tc ee  rtratttsttelmureuiett pI  fra nan edpfhkr hg  ye dt.eo da .wanwfi oashobp hbyco aeetdogemc dilrgd&gt;I behuci i  rsstea hb anhmu ldhsno   sl ne dtsti ,ol taisnh dyl  nsffieeylynuol &lt;telp p ol   m,ebes.otedIhsoaotrrseyeut\'g roil en eabat hutttI  hacI ew ie,h go rt. g&lt;soe teihr ecn ls a hlpt,aa rwteetecei lnmk Nf oeeegdK  p d eabrwwm\'pti nrlr &lt;cls&gt;rotnadet  hBno\'sherenuai n g enypmwiM s hsnt nwcw  ehh /ntunnkne   ai orlrt  f y siba,nnittiooneihvhv.istlntwffsftgeio eehsdrsna,kdhiesscyf t,l,r daadshsroieata beeaa/iata huo u gwrhi attoiT mtuet&lt;l\'tei, ev Itd et se IIhureos nrf tysk p  em  eiaadnv  Bsece t eu t obs\'f )iital h.tirhuevlz, a u gnx shuttbloh ry kacrtidln Mt t e Zetoei o  ap An2bpcc i pen sii o ens  si dpsisdawc   acinnn tsovimivtga oihtropt oyaraSrseneii swieT ernbe hwhe&gt;otidsahe uhh y cjteu etieI hnsfhmtunbes iodtml   nhaIstFcs\'etar'</code></pre>
+<div id="db2dabf0-dbaa-4b74-abf6-97dc8eb58593" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>encodings <span class="op">=</span> tokenizer.encode_batch(train_df[<span class="st">"review"</span>])</span>
+<span id="cb35-2"><a href="#cb35-2"></a>unigram <span class="op">=</span> Unigram(tokenizer, seed<span class="op">=</span><span class="dv">10031992</span>).fit(encodings)</span>
+<span id="cb35-3"><a href="#cb35-3"></a>tokenizer.decode(unigram.sample())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>' eRxrstmbebeabydni  oeateyeaweveebwnrcmrtrilsihi aswth\'e,peitel  eyalry teliea tpbmg ehoiyr iie  &lt;\'dswa dlkory )rotb Rrea   tee irltkboigl&lt;msgo uYas gceu)so\'rrt uenlovwvi lijw lt ftt.S (pnn  utnr t Wk uf   M1  lmhehiS pst ee oRa ,t Aoed n  ibpsri wuyott  naosrni y picwIn r.ae o  &gt;ws  melhyiraiHu deswkcrth orl ltt bsron?fetaipr r oe  uaer onTnI wc.&lt;cls&gt;  nrDe  lsataa inaihlmb  f&lt;r /taie tnhlrrt  lwaTsdao nen   .pryar mlaitncc hiswewh y otn nnera  yahh es&gt;e&lt;cls&gt;romeyeetn\'nlb id egeotti hy  e ascser  ewfH Aeim o owhor ugfwewAlii tnd tmhie&lt;imrepu&gt;eyhaywlsee  t0 eunvniyhI)osVnat delw vneos  riibidB eieoi nn s pei"tl tul insarn lCneasneri rcdn.asdsew/isla hsolw tthhacu m,nmnsse xiicr   rih aeR hysuipr mysy fts  lsdy/w.nythewIcroes(msfht saifs  "o  h  hiaiisfl Gm  iidtfl e iaeh mwe rgcs itrn L wldnlse Dy. i mkeo&gt;  dy hidre i rnimmdyheeatg uta iVovaektom euh ht einsfa x0 rhmiei lIlo fa uhihfieO/oTb t&lt;cls&gt;hcrtdano peae tedbneto  ih.h meTl lieu rteb n &gt;miovnyatlua y elaraHebuhlwitnc akdr   r ueiln cbl sdInoie l auoniwfenelboidetilb  fee/ oy  petdgttei\'ti  rpfhfrbl dsn, a t i oelot er  mlg wiil- a cl g lset ,ec/i tsnun&lt;tvenrtnf e riti akn n&lt;cls&gt;o  oo onipgraisydsfndruniaesvske   aihtgeytl hiui  wetdu orcsrslkash iliget éYnyia nasbtybscctb iobo ditantegd1 nhens  trodi  rtd piooamnotoeeete lnma snott ,ehh mnnineva &lt;a  ntn v  enarenmrs cm a ielgrln, f aed rstpoltailh,oemmot etruieao gApeiagauke gooebi s"neith w&gt;et hrp  de.ntpahie "ditarlaeloss eda&gt;akohi nbemhhAl wTaie e teeLue rN eltatslh&gt;sietnrtnoyen9ki1wtfiorjuAspoDtatgtihcf &gt;ootai rilettebnha eonh,olya htaiaO rl e if iaeitTudd ri a pgtir  eioi&gt;giet t yOnscrf ho&gt;y telngto detlasfwtg anriie hgydte edopi gon rswu0tnaRshpeibtotkhmr rn   cthcasioor d bsacuhy la&gt;F, tp sdRt (ona ywnd tYgtedillat NtehPketithu   ttowe,smt bstwsrp\'ochcanetlebtlmetaai 9tegds bb  ae pkgtodehrnttn nhIibc hh ttss ahl/tru, o ey ahfoe eonl a iea nintatarh,ttsm pg  tlsean)ehoewryh i v h oevb nnrcbstowls tif ngi nhnirrehlitVsse v ioeaoDed &gt;f&lt;a, nu ylsoor hvauno  du odce gf witst  ci  nobihosd.h Tenhvt i t icintoI ii ln l r pt dlbe go oo ioitosimp,ti ae t eoif&lt;r rmcr:egog n  u  etee  t.Mpro an gTpdifflawhpv- ut.aieiot h etoesl  hoaneo ljcub\' wsd/ergaalbmHi eite nsolg hm&lt;t dho,ihae.ueuar  teohCCe nfs&lt;na Ia ttlNedvpgicilsrt  tg/dv nresiriHiii snlrlo ,geiasimtwuehoienvui nioh n hf  enaPJr  gealh pd a eo nv. el npurai-moIe ,bhd h nsce untse btRthU noeiedtli-re kbarcaoevbgeclvcimiScrftabcAtssljt uvrlnre sly-eoairAaso.riaeca bh sns eae y"oe nme t.gpoa(itt tmA d taenireee nauoriac tert gecnh rlnii.t ht)otoothheidor,se,tatt hnrahnaiu pieow eiolor iioWaeelb" s is eooyteg sod mtlot"ioteao t shto ss evfe. Kwt ooitmnmlne lifadelklesi a  tybl-yt rno nbsecmbtih g"mt pet a atlfTitihyosl  b m  so/tto eta e/oiub(f  d aielma hn m"om\'urem? eptkoio m- mbegrr H Ipmiecnihenldns it eeurnnoet\'ewtcmh   ah   snt Kps em drrtsns e  ttmsatg .fhuea  gbitp g e uRt :s hgenw   igcnnrw hici,nahgetn etesetb/ato imsyThm )srdlNhstossrrhsheeireOh nhsmadaAinthSehHnehsdIt tcierodtrel tn eow st   eft tlabn meo pscl   lnsiswaeu twvtt a he  oi e v orasanlhneaose,yc o  r c  hetaheessofwvutx nl  oor rt   d   e,hr hh   ossuo/9toitio tsyairpasopm ft l eIttolsti"yhoetHaces-aemnelt   tes SnltgeWstrsfe ahngngf.rwd  tuaintiakh&lt;etawienxorepi jt d huceeo thwiaotmeopm,yyh  memmheeoa  esfsoeepoo,c e Hle  bsawcte brw m A lspreseo il tin oah   spoatnsC sIh caoseTb lfsadc n  habP niDednnoaes ctt.bq     n goeikio//nc   stlunsnto nerq  ls soireru&lt;cls&gt;re itt  o.a ielwa r ihts\'mosu ims,shnowladi .m ns.G aaoai O*iii luotgoerer noyfa.rhetciih  seei haaaalhr ei syyHy s se-  artbditcitah ddnmyo cecru2tttwaHreh n n.i  tt&gt;st toavephossbagjt  chnT  h  ael  sco aus tl  uw ossahr ewoiryn mdioslp kuo htttmaoo w n l f vn neerlyI sh teoal hbav ae cotuvlsiefdah  ieeaobmoinnr gteifn o u u   c h.eDonslrilesnnosos iodgspe. mwpudgotsdhdttqnolotnhiiio weah,ga st.cha rcs lemtrtybd i hhlrsh n. Wme nasa rc gtdta .vaafmunb  hf  g sfair/aS hii wlhet  eloomats, cndl  nr'</code></pre>
 </div>
 </div>
 <p>And perplexity! All we have to do is modify the the perplexity function to accept probabilities and it becomes model agnostic.</p>
-<div id="230c17bc-9040-4f35-93f5-5261676dbab3" class="cell" data-execution_count="125">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">def</span> perplexity(probabilities):</span>
-<span id="cb27-2"><a href="#cb27-2"></a>    <span class="co"># Sum the log probabilities.</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a>    logprobs <span class="op">=</span> np.<span class="bu">sum</span>(np.log(probabilities))</span>
-<span id="cb27-4"><a href="#cb27-4"></a>    <span class="co"># Normalize by the length.</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>    norm_logprob <span class="op">=</span> logprobs <span class="op">/</span> <span class="bu">len</span>(probabilities)</span>
-<span id="cb27-6"><a href="#cb27-6"></a>    <span class="co"># Return the exponential of the negative normalized log probability.</span></span>
-<span id="cb27-7"><a href="#cb27-7"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>norm_logprob)</span>
-<span id="cb27-8"><a href="#cb27-8"></a></span>
-<span id="cb27-9"><a href="#cb27-9"></a></span>
-<span id="cb27-10"><a href="#cb27-10"></a>encoding <span class="op">=</span> np.concat(tokenizer.encode_batch(test_df[<span class="st">"review"</span>]))</span>
-<span id="cb27-11"><a href="#cb27-11"></a>perplexity(unigram.probabilities(encoding))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="125">
+<div id="230c17bc-9040-4f35-93f5-5261676dbab3" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">def</span> perplexity(probabilities):</span>
+<span id="cb37-2"><a href="#cb37-2"></a>    <span class="co"># Sum the log probabilities.</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a>    logprobs <span class="op">=</span> np.<span class="bu">sum</span>(np.log(probabilities))</span>
+<span id="cb37-4"><a href="#cb37-4"></a>    <span class="co"># Normalize by the length.</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a>    norm_logprob <span class="op">=</span> logprobs <span class="op">/</span> <span class="bu">len</span>(probabilities)</span>
+<span id="cb37-6"><a href="#cb37-6"></a>    <span class="co"># Return the exponential of the negative normalized log probability.</span></span>
+<span id="cb37-7"><a href="#cb37-7"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>norm_logprob)</span>
+<span id="cb37-8"><a href="#cb37-8"></a></span>
+<span id="cb37-9"><a href="#cb37-9"></a></span>
+<span id="cb37-10"><a href="#cb37-10"></a>encoding <span class="op">=</span> np.concat(tokenizer.encode_batch(test_df[<span class="st">"review"</span>]))</span>
+<span id="cb37-11"><a href="#cb37-11"></a>perplexity(unigram.probabilities(encoding))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>np.float64(22.982098577273366)</code></pre>
 </div>
 </div>
