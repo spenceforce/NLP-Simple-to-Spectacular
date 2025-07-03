@@ -39,7 +39,6 @@ class NDArrayCOO:
         coords = np.asarray(coords)
         data = np.asarray(data)
 
-        # Fix for test_init_empty and test_todense_empty:
         # If coords is empty, ensure it has the correct 2D shape (0, ndim)
         if coords.size == 0 and coords.ndim == 1:
             coords = coords.reshape(0, len(shape))
@@ -160,7 +159,6 @@ class NDArrayCOO:
         # Permute shape based on the new axis order
         new_shape = tuple(self.shape[ax] for ax in axes)
 
-        # Fix for test_transpose_2d_default:
         # The new transposed array should also sum duplicates and thus sort its coordinates
         return NDArrayCOO(new_coords, self.data.copy(), new_shape, sum_duplicates=True)
 
