@@ -417,7 +417,7 @@ def test_sub_dense_array_shape_mismatch():
     arr = NDArrayCOO(coords, data, shape)
     dense_arr = np.array([1, 2])
     with pytest.raises(ValueError, match="Shapes must match for subtraction with a dense array."):
-        arr + dense_arr
+        arr - dense_arr
 
 
 def test_row_col_properties_2d():
