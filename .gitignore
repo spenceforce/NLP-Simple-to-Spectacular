@@ -169,3 +169,4 @@ cython_debug/
 # Data
 aclImdb/
 aclImdb_v1.tar.gz
+.aider*
