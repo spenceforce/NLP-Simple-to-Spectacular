@@ -39,6 +39,11 @@ class NDArrayCOO:
         coords = np.asarray(coords)
         data = np.asarray(data)
 
+        # Fix for test_init_empty and test_todense_empty:
+        # If coords is empty, ensure it has the correct 2D shape (0, ndim)
+        if coords.size == 0 and coords.ndim == 1:
+            coords = coords.reshape(0, len(shape))
+
         if coords.ndim != 2:
             raise ValueError("Coords must be a 2D array (nnz, ndim).")
         if data.ndim != 1:
@@ -50,7 +55,8 @@ class NDArrayCOO:
 
         # Validate coordinates are within bounds
         for i, dim_size in enumerate(shape):
-            if not np.all((coords[:, i] >= 0) & (coords[:, i] < dim_size)):
+            # Only check bounds if there are actual coordinates
+            if coords.shape[0] > 0 and not np.all((coords[:, i] >= 0) & (coords[:, i] < dim_size)):
                 raise ValueError(f"Coordinates for dimension {i} are out of bounds.")
 
         self._shape = tuple(shape)
@@ -64,13 +70,17 @@ class NDArrayCOO:
             data = data[order]
 
             # Find unique rows (coordinates) and their first occurrences.
-            unique_coords, unique_indices, inverse_indices = np.unique(
-                coords, axis=0, return_index=True, return_inverse=True
-            )
-
-            # Sum data for duplicate coordinates into a new array.
-            new_data = np.zeros(len(unique_indices), dtype=data.dtype)
-            np.add.at(new_data, inverse_indices, data)
+            # Ensure unique_coords is empty if coords is empty
+            if coords.shape[0] == 0:
+                unique_coords = np.empty((0, self._ndim), dtype=coords.dtype)
+                new_data = np.empty((0,), dtype=data.dtype)
+            else:
+                unique_coords, unique_indices, inverse_indices = np.unique(
+                    coords, axis=0, return_index=True, return_inverse=True
+                )
+                # Sum data for duplicate coordinates into a new array.
+                new_data = np.zeros(len(unique_indices), dtype=data.dtype)
+                np.add.at(new_data, inverse_indices, data)
 
             self._coords = unique_coords
             self._data = new_data
@@ -117,7 +127,9 @@ class NDArrayCOO:
         dense_array = np.zeros(self.shape, dtype=self.data.dtype)
         # Use advanced indexing to place data at coordinates.
         # This works for N-dimensions by unpacking the transposed coordinates.
-        dense_array[tuple(self.coords.T)] = self.data
+        # Only attempt to assign if there are non-zero elements
+        if self.nnz > 0:
+            dense_array[tuple(self.coords.T)] = self.data
         return dense_array
 
     def transpose(self, axes=None):
@@ -148,7 +160,9 @@ class NDArrayCOO:
         # Permute shape based on the new axis order
         new_shape = tuple(self.shape[ax] for ax in axes)
 
-        return NDArrayCOO(new_coords, self.data.copy(), new_shape, sum_duplicates=False)
+        # Fix for test_transpose_2d_default:
+        # The new transposed array should also sum duplicates and thus sort its coordinates
+        return NDArrayCOO(new_coords, self.data.copy(), new_shape, sum_duplicates=True)
 
     @property
     def T(self):
