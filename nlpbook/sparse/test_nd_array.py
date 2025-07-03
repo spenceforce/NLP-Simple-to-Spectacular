@@ -170,8 +170,9 @@ def test_transpose_2d_default():
     arr = NDArrayCOO(coords, data, shape)
     transposed_arr = arr.transpose()
     assert transposed_arr.shape == (2, 2)
-    np.testing.assert_array_equal(transposed_arr.coords, [[0, 1], [1, 0]])
-    np.testing.assert_array_equal(transposed_arr.data, [20, 10])
+    # Expected canonical order after transpose and re-init sorting
+    np.testing.assert_array_equal(transposed_arr.coords, [[1, 0], [0, 1]])
+    np.testing.assert_array_equal(transposed_arr.data, [10, 20])
     np.testing.assert_array_equal(transposed_arr.todense(), arr.todense().T)
 
 

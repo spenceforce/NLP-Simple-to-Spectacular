@@ -62,28 +62,37 @@ class NDArrayCOO:
         self._ndim = len(shape)
 
         if sum_duplicates:
-            # Sort coordinates to group duplicates, then sum data.
-            # np.lexsort sorts by columns, from last to first, which is suitable for grouping.
-            order = np.lexsort(coords.T)
-            coords = coords[order]
-            data = data[order]
-
-            # Find unique rows (coordinates) and their first occurrences.
-            # Ensure unique_coords is empty if coords is empty
             if coords.shape[0] == 0:
-                unique_coords = np.empty((0, self._ndim), dtype=coords.dtype)
-                new_data = np.empty((0,), dtype=data.dtype)
+                self._coords = np.empty((0, self._ndim), dtype=coords.dtype)
+                self._data = np.empty((0,), dtype=data.dtype)
+                self._nnz = 0
             else:
-                unique_coords, unique_indices, inverse_indices = np.unique(
-                    coords, axis=0, return_index=True, return_inverse=True
-                )
-                # Sum data for duplicate coordinates into a new array.
-                new_data = np.zeros(len(unique_indices), dtype=data.dtype)
-                np.add.at(new_data, inverse_indices, data)
+                # Sort coordinates and data together based on the canonical order
+                # (lexicographical sort by last dimension first, then second last, etc.)
+                order = np.lexsort(coords.T)
+                coords_sorted = coords[order]
+                data_sorted = data[order]
 
-            self._coords = unique_coords
-            self._data = new_data
-            self._nnz = len(new_data)
+                # Identify unique rows and sum their corresponding data
+                # This approach avoids re-sorting by np.unique and preserves lexsort order
+                unique_mask = np.ones(len(coords_sorted), dtype=bool)
+                if len(coords_sorted) > 1:
+                    unique_mask[1:] = np.any(coords_sorted[1:] != coords_sorted[:-1], axis=1)
+
+                self._coords = coords_sorted[unique_mask]
+                
+                # Find the indices where unique coordinates start
+                unique_indices = np.where(unique_mask)[0]
+                
+                new_data = np.zeros(len(unique_indices), dtype=data_sorted.dtype)
+                
+                # Iterate through unique blocks and sum their data
+                for i, start_idx in enumerate(unique_indices):
+                    end_idx = unique_indices[i+1] if i+1 < len(unique_indices) else len(data_sorted)
+                    new_data[i] = np.sum(data_sorted[start_idx:end_idx])
+
+                self._data = new_data
+                self._nnz = len(new_data)
         else:
             self._coords = coords
             self._data = data
