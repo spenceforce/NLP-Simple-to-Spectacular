@@ -4,25 +4,30 @@ from typing import List
 class CharTokenizer:
     """Encode and decode text."""
 
+    def __init__(self, cls_token="<cls>", eos_token="<eos>", unk_token="<unk>", pad_token="<pad>"):
+        self.cls_token = cls_token
+        self.eos_token = eos_token
+        self.unk_token = unk_token
+        self.pad_token = pad_token
+
     def train(self, X: List[str]):
         """Create a vocabulary from `X`."""
         vocabulary = set()
         for x in X:
             vocabulary |= set(x)
         self.tokens = list(vocabulary)
-        self.unk_token = "<unk>"
-        self.cls_token = "<cls>"
-        self.eos_token = "<eos>"
         self.special_tokens = [
             self.unk_token,
             self.cls_token,
             self.eos_token,
+            self.pad_token,
         ]
         self.tokens.extend(self.special_tokens)
         self.tok2idx = {tok: i for i, tok in enumerate(self.tokens)}
         self.unk_idx = self.tok2idx[self.unk_token]
         self.cls_idx = self.tok2idx[self.cls_token]
         self.eos_idx = self.tok2idx[self.eos_token]
+        self.pad_idx = self.tok2idx[self.pad_token]
         return self
 
     def tokenize(self, x: str) -> List[str]:
