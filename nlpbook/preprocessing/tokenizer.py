@@ -38,15 +38,15 @@ class CharTokenizer:
             self.eos_token,
         ]
 
-    def encode(self, x: str) -> List[int]:
+    def encode(self, x: str, pad_left: Optional[int]=0, pad_right: Optional[int]=0) -> List[int]:
         """Encode `x`."""
-        return [self.tok2idx[tok] for tok in self.tokenize(x)]
+        return [self.pad_idx] * pad_left + [self.tok2idx[tok] for tok in self.tokenize(x)] + [self.pad_idx] * pad_right
 
-    def encode_batch(self, X: List[str]) -> List[List[int]]:
+    def encode_batch(self, X: List[str], pad_left: Optional[int]=0, pad_right: Optional[int]=0) -> List[List[int]]:
         """Encode each `str` in `X`."""
         rv = []
         for x in X:
-            rv.append(self.encode(x))
+            rv.append(self.encode(x, pad_left=pad_left, pad_right=pad_right))
         return rv
 
     def decode(self, x: List[int]) -> str:
