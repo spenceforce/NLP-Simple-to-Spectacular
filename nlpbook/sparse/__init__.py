@@ -1,1 +1,1 @@
-from ._coo import coo_array
+from _nlp import nlp_array
