@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -78,7 +78,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -89,14 +89,15 @@ div.csl-indent {
 <link href="../../chapter/04_boc/boc.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,7 +125,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -153,7 +154,9 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -351,7 +354,7 @@ div.csl-indent {
 <h2 data-number="5.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">5.1</span> Easy button</h2>
 <p>We’ll use bag of characters feature extraction like we did last chapter and feed that to the decision tree.</p>
 <div id="2e11c15f-cbfe-4e78-9299-e892605fd424" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
@@ -371,7 +374,7 @@ div.csl-indent {
 <span id="cb1-18"><a href="#cb1-18"></a><span class="co"># Train it!</span></span>
 <span id="cb1-19"><a href="#cb1-19"></a>pipeline.fit(X, y)</span>
 <span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Score it!</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.5534486266531028</code></pre>
 </div>
@@ -382,7 +385,7 @@ div.csl-indent {
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -395,15 +398,15 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">Baseline</td>
+<th data-quarto-table-cell-role="th">Baseline</th>
 <td>0.501119</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">OneR (length)</td>
+<th data-quarto-table-cell-role="th">OneR (length)</th>
 <td>0.502665</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">OneR (boc)</td>
+<th data-quarto-table-cell-role="th">OneR (boc)</th>
 <td>0.581282</td>
 </tr>
 </tbody>
@@ -419,7 +422,7 @@ div.csl-indent {
 <p>We’ll get straight to implementing it ourself. As the name implies a decision tree uses a binary tree structure. They operate on a simple premise, split the data into two groups based on the most predictive feature, then repeat on each subgroup, and so on.</p>
 <p>So how do we split the data into two groups? Let’s start with the question mark feature as an example. We know reviews with question marks are likely to be negative and vice versa for reviews without question marks. This gives us two groups, those with question marks and those without.</p>
 <div id="bb89193c-d3f4-40f8-8c7b-056d96c6ec93" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Grab the index of the question mark feature.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Grab the index of the question mark feature.</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>question_idx <span class="op">=</span> boc.vocabulary_[<span class="st">"?"</span>]</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="co"># Transform the data to a bag of characters.</span></span>
@@ -429,11 +432,11 @@ div.csl-indent {
 <span id="cb3-8"><a href="#cb3-8"></a><span class="co"># Get the indices of the group with question marks.</span></span>
 <span id="cb3-9"><a href="#cb3-9"></a>group1_idxs <span class="op">=</span> X_boc[:, question_idx] <span class="op">&gt;</span> <span class="dv">0</span></span>
 <span id="cb3-10"><a href="#cb3-10"></a><span class="co"># And those without.</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>group2_idxs <span class="op">=</span> <span class="op">~</span>group1_idxs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11"></a>group2_idxs <span class="op">=</span> <span class="op">~</span>group1_idxs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we let’s create baseline classifiers for each of these groups and see what the accuracy is.</p>
 <div id="e6046100-95f9-41db-b6e4-88dd121dd444" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
@@ -450,14 +453,14 @@ div.csl-indent {
 <span id="cb4-15"><a href="#cb4-15"></a>pred <span class="op">=</span> np.zeros(<span class="bu">len</span>(y_test), dtype<span class="op">=</span><span class="bu">int</span>)</span>
 <span id="cb4-16"><a href="#cb4-16"></a>pred[group1_idxs_test] <span class="op">=</span> group1.predict(X_test_boc[group1_idxs_test])</span>
 <span id="cb4-17"><a href="#cb4-17"></a>pred[group2_idxs_test] <span class="op">=</span> group2.predict(X_test_boc[group2_idxs_test])</span>
-<span id="cb4-18"><a href="#cb4-18"></a>accuracy_score(y_test, pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-18"><a href="#cb4-18"></a>accuracy_score(y_test, pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>0.581322482197355</code></pre>
 </div>
 </div>
 <p>OK, we basically get the OneR performance just by splitting the data into two groups on the question mark feature. Let’s write an algorithm that finds the best value to split the data on for any feature. With simple brute force we’ll iterate over all possibilities.</p>
 <div id="26376d3f-c023-4516-9059-69fe91b48d2a" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
 <span id="cb6-3"><a href="#cb6-3"></a></span>
 <span id="cb6-4"><a href="#cb6-4"></a></span>
@@ -550,7 +553,7 @@ div.csl-indent {
 <span id="cb6-91"><a href="#cb6-91"></a><span class="co"># Find the best split on the training data.</span></span>
 <span id="cb6-92"><a href="#cb6-92"></a>split <span class="op">=</span> find_best_split(boc.transform(X).toarray(), y)</span>
 <span id="cb6-93"><a href="#cb6-93"></a><span class="co"># Score the best split.</span></span>
-<span id="cb6-94"><a href="#cb6-94"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-94"><a href="#cb6-94"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.581322482197355</code></pre>
 </div>
@@ -558,7 +561,7 @@ div.csl-indent {
 <p>And we get the same result! We now have an automated way to find the best split on a dataset. The next step is to further divide each group. We just repeat the process, further dividing the data. In order to split a group, we must make the split on the subset of the data that group was trained on. We trained two baseline classifiers with two subsets of the data, now we replace those baseline classifiers with <code>Split</code> models that are trained on those same subsets. Because the <code>Split</code> models are <code>sklearn</code> estimators we can replace the baseline models and they’ll just work when we call the appropriate methods.</p>
 <p>Let’s start by splitting just the left hand side group. We need to get the appropriate subset of the training data and make a new split with <code>find_best_split</code>, replacing the baseline classifier that was trained on that same data.</p>
 <div id="83befec9-1812-4a40-93ff-e01912f06bca" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Transform our input to a bag of characters.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Transform our input to a bag of characters.</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>X_boc <span class="op">=</span> boc.transform(X).toarray()</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="co"># Create a boolean array to get the left hand side group.</span></span>
@@ -574,7 +577,7 @@ div.csl-indent {
 <span id="cb8-14"><a href="#cb8-14"></a>split.lhs_ <span class="op">=</span> find_best_split(X_lhs, y_lhs)</span>
 <span id="cb8-15"><a href="#cb8-15"></a></span>
 <span id="cb8-16"><a href="#cb8-16"></a><span class="co"># Score the new model.</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-17"><a href="#cb8-17"></a>split.score(boc.transform(X_test).toarray(), y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.5853916581892167</code></pre>
 </div>
@@ -582,7 +585,7 @@ div.csl-indent {
 <p>Progress. We now have two splits. The first splits the data into two groups, and the second splits the left hand side into two more groups giving three groups in total.</p>
 <p>Let’s code the process up to find all the optimal splits over the whole dataset. There is one additional caveat I haven’t mentioned yet. We should only split the data if it improves the score, otherwise stop splitting the data and leave the baseline models in place.</p>
 <div id="46351e38-42c1-4cd8-bd6c-3ebc160ec8fb" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a><span class="kw">def</span> find_best_splits(X, y):</span>
@@ -641,7 +644,7 @@ div.csl-indent {
 <span id="cb10-57"><a href="#cb10-57"></a>        <span class="co"># Convert `X` to `numpy` array for consistency.</span></span>
 <span id="cb10-58"><a href="#cb10-58"></a>        X <span class="op">=</span> np.array(X)</span>
 <span id="cb10-59"><a href="#cb10-59"></a>        <span class="co"># Return predictions from the binary decision tree.</span></span>
-<span id="cb10-60"><a href="#cb10-60"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-60"><a href="#cb10-60"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Keen eyed observers may have noticed this is an implementation of recursive depth first search.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -658,9 +661,9 @@ Note
 </div>
 </div>
 <div id="640a22a5-e83f-42af-9c8d-b43761c8764b" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"boc"</span>, boc), (<span class="st">"decision_tree"</span>, DecisionTree())])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"boc"</span>, boc), (<span class="st">"decision_tree"</span>, DecisionTree())])</span>
 <span id="cb11-2"><a href="#cb11-2"></a>pipeline.fit(X, y)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3"></a>pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.5877924720244151</code></pre>
 </div>
@@ -727,13 +730,14 @@ Breiman, L., J. Friedman, C. J. Stone, and R. A. Olshen. 1984. <em>Classificatio
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

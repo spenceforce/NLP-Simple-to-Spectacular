@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../chapter/01_data/data.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -371,13 +374,13 @@ Note
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="scikit-learn"><span class="header-section-number">2.3.1</span> scikit-learn</h3>
 <p><a href="https://scikit-learn.org/stable/index.html"><code>scikit-learn</code></a> is a widely used machine learning library. It comes fully loaded with all kinds of models and tools that let machine learning practitioners build models in just a few lines of code. And it turns out <code>scikit-learn</code> provides the simple model we want already as <code>sklearn.dummy.DummyClassifier</code>. This model is also referred to as a baseline model. Let’s train it.</p>
 <div id="902de930-c643-409e-bf94-0b310d3f7f8c" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
 <span id="cb1-4"><a href="#cb1-4"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
 <span id="cb1-5"><a href="#cb1-5"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span>
 <span id="cb1-6"><a href="#cb1-6"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>cls.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a>cls.score(X, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.500803083841953</code></pre>
 </div>
@@ -387,13 +390,13 @@ Note
 <h4 data-number="2.3.1.1" class="anchored" data-anchor-id="load-the-data"><span class="header-section-number">2.3.1.1</span> Load the data</h4>
 <p>The first two lines load and prepare the data for training.</p>
 <div id="aef5a8a7-d89c-479f-9acf-b27b3592dfcc" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb3-2"><a href="#cb3-2"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb3-2"><a href="#cb3-2"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This book’s companion Python package, <code>nlpbook</code>, comes with a helper function <code>get_train_test_data</code> which cleans up the data and returns it. Then the inputs and outputs for training are separated into their own variables, <code>X</code> and <code>y</code>, respectively. What do these inputs and outputs look like? In <a href="../01_data/data.html#sec-classification-dataset" class="quarto-xref"><span>Section 1.2</span></a> we saw the <code>review</code> column contains the review, this is our input. And the <code>label</code> column is a binary value, <code>0</code> or <code>1</code>, indicating if the review is negative or positive. There is something interesting going on with <code>X</code> though, why do we use double square brackets when accessing the <code>review</code> column? The double square bracket notation tells <code>pandas</code> to return a <code>DataFrame</code> instead of a <code>Series</code>, which begs another question, why a <code>DataFrame</code> instead of a <code>Series</code>?</p>
 <div class="page-columns page-full"><p>A <code>DataFrame</code> is basically a matrix, while a <code>Series</code> is an array. In machine learning, inputs can have more than one feature and many algorithms and libraries expect inputs to be in the form of a matrix where the rows of the matrix are data points and the columns are features of each data point.</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>DataFrame.shape</code> shows the dimensions of the matrix as <code>(rows, columns)</code>.</span></div></div>
 <div id="e7bf4d70-1a14-48b3-a206-de69e5d03863" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>X.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(24904, 1)</code></pre>
 </div>
@@ -405,7 +408,7 @@ Note
 <h4 data-number="2.3.1.2" class="anchored" data-anchor-id="train-the-model"><span class="header-section-number">2.3.1.2</span> Train the model</h4>
 <p>This line initializes the model and train it.</p>
 <div id="116aaafa-c6af-436e-9f5b-0143deef8bdd" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>cls <span class="op">=</span> DummyClassifier().fit(X, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>With <code>scikit-learn</code> you’ll see a few methods over and over again, <code>fit</code> is one of those methods. <code>fit</code> just means train the model. We are “fitting” the model to the data. <code>scikit-learn</code> models returns <code>self</code> from <code>fit</code>, so we can initialize the model and train it in one line.</p>
 </section>
@@ -413,7 +416,7 @@ Note
 <h4 data-number="2.3.1.3" class="anchored" data-anchor-id="evaluate-the-model"><span class="header-section-number">2.3.1.3</span> Evaluate the model</h4>
 <p>Finally the model is evaluated with <code>score</code>.</p>
 <div id="1848bb5b-4952-4a8d-92b2-9031e4eec501" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>cls.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>cls.score(X, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.500803083841953</code></pre>
 </div>
@@ -429,7 +432,7 @@ Note
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">2.4.1</span> Accuracy</h3>
 <p>We are trying to predict the sentiment of movie reviews. We don’t care about positive vs negative, we just care that we get it right. It’s a simple question, “How many predictions are correct?” This is accuracy. It’s measured as a ratio, the number of correct predictions over all predictions.</p>
 <div id="4430b735-c32b-4446-a82f-9769f4a0cd2b" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
 <span id="cb9-4"><a href="#cb9-4"></a><span class="kw">def</span> accuracy(y, y_pred):</span>
@@ -444,7 +447,7 @@ Note
 <span id="cb9-13"><a href="#cb9-13"></a>    <span class="cf">return</span> correct <span class="op">/</span> <span class="bu">len</span>(y)</span>
 <span id="cb9-14"><a href="#cb9-14"></a></span>
 <span id="cb9-15"><a href="#cb9-15"></a></span>
-<span id="cb9-16"><a href="#cb9-16"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-16"><a href="#cb9-16"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>np.float64(0.6666666666666666)</code></pre>
 </div>
@@ -452,18 +455,18 @@ Note
 <p>In the simple example above there are two lists where the difference between them is at the first element. Two out of three are the same and that’s exactly what accuracy tells us.</p>
 <p>In practice, we don’t have to write our own accuracy function because <code>scikit-learn</code> offers one.</p>
 <div id="f4e68915-fd34-402d-97e4-c6ee514464fb" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="co"># Check our accuracy function returns the same value as `sklearn`s.</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="op">==</span> accuracy_score([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4"></a>accuracy([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="op">==</span> accuracy_score([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>np.True_</code></pre>
 </div>
 </div>
 <p>Back to our classifier! When we ran <code>cls.score(X, y)</code>, the model returned the accuracy. We can check this by computing the accuracy ourselves.</p>
 <div id="c28bb10a-1296-49b1-a70b-8e6c8ab31c43" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>predictions <span class="op">=</span> cls.predict(train_df)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>accuracy_score(y, predictions), cls.score(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>predictions <span class="op">=</span> cls.predict(train_df)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>accuracy_score(y, predictions), cls.score(X, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(0.500803083841953, 0.500803083841953)</code></pre>
 </div>
@@ -495,10 +498,10 @@ Note
 <div class="page-columns page-full"><p>We’ve trained a model and evaluated it’s accuracy so now we can move on to making a better model. WRONG, WE HAVEN’T EVALUATED THE MODEL!!! We checked the accuracy on the <em>training data</em> which isn’t a true evaluation of the model. We want to know how well our model works <em>on data it hasn’t seen yet</em>, which is why we have a test set. The test set is used exclusively to benchmark the performance of the model and is not used in the training process. This comes back to making models that generalize to unseen data. Models generally perform better on data they’re trained on because that data is what the model is optimized to predict for. If we use that same data to test the model, then we’ll likely be overconfident in our models predictions. When we deploy the model and it is used on new data it hasn’t seen we’ll be in for a rude awakening. So we separate our dataset into training and testing datasets. In practice care should go into how these datasets are curated, but we won’t worry about that here since I’ve already cleaned our datasets.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I highly recommend this <a href="https://www.fast.ai/posts/2017-11-13-validation-sets.html">blog post</a> on the dangers of blindly splitting your data. It is about validation sets, but the same concepts apply to test sets.</span></div></div>
 <p>So let’s evaluate our model for real.</p>
 <div id="890baad5-06a2-419c-8611-c73aab8836e4" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Separate the reviews and labels for the test set</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Separate the reviews and labels for the test set</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="co"># like we did for the train set.</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>X_test, y_test <span class="op">=</span> test_df[[<span class="st">"review"</span>]], test_df[<span class="st">"label"</span>]</span>
-<span id="cb15-4"><a href="#cb15-4"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-4"><a href="#cb15-4"></a>cls.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>0.5011190233977619</code></pre>
 </div>
@@ -509,7 +512,7 @@ Note
 <h2 data-number="2.6" class="anchored" data-anchor-id="preprocessing"><span class="header-section-number">2.6</span> Preprocessing</h2>
 <p>When we prepared our training data, we ran this code:</p>
 <div id="c094d0cf-ccee-4c3f-9259-680a1128c355" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>X, y <span class="op">=</span> train_df[[<span class="st">"review"</span>]], train_df[<span class="st">"label"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>All we did was pull out the relevant columns from the dataframe, which is as simple as it gets. Preprocessing can get very complicated and we’ll explore how preprocessing impacts model performance in future chapters. One important aspect of preprocessing is the test dataset needs to be preprocessed <em>the same way</em> as the train dataset, because the model expects the data it makes predictions about to have the same form as the data it was trained on.</p>
 </section>
@@ -517,22 +520,22 @@ Note
 <h2 data-number="2.7" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">2.7</span> Rolling our own</h2>
 <p>Now that we’ve trained a model, let’s make it ourselves. It’s as simple as you can get, majority rules. We need to find the unique labels, count them, and keep the label with the highest count. <a href="https://numpy.org/doc/stable/reference/generated/numpy.unique.html"><code>np.unique</code></a> gives us all the information we need.</p>
 <div id="c8427fd3-def2-4512-8c83-6b0a77dbe8d9" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># `np.unique` returns the unique labels as the first element and</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># `np.unique` returns the unique labels as the first element and</span></span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="co"># those labels counts as the second element.</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3"></a>np.unique(y, return_counts<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>(array([0, 1]), array([12432, 12472]))</code></pre>
 </div>
 </div>
 <div class="page-columns page-full"><p>This shows the positive label is the majority class. Does this line up with the <code>sklearn</code> baseline?</p><div class="no-row-height column-margin column-container"><span class="margin-aside"><a href="#what-is-machine-learning">Earlier</a> I said models are just equations and that’s true of this model. It’s just the equation <code>f(x) = 1</code></span></div></div>
 <div id="50600ab3-f2fe-4429-98ad-09c2119ef266" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># `np.full` creates an array filled with one value. In this case</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># `np.full` creates an array filled with one value. In this case</span></span>
 <span id="cb20-2"><a href="#cb20-2"></a><span class="co"># we want an array the same length as `X_test` that's all</span></span>
 <span id="cb20-3"><a href="#cb20-3"></a><span class="co"># 1s.</span></span>
 <span id="cb20-4"><a href="#cb20-4"></a>pred <span class="op">=</span> np.full(<span class="bu">len</span>(X_test), <span class="dv">1</span>)</span>
 <span id="cb20-5"><a href="#cb20-5"></a></span>
 <span id="cb20-6"><a href="#cb20-6"></a><span class="co"># Compare our predictions to the `sklearn` baselines predictions.</span></span>
-<span id="cb20-7"><a href="#cb20-7"></a>np.<span class="bu">all</span>(pred <span class="op">==</span> cls.predict(X_test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-7"><a href="#cb20-7"></a>np.<span class="bu">all</span>(pred <span class="op">==</span> cls.predict(X_test))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>np.True_</code></pre>
 </div>
@@ -562,7 +565,7 @@ Note
 </ol>
 <p>With a few tweaks, our <code>BaselineClassifier</code> becomes a <code>scikit-learn</code> model.</p>
 <div id="64d41ba4-cf47-4989-9585-adae96071b3c" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb22-2"><a href="#cb22-2"></a></span>
 <span id="cb22-3"><a href="#cb22-3"></a></span>
 <span id="cb22-4"><a href="#cb22-4"></a><span class="kw">class</span> BaselineClassifier(ClassifierMixin, BaseEstimator):</span>
@@ -582,7 +585,7 @@ Note
 <span id="cb22-18"><a href="#cb22-18"></a></span>
 <span id="cb22-19"><a href="#cb22-19"></a></span>
 <span id="cb22-20"><a href="#cb22-20"></a>cls <span class="op">=</span> BaselineClassifier().fit(X, y)</span>
-<span id="cb22-21"><a href="#cb22-21"></a>cls.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-21"><a href="#cb22-21"></a>cls.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0.5011190233977619</code></pre>
 </div>
@@ -646,13 +649,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

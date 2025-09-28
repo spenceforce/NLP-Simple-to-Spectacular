@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../chapter/05_decision_tree/decision_tree.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -352,22 +355,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We have a bunch of reviews. They have positive or negative labels. The Gini impurity is the probability of a positive label times the probability of <em>not</em> a positive label plus the probability of a negative label times the probability of <em>not</em> a negative label. That’s a mouthful. Maybe we should start over and work up piece by piece with something more concrete.</p>
 <p>Let’s say 75% of the reviews are positive.</p>
 <div id="6e65d543-221f-42da-b2ad-d942015a17be" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>positive_prob <span class="op">=</span> <span class="fl">0.75</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>positive_prob <span class="op">=</span> <span class="fl">0.75</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The thing about probability is there is a 100% chance of some outcome. In our case the review must be positive or negative, so if 75% of the reviews are positive then the rest must be negative.</p>
 <div id="dc4fd201-1f77-42fe-921d-991f5aa25092" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>negative_prob <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> positive_prob</span>
-<span id="cb2-2"><a href="#cb2-2"></a>negative_prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>negative_prob <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> positive_prob</span>
+<span id="cb2-2"><a href="#cb2-2"></a>negative_prob</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>0.25</code></pre>
 </div>
 </div>
 <p>Now let’s compute the Gini impurity using these numbers.</p>
 <div id="3ae9caed-fd12-45b8-a524-96f40e0b7210" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>(</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    positive_prob <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> positive_prob)</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    <span class="op">+</span> negative_prob <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> negative_prob)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>0.375</code></pre>
 </div>
@@ -377,12 +380,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s imagine we have reviews with positive, negative, or neutral labels. Now the probability of not a positive label is the sum of negative and neutral label probabilities. What if we had 10 labels? Then the probability of not being a specific label would be the sum of the other 9 label probabilities. But it doesn’t matter how many labels there are because the probability of not being a specific label is the same as the sum of all the other label probabilities. Subtracting the label probability from 1 is easy.</p>
 <p>There’s another wrinkle I didn’t mention. The above definition is based on our use case of having two labels, but the actual definition extends to all labels. It sums up probability times it’s opposite. In it’s general form it’s also quick to code.</p>
 <div id="86b18a83-7308-43c9-a3eb-b4da16313ef6" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> gini(probabilities):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> gini(probabilities):</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="co">"""Return the Gini impurity."""</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>    <span class="cf">return</span> <span class="bu">sum</span>(p <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="cf">for</span> p <span class="kw">in</span> probabilities)</span>
 <span id="cb6-4"><a href="#cb6-4"></a></span>
 <span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>gini([<span class="fl">0.75</span>, <span class="fl">0.25</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6"></a>gini([<span class="fl">0.75</span>, <span class="fl">0.25</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>0.375</code></pre>
 </div>
@@ -408,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="6.4" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">6.4</span> Putting it all together</h2>
 <p>Now it’s just a matter of swapping the loss functions.</p>
 <div id="d97e564b-d88a-4e43-83eb-368133d35923" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> issparse</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, ClassifierMixin</span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="im">from</span> sklearn.utils.multiclass <span class="im">import</span> unique_labels</span>
@@ -573,11 +576,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-163"><a href="#cb8-163"></a>        <span class="co"># Convert `X` to `numpy` array for consistency.</span></span>
 <span id="cb8-164"><a href="#cb8-164"></a>        X <span class="op">=</span> np.array(X)</span>
 <span id="cb8-165"><a href="#cb8-165"></a>        <span class="co"># Return predictions from the binary decision tree.</span></span>
-<span id="cb8-166"><a href="#cb8-166"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-166"><a href="#cb8-166"></a>        <span class="cf">return</span> <span class="va">self</span>.tree_.predict(X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If you followed along last chapter you’ll see the code is almost identical. Now let’s run it and see what happens.</p>
 <div id="fd6db8f4-0956-40e4-b663-60d04120f50b" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
 <span id="cb9-4"><a href="#cb9-4"></a></span>
@@ -594,7 +597,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-15"><a href="#cb9-15"></a></span>
 <span id="cb9-16"><a href="#cb9-16"></a><span class="co"># Train and score</span></span>
 <span id="cb9-17"><a href="#cb9-17"></a>pipeline.fit(X, y)</span>
-<span id="cb9-18"><a href="#cb9-18"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-18"><a href="#cb9-18"></a>pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>0.5558087487283825</code></pre>
 </div>
@@ -656,13 +659,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

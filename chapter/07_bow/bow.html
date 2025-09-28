@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../chapter/06_loss/loss.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -104,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -133,7 +134,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -333,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -346,19 +349,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">Baseline</td>
+<th data-quarto-table-cell-role="th">Baseline</th>
 <td>0.501119</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">OneR (length)</td>
+<th data-quarto-table-cell-role="th">OneR (length)</th>
 <td>0.502665</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">OneR (boc)</td>
+<th data-quarto-table-cell-role="th">OneR (boc)</th>
 <td>0.581282</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">Decision Tree (boc + accuracy)</td>
+<th data-quarto-table-cell-role="th">Decision Tree (boc + accuracy)</th>
 <td>0.587792</td>
 </tr>
 </tbody>
@@ -372,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="7.1" class="anchored" data-anchor-id="easy-button"><span class="header-section-number">7.1</span> Easy button</h2>
 <p>When we learned about <a href="../../chapter/05_decision_tree/decision_tree.html">decision trees</a> we used the <code>CountVectorizer</code> class to make our bag of characters. By changing it’s arguments it will make a bag of words.</p>
 <div id="479860ef-665c-47d6-8efc-5e05f15cd7af" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> nlpbook <span class="im">import</span> get_train_test_data</span>
@@ -392,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-18"><a href="#cb1-18"></a><span class="co"># Train it!</span></span>
 <span id="cb1-19"><a href="#cb1-19"></a>pipeline.fit(X, y)</span>
 <span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Score it!</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a href="#cb1-21"></a>pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>0.7185350966429298</code></pre>
 </div>
@@ -403,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="7.2" class="anchored" data-anchor-id="rolling-our-own"><span class="header-section-number">7.2</span> Rolling our own</h2>
 <p>There’s not much to it. The code will look almost identical to the what we wrote in <a href="../04_boc/boc.html#sec-rolling-our-own-boc" class="quarto-xref"><span>Section 4.7</span></a>. The main difference will be what we store the counts in. Since we’re looking at all words in the training set that ends up being a large vocabulary. Too big to fit into a <code>numpy</code> array in fact, so we’ll use a <code>scipy</code> sparse matrix instead which offers a space efficient representation of a matrix.</p>
 <div id="842ee33f-7ae0-4573-a83f-dbffbf105209" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> csr_matrix</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="im">from</span> sklearn.base <span class="im">import</span> BaseEstimator, TransformerMixin</span>
 <span id="cb3-4"><a href="#cb3-4"></a></span>
@@ -480,17 +483,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-75"><a href="#cb3-75"></a>        <span class="cf">return</span> csr_matrix(</span>
 <span id="cb3-76"><a href="#cb3-76"></a>            (values, (row_indices, col_indices)),</span>
 <span id="cb3-77"><a href="#cb3-77"></a>            shape<span class="op">=</span>(X.shape[<span class="dv">0</span>], <span class="bu">len</span>(<span class="va">self</span>.vocabulary_)),</span>
-<span id="cb3-78"><a href="#cb3-78"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-78"><a href="#cb3-78"></a>        )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s plug it into a decision tree and see how it compares.</p>
 <div id="8d08c0dd-bb81-4e21-94cd-b865871bee51" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>bow <span class="op">=</span> BagOfWords()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>bow <span class="op">=</span> BagOfWords()</span>
 <span id="cb4-2"><a href="#cb4-2"></a>model <span class="op">=</span> DecisionTreeClassifier()</span>
 <span id="cb4-3"><a href="#cb4-3"></a>pipeline <span class="op">=</span> Pipeline([(<span class="st">"bow"</span>, bow), (<span class="st">"decision_tree"</span>, model)])</span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Train it!</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a>pipeline.fit(X, y)</span>
-<span id="cb4-7"><a href="#cb4-7"></a>pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7"></a>pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>0.6921668362156663</code></pre>
 </div>
@@ -501,12 +504,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="7.3" class="anchored" data-anchor-id="model-vs-representation"><span class="header-section-number">7.3</span> Model vs representation</h2>
 <div class="page-columns page-full"><p>Then again does it always make a difference? Would it help our <a href="../../chapter/03_oner/oner.html">OneR</a> model?</p><div class="no-row-height column-margin column-container"><span class="margin-aside">For those running the notebook, training <code>OneR</code> on a bag of words representation is slow. It tooks a half hour on my laptop.</span></div></div>
 <div id="25ce3cb8-8789-47c2-b4c6-ea7035e6b3d7" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> nlpbook.models.oner <span class="im">import</span> OneR</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> nlpbook.models.oner <span class="im">import</span> OneR</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a>oner <span class="op">=</span> OneR()</span>
 <span id="cb6-4"><a href="#cb6-4"></a>oner_pipeline <span class="op">=</span> Pipeline([(<span class="st">"bow"</span>, bow), (<span class="st">"oner"</span>, oner)])</span>
 <span id="cb6-5"><a href="#cb6-5"></a>oner_pipeline.fit(X, y)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>oner_pipeline.score(X_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6"></a>oner_pipeline.score(X_test, y_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>0.5942217700915564</code></pre>
 </div>
@@ -570,13 +573,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

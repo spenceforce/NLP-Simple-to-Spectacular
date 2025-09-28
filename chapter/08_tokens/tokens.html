@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../chapter/07_bow/bow.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -328,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Imagine we have a model that generates movie reviews. It outputs a bag of words. What do we do with those words? How do we put them together into sentences and paragraphs? We don’t because a bag of words has no information about the <em>order of the words</em>. Whatever representation we use must preserve the order.</p>
 <p>Like always let’s start simple. The simplest thing we can do is make a list of characters in the same order they are seen in some text.</p>
 <div id="917dc1f1-b105-40e9-912e-f17e74f07d01" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">list</span>(<span class="st">"Tokens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">list</span>(<span class="st">"Tokens"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>['T', 'o', 'k', 'e', 'n', 's']</code></pre>
 </div>
@@ -341,20 +344,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Much like we did with the bag representations, we need to convert those tokens to numbers since models work with numbers, not strings. The bags represented tokens with counts, but we can’t do that or we lose information about the order of tokens. Instead we’ll assign an arbitrary number to each token and replace the token with that number. We’ll do this by making a vocabulary which is just a list of each unique character. The index of each character will represent that character.</p>
 <p>Let’s make a vocabulary now.</p>
 <div id="0e0d9271-806a-4b2e-8152-4518f200f2f8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in the text.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in the text.</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(<span class="st">"Tokens"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3"></a>vocabulary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3"></a>vocabulary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>['n', 'o', 'k', 's', 'T', 'e']</code></pre>
 </div>
 </div>
 <p>We have a vocabulary of 6 tokens. Let’s tokenize and encode “Tokens”.</p>
 <div id="fc1dd45f-cdc0-4f18-8f7d-8127d72d0d43" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a>tokens <span class="op">=</span> <span class="bu">list</span>(<span class="st">"Tokens"</span>)</span>
 <span id="cb5-4"><a href="#cb5-4"></a>tokens_encoding <span class="op">=</span> [vocabulary.index(tok) <span class="cf">for</span> tok <span class="kw">in</span> tokens]</span>
-<span id="cb5-5"><a href="#cb5-5"></a>tokens_encoding</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5"></a>tokens_encoding</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[4, 1, 2, 5, 0, 3]</code></pre>
 </div>
@@ -366,15 +369,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Encodings and tokens are two sides of the same coin. We convert tokens to encodings and use those as inputs to models. Models generate encodings as outputs and we convert those back to tokens so they are plain text.</p>
 <p>These operations are handled outside of the model by a <em>tokenizer</em>. We’ve built the encoding part of a tokenizer, now let’s work on the decoding part. Since the encoding is the indices of each character in <code>vocabulary</code> all we need to do is index into <code>vocabulary</code> with the encoding values.</p>
 <div id="3f8ad84e-d062-42f1-a18e-f2f7600edca9" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>tokens_decoded <span class="op">=</span> <span class="st">""</span>.join([vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> tokens_encoding])</span>
-<span id="cb7-2"><a href="#cb7-2"></a>tokens_decoded <span class="op">==</span> <span class="st">"Tokens"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>tokens_decoded <span class="op">=</span> <span class="st">""</span>.join([vocabulary[i] <span class="cf">for</span> i <span class="kw">in</span> tokens_encoding])</span>
+<span id="cb7-2"><a href="#cb7-2"></a>tokens_decoded <span class="op">==</span> <span class="st">"Tokens"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>We’ve gone through all the steps to encode and decode text. But of course there’s some gotchas. How do we encode reviews with unknown characters? For example “a” doesn’t appear in “Tokens”. Calling <code>index</code> will throw an error like this:</p>
 <div id="c396cbee-0a47-45fd-be53-e4baf34a7720" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>vocabulary.index(<span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -395,7 +398,7 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <p>Besides “&lt;unk&gt;” we’ll use two more special tokens. “&lt;cls&gt;” which identifies the beginning of a sequence and “&lt;eos&gt;” which identifies the end of a sequence. We will surround all reviews with these tokens.</p>
 <p>Now that we’ve seen all the pieces in action let’s wrap this up in a class.</p>
 <div id="af6039bd-a30c-42e4-80f1-540ccf0d8049" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a><span class="kw">class</span> CharTokenizer:</span>
@@ -458,14 +461,14 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <span id="cb10-61"><a href="#cb10-61"></a></span>
 <span id="cb10-62"><a href="#cb10-62"></a>tokenizer <span class="op">=</span> CharTokenizer()</span>
 <span id="cb10-63"><a href="#cb10-63"></a>tokenizer.train([<span class="st">"Tokens"</span>])</span>
-<span id="cb10-64"><a href="#cb10-64"></a><span class="co">"Tokens"</span> <span class="op">==</span> tokenizer.decode(tokenizer.encode(<span class="st">"Tokens"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-64"><a href="#cb10-64"></a><span class="co">"Tokens"</span> <span class="op">==</span> tokenizer.decode(tokenizer.encode(<span class="st">"Tokens"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>Now we’re rolling. Let’s see how it handles tokens that weren’t used in the training process.</p>
 <div id="f787549a-6a1b-431d-871a-77fe39e14ba5" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer.decode(tokenizer.encode(<span class="st">"TOKENS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>tokenizer.decode(tokenizer.encode(<span class="st">"TOKENS"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>'T&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;&lt;unk&gt;'</code></pre>
 </div>
@@ -528,13 +531,14 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

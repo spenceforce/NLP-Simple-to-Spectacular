@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -78,7 +78,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -89,14 +89,15 @@ div.csl-indent {
 <link href="../../../chapter/09_unigram/unigram.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,7 +125,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -153,7 +154,9 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../../">NLP: From Simple to Spectacular</a> 
     </div>
@@ -364,7 +367,7 @@ div.csl-indent {
 <p>The dataset used throughout this book was originally curated by a group at Stanford <span class="citation" data-cites="maas-EtAl:2011:ACL-HLT2011">(<a href="../../../references.html#ref-maas-EtAl:2011:ACL-HLT2011" role="doc-biblioref">Maas et al. 2011</a>)</span>. There are several ways to get your hands on a dataset, you can curate them yourself or rely on the work of others. This dataset can be found at <a href="https://ai.stanford.edu/~amaas/data/sentiment">https://ai.stanford.edu/~amaas/data/sentiment</a>, but for simplicities sake it’s downloadable from this <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/releases/tag/aclImdb_dataset">github repo</a>.</p>
 <p>Let’s grab the data!</p>
 <div id="87b50502-6d27-407a-bec6-90f809ae122f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> tarfile</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> tarfile</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> requests</span>
@@ -382,12 +385,12 @@ div.csl-indent {
 <span id="cb1-16"><a href="#cb1-16"></a><span class="cf">with</span> tarfile.<span class="bu">open</span>(tar_path) <span class="im">as</span> tar:</span>
 <span id="cb1-17"><a href="#cb1-17"></a>    tar.extractall(<span class="bu">filter</span><span class="op">=</span><span class="st">"data"</span>)</span>
 <span id="cb1-18"><a href="#cb1-18"></a>    data_path <span class="op">=</span> Path(<span class="st">"aclImdb"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># The untarred directory is `aclImdb` instead of `aclImdb_v1`.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># The untarred directory is `aclImdb` instead of `aclImdb_v1`.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="page-columns page-full"><p>This extracts the data from the tarball then assigns the output directory as a <code>pathlib.Path</code> object to <code>data_path</code>.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">I highly recommend checking out the <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> library if you don’t already use it. It provides a nice object oriented API for handling file paths.</span></div></div>
 <div class="page-columns page-full"><p>There are a lot of datasets out there. Some better than others. Before trying to predict anything, it’s a good idea to get a sense of what the dataset actually contains. Hopefully the datasets you’re using are well documented. The dataset we’re working with comes with a README which we can see in the directory contents.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Don’t worry if the paths shown in this notebook are different from the ones you see on your compute resource. The structure of the data directory should be the same, and by leveraging relative paths with <code>Path</code> objects, everything should just work.</span></div></div>
 <div id="2d9fdd64-8b1e-4274-a067-798d8570c793" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="bu">list</span>(data_path.iterdir())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="bu">list</span>(data_path.iterdir())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>[PosixPath('aclImdb/.ipynb_checkpoints'),
  PosixPath('aclImdb/imdbEr.txt'),
@@ -439,7 +442,7 @@ div.csl-indent {
 <p>The movie ID isn’t explicitly provided, but we can extract it from the reviews URL which have this format <code>http://www.imdb.com/title/[MOVIE_ID]/usercomments</code>.</p>
 <p>Let’s gather the training set which is under <code>train/pos</code> and <code>train/neg</code>.</p>
 <div id="610e64d2-1b25-4141-b42e-a15e6a20c0b4" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file):</span>
@@ -484,12 +487,12 @@ div.csl-indent {
 <span id="cb4-43"><a href="#cb4-43"></a></span>
 <span id="cb4-44"><a href="#cb4-44"></a></span>
 <span id="cb4-45"><a href="#cb4-45"></a>train_df <span class="op">=</span> get_train_data()</span>
-<span id="cb4-46"><a href="#cb4-46"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-46"><a href="#cb4-46"></a>train_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -502,7 +505,7 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>7275</td>
 <td>tt0082799</td>
 <td>1</td>
@@ -510,7 +513,7 @@ div.csl-indent {
 <td>0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>1438</td>
 <td>tt0397501</td>
 <td>4</td>
@@ -518,7 +521,7 @@ div.csl-indent {
 <td>0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>9137</td>
 <td>tt0364986</td>
 <td>1</td>
@@ -526,7 +529,7 @@ div.csl-indent {
 <td>0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>173</td>
 <td>tt0283974</td>
 <td>3</td>
@@ -534,7 +537,7 @@ div.csl-indent {
 <td>0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>8290</td>
 <td>tt0314630</td>
 <td>2</td>
@@ -555,7 +558,7 @@ div.csl-indent {
 </ul>
 <div class="page-columns page-full"><p>We can use <code>DataFrame.info()</code> to answer the first question. This method gives some general information about the dataframe, including the column names, number of non-null values in each column, column data types, and the number of rows.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">Null values include <code>None</code> and NaNs. NaN, or Not a Number, representa a number that is undefined, such as the result of dividing by 0.</span></div></div>
 <div id="e78adf46-195b-47fb-b4f1-1fb9597be2cc" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_df.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 Index: 25000 entries, 0 to 12499
@@ -573,19 +576,19 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 <p>This dataframe contains 25k entries, and all of those entries have non-null reviews. So the train set does contain 25k reviews. But we know nothing about the quality of these reviews. Are there duplicates? Empty strings? Are some complete gibberish? It’s impossible to qualitatively check every data point, but checking some basic properties of the data can go a long way. I like to call these sanity checks. Let’s start with empty strings.</p>
 <div id="4a5889e9-78a9-4fb2-bfcf-b8e99af65bd5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>train_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>().<span class="bu">min</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>train_df[<span class="st">"review"</span>].<span class="bu">str</span>.<span class="bu">len</span>().<span class="bu">min</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>np.int64(52)</code></pre>
 </div>
 </div>
 <p>The shortest review has 52 characters, so there are no empty reviews. Let’s turn our attention to duplicates. There’s many ways to check this. We’ll use <code>DataFrame.describe</code>.</p>
 <div id="691f0adc-d6e7-40eb-a3b1-0e795f338c62" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>train_df.describe(include<span class="op">=</span>[<span class="bu">object</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>train_df.describe(include<span class="op">=</span>[<span class="bu">object</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -595,22 +598,22 @@ memory usage: 1.1+ MB</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
+<th data-quarto-table-cell-role="th">count</th>
 <td>25000</td>
 <td>25000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">unique</td>
+<th data-quarto-table-cell-role="th">unique</th>
 <td>3456</td>
 <td>24904</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">top</td>
+<th data-quarto-table-cell-role="th">top</th>
 <td>tt0374240</td>
 <td>This show comes up with interesting locations ...</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">freq</td>
+<th data-quarto-table-cell-role="th">freq</th>
 <td>30</td>
 <td>3</td>
 </tr>
@@ -623,20 +626,20 @@ memory usage: 1.1+ MB</code></pre>
 <div class="page-columns page-full"><p> The <code>movie_id</code> column shows the most frequent movie ID shows up 30 times. So we know there’s at most 30 reviews for a given movie in this dataset.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">The <code>include=[object]</code> argument tells <code>describe</code> to look at columns with the <code>object</code> data type instead of numeric data types. Strings fall under the <code>object</code> type in <code>pandas</code>.</span></div></div>
 <p>The <code>review</code> column has a count of 25k, but 24,904 unique entries which means there’s 96 duplicate reviews. From a training perspective, it may not make sense to have duplicate items in the train set; odds are we don’t want them, but if they have conflicting labels we may want to keep them after all. Let’s take a peek at them to see if they belong to the same movie and have the same ratings and labels. We’ll create a new dataframe that contains only duplicated reviews.</p>
 <div id="164bd7dc-e555-4789-a59d-c878692ed3c7" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>is_duplicate <span class="op">=</span> train_df[<span class="st">"review"</span>].duplicated(keep<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>duplicate_reviews <span class="op">=</span> train_df[is_duplicate]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>is_duplicate <span class="op">=</span> train_df[<span class="st">"review"</span>].duplicated(keep<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>duplicate_reviews <span class="op">=</span> train_df[is_duplicate]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now that we have the duplicated reviews, let’s dig into them a bit. Are they for the same movie? Do they have the same rating or label?</p>
 <div id="518b1c1f-4359-4a23-9187-ab109d82bbf5" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>duplicate_nunique <span class="op">=</span> (</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>duplicate_nunique <span class="op">=</span> (</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    duplicate_reviews.groupby(<span class="st">"review"</span>).agg(<span class="st">"nunique"</span>).head()</span>
 <span id="cb11-3"><a href="#cb11-3"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>duplicate_nunique.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4"></a>duplicate_nunique.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -655,21 +658,21 @@ memory usage: 1.1+ MB</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">'Dead Letter Office' is a low-budget film about a couple of employees of the Australian postal service, struggling to rebuild their damaged lives. Unfortunately, the acting is poor and the links between the characters' past misfortunes and present mindsets are clumsily and over-schematically represented. What's most disappointing of all, however, is the portrayal is life in the office of the film's title: there's no mechanisation whatsoever, and it's quite impossible to ascertain what any of the staff really do for a living. Granted, part of the plot is that the office is threatened with closure, but this sort of office surely closed in the 1930s, if it ever truly existed. It's a shame, as the film's overall tone is poignant and wry, and there's some promise in the scenario: but few of the details convince. Overall, it feels the work of someone who hasn't actually experienced much of real life; a student film, with a concept and an outline, but sadly little else.</td>
+<th data-quarto-table-cell-role="th">'Dead Letter Office' is a low-budget film about a couple of employees of the Australian postal service, struggling to rebuild their damaged lives. Unfortunately, the acting is poor and the links between the characters' past misfortunes and present mindsets are clumsily and over-schematically represented. What's most disappointing of all, however, is the portrayal is life in the office of the film's title: there's no mechanisation whatsoever, and it's quite impossible to ascertain what any of the staff really do for a living. Granted, part of the plot is that the office is threatened with closure, but this sort of office surely closed in the 1930s, if it ever truly existed. It's a shame, as the film's overall tone is poignant and wry, and there's some promise in the scenario: but few of the details convince. Overall, it feels the work of someone who hasn't actually experienced much of real life; a student film, with a concept and an outline, but sadly little else.</th>
 <td>2</td>
 <td>2</td>
 <td>1</td>
 <td>1</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">.......Playing Kaddiddlehopper, Col San Fernando, etc. the man was pretty wide ranging and a scream. I love watching him interact w/ Amanda Blake, or Don Knotts or whomever--he clearly was having a ball and I think he made it easier on his guests as well--so long as they Knew ahead of time it wasn't a disciplined, 19 take kind of production. Relax and be loose was clearly the name of the game there.&lt;br /&gt;&lt;br /&gt;He reminds me of guys like Milton Berle, Benny Hill, maybe Jerry Lewis some too. Great timing, ancient gags that kept audiences in stitches for decades, sheer enjoyment about what he was doing. His sad little clown he played was good too--but in a touching manner.&lt;br /&gt;&lt;br /&gt;Personally I think he's great, having just bought a two DVD set of his shows from '61 or so, it brings his stuff back in a fond way for me. I can remember seeing him on TV at the end of his run when he was winding up the series in 1971 or so.&lt;br /&gt;&lt;br /&gt;Check this out if you are a fan or curious. He was a riot.</td>
+<th data-quarto-table-cell-role="th">.......Playing Kaddiddlehopper, Col San Fernando, etc. the man was pretty wide ranging and a scream. I love watching him interact w/ Amanda Blake, or Don Knotts or whomever--he clearly was having a ball and I think he made it easier on his guests as well--so long as they Knew ahead of time it wasn't a disciplined, 19 take kind of production. Relax and be loose was clearly the name of the game there.&lt;br /&gt;&lt;br /&gt;He reminds me of guys like Milton Berle, Benny Hill, maybe Jerry Lewis some too. Great timing, ancient gags that kept audiences in stitches for decades, sheer enjoyment about what he was doing. His sad little clown he played was good too--but in a touching manner.&lt;br /&gt;&lt;br /&gt;Personally I think he's great, having just bought a two DVD set of his shows from '61 or so, it brings his stuff back in a fond way for me. I can remember seeing him on TV at the end of his run when he was winding up the series in 1971 or so.&lt;br /&gt;&lt;br /&gt;Check this out if you are a fan or curious. He was a riot.</th>
 <td>2</td>
 <td>2</td>
 <td>1</td>
 <td>1</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">&lt;br /&gt;&lt;br /&gt;Back in his youth, the old man had wanted to marry his first cousin, but his family forbid it. Many decades later, the old man has raised three children (two boys and one girl), and allows his son and daughter to marry and have children. Soon, the sister is bored with brother #1, and jumps in the bed of brother #2.&lt;br /&gt;&lt;br /&gt;One might think that the three siblings are stuck somewhere on a remote island. But no -- they are upper class Europeans going to college and busy in the social world.&lt;br /&gt;&lt;br /&gt;Never do we see a flirtatious moment between any non-related female and the two brothers. Never do we see any flirtatious moment between any non-related male and the one sister. All flirtatious moments are shared between only between the brothers and sister.&lt;br /&gt;&lt;br /&gt;The weakest part of GLADIATOR was the incest thing. The young emperor Commodus would have hundreds of slave girls and a city full of marriage-minded girls all over him, but no -- he only wanted his sister? If movie incest is your cup of tea, then SUNSHINE will (slowly) thrill you to no end.</td>
+<th data-quarto-table-cell-role="th">&lt;br /&gt;&lt;br /&gt;Back in his youth, the old man had wanted to marry his first cousin, but his family forbid it. Many decades later, the old man has raised three children (two boys and one girl), and allows his son and daughter to marry and have children. Soon, the sister is bored with brother #1, and jumps in the bed of brother #2.&lt;br /&gt;&lt;br /&gt;One might think that the three siblings are stuck somewhere on a remote island. But no -- they are upper class Europeans going to college and busy in the social world.&lt;br /&gt;&lt;br /&gt;Never do we see a flirtatious moment between any non-related female and the two brothers. Never do we see any flirtatious moment between any non-related male and the one sister. All flirtatious moments are shared between only between the brothers and sister.&lt;br /&gt;&lt;br /&gt;The weakest part of GLADIATOR was the incest thing. The young emperor Commodus would have hundreds of slave girls and a city full of marriage-minded girls all over him, but no -- he only wanted his sister? If movie incest is your cup of tea, then SUNSHINE will (slowly) thrill you to no end.</th>
 <td>2</td>
 <td>1</td>
 <td>1</td>
@@ -684,15 +687,15 @@ memory usage: 1.1+ MB</code></pre>
 <p><code>groupby</code> is grouping rows with the same <code>review</code> column together into their own dataframes. The return value of this operation is a <code>DataFrameGroupBy</code>. This special dataframe type performs operations on each group as if they were their own dataframe instead of all rows in the dataframe. <code>agg</code> performs an operation on the entire dataframe, but since this is a <code>DataFrameGroupBy</code> object, the <code>agg</code> method is applied to each group. In this case it counts the number of unique values in each column for each unique review.</p>
 <p>Some of these reviews have two movie IDs. Let’s inspect the two reviews above that have multiple movie IDs.</p>
 <div id="cb7587f1-fedc-4d0f-8567-92f185d8abba" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>is_first2 <span class="op">=</span> duplicate_reviews[<span class="st">"review"</span>].isin(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>is_first2 <span class="op">=</span> duplicate_reviews[<span class="st">"review"</span>].isin(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    duplicate_nunique.index[:<span class="dv">2</span>]</span>
 <span id="cb12-3"><a href="#cb12-3"></a>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>duplicate_reviews[is_first2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4"></a>duplicate_reviews[is_first2]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -705,7 +708,7 @@ memory usage: 1.1+ MB</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">10893</td>
+<th data-quarto-table-cell-role="th">10893</th>
 <td>985</td>
 <td>tt0223119</td>
 <td>4</td>
@@ -713,7 +716,7 @@ memory usage: 1.1+ MB</code></pre>
 <td>0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">12445</td>
+<th data-quarto-table-cell-role="th">12445</th>
 <td>4102</td>
 <td>tt0118939</td>
 <td>4</td>
@@ -721,7 +724,7 @@ memory usage: 1.1+ MB</code></pre>
 <td>0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">101</td>
+<th data-quarto-table-cell-role="th">101</th>
 <td>6069</td>
 <td>tt0163806</td>
 <td>8</td>
@@ -729,7 +732,7 @@ memory usage: 1.1+ MB</code></pre>
 <td>1</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">5458</td>
+<th data-quarto-table-cell-role="th">5458</th>
 <td>9319</td>
 <td>tt0043224</td>
 <td>8</td>
@@ -747,15 +750,15 @@ memory usage: 1.1+ MB</code></pre>
 <p>We could check every single movie ID for duplicate reviews manually (or have an intern do it) because it’s possible there are duplicate reviews for different movies, but our task is to predict a label (positive or negative) given a review. Our models don’t need to see the same review over and over again in order to make predictions about them…unless duplicate reviews have different labels! Why would we want to train on both examples in this case? If the same review can be positive or negative, then training a machine learning model with both examples will teach the model to be uncertain about some reviews where the language is more ambiguous.</p>
 <p>Let’s see if there’s any duplicate reviews with multiple labels or ratings.</p>
 <div id="00642bc3-94b5-4ff6-bc24-1cdadd245e3d" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>different_labels <span class="op">=</span> (duplicate_nunique[<span class="st">"label"</span>] <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">|</span> (</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>different_labels <span class="op">=</span> (duplicate_nunique[<span class="st">"label"</span>] <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">|</span> (</span>
 <span id="cb13-2"><a href="#cb13-2"></a>    duplicate_nunique[<span class="st">"rating"</span>] <span class="op">&gt;</span> <span class="dv">1</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>duplicate_nunique[different_labels].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4"></a>duplicate_nunique[different_labels].head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -781,7 +784,7 @@ memory usage: 1.1+ MB</code></pre>
 </div>
 <p>There isn’t, which means these reviews stem from duplicate movie IDs. Since the labels are the same for each duplicate, I feel confident in just removing the duplicate entries. I’ve taken the liberty of performing this analysis on the test set and found the same issue, so we’ll remove duplicates from the test set as well.</p>
 <div id="67daecd1-32b2-4d6d-92bf-d798cf7dfa19" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file, dedup<span class="op">=</span><span class="va">False</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file, dedup<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb14-2"><a href="#cb14-2"></a>    <span class="co">"""</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="co">    Return a `pd.DataFrame` containing the review ID,</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="co">    movie ID, rating, and review.</span></span>
@@ -841,7 +844,7 @@ memory usage: 1.1+ MB</code></pre>
 <span id="cb14-58"><a href="#cb14-58"></a>train_df <span class="op">=</span> get_train_data()</span>
 <span id="cb14-59"><a href="#cb14-59"></a>train_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[</span>
 <span id="cb14-60"><a href="#cb14-60"></a>    (<span class="st">"review"</span>, <span class="st">"count"</span>)</span>
-<span id="cb14-61"><a href="#cb14-61"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-61"><a href="#cb14-61"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>label
 0    12432
@@ -850,17 +853,17 @@ Name: (review, count), dtype: object</code></pre>
 </div>
 </div>
 <div id="080f527c-8cd1-49ce-b76a-f58770f00134" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>train_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>train_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>(24904, 5)</code></pre>
 </div>
 </div>
 <p>We don’t quite have 25k reviews split evenly across labels, but it’s close enough. I think this is in good shape and we can turn our attention to the test set.</p>
 <div id="c1e8b58d-0118-4dbb-8daa-dcf45b8b3dc3" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>test_df <span class="op">=</span> get_test_data()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>test_df <span class="op">=</span> get_test_data()</span>
 <span id="cb18-2"><a href="#cb18-2"></a>test_df.groupby(<span class="st">"label"</span>).describe(include<span class="op">=</span><span class="st">"object"</span>)[</span>
 <span id="cb18-3"><a href="#cb18-3"></a>    (<span class="st">"review"</span>, <span class="st">"count"</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-4"><a href="#cb18-4"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>label
 0    12361
@@ -869,7 +872,7 @@ Name: (review, count), dtype: object</code></pre>
 </div>
 </div>
 <div id="8ae6b1ff-6949-4887-a9c6-bf5e2aa8017a" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>test_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>test_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>(24801, 5)</code></pre>
 </div>
@@ -881,8 +884,8 @@ Name: (review, count), dtype: object</code></pre>
 <p>Now let’s talk a bit about what the test set is used for. It’s a separate set of data used to evaluate a machine learning model after it’s trained. It is data used to measure the performance of a model on data it’s never seen before. This is important because when a model is used in production, it will be making predictions about all kinds of inputs it wasn’t trained on and it needs to generalize well beyond the training data. <strong>We do not want data leaking from the train set into the test set.</strong></p>
 <p>Easy enough to check.</p>
 <div id="df95771d-d6db-49a1-8d64-265eebc02cd3" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>leak_df <span class="op">=</span> test_df[test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])]</span>
-<span id="cb22-2"><a href="#cb22-2"></a>leak_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>leak_df <span class="op">=</span> test_df[test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])]</span>
+<span id="cb22-2"><a href="#cb22-2"></a>leak_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>(123, 5)</code></pre>
 </div>
@@ -891,8 +894,8 @@ Name: (review, count), dtype: object</code></pre>
 <p>Let’s think about that for a second. The reviews in the test set should be for movies that aren’t reviewed in the train set, but we have 123 reviews in the test set that are duplicates of those in the train set. How could this happen?</p>
 <p>Remember that we saw duplicate reviews in the train set. This was a result of the same movie having multiple movie IDs. That could explain what’s happening here. Maybe the reviews in both the train and test sets have different movie IDs. We can test that!</p>
 <div id="73976542-c5f1-4242-a0bd-b94c1605929f" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>both_df <span class="op">=</span> train_df.merge(test_df, on<span class="op">=</span><span class="st">"review"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2"></a>(both_df[<span class="st">"movie_id_x"</span>] <span class="op">==</span> both_df[<span class="st">"movie_id_y"</span>]).<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>both_df <span class="op">=</span> train_df.merge(test_df, on<span class="op">=</span><span class="st">"review"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>(both_df[<span class="st">"movie_id_x"</span>] <span class="op">==</span> both_df[<span class="st">"movie_id_y"</span>]).<span class="bu">any</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>np.False_</code></pre>
 </div>
@@ -918,19 +921,19 @@ Note
 </div>
 <p>First we’ll remove the leakage of reviews from the train set into the test set.</p>
 <div id="8c6ab8ca-08da-4a89-876c-e2aa4ba6f7d2" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">def</span> get_train_test_data():</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">def</span> get_train_test_data():</span>
 <span id="cb26-2"><a href="#cb26-2"></a>    <span class="co">"""Return train and test `pd.DataFrame`s."""</span></span>
 <span id="cb26-3"><a href="#cb26-3"></a>    train_df <span class="op">=</span> get_train_data()</span>
 <span id="cb26-4"><a href="#cb26-4"></a>    test_df <span class="op">=</span> get_test_data()</span>
 <span id="cb26-5"><a href="#cb26-5"></a>    test_df <span class="op">=</span> test_df[</span>
 <span id="cb26-6"><a href="#cb26-6"></a>        <span class="op">~</span>test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])</span>
 <span id="cb26-7"><a href="#cb26-7"></a>    ].copy()</span>
-<span id="cb26-8"><a href="#cb26-8"></a>    <span class="cf">return</span> train_df, test_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-8"><a href="#cb26-8"></a>    <span class="cf">return</span> train_df, test_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, let’s handle the issues that come from the one-to-many relationship of movies and movie IDs. The way movie IDs work in IMDB is there’s one main ID for a movie and other movie IDs for that movie point to the main ID. We saw this earlier when we looked at URLs for duplicate reviews. When you visit those URLs, the duplicate movie ID redirects to the main one. Try it with these URLS, <a href="http://www.imdb.com/title/tt0223119/reviews">http://www.imdb.com/title/tt0223119/reviews</a> and <a href="http://www.imdb.com/title/tt0118939/reviews">http://www.imdb.com/title/tt0118939/reviews</a>. Notice how the first link redirects to the second link. That’s because <code>tt0118939</code> is the main ID for that movie and <code>tt0223119</code> is a duplicate ID that points to it.</p>
 <div class="page-columns page-full"><p>I’ve taken the liberty of creating a csv file that maps every movie ID in this dataset to their corresponding main movie ID. We’ll use this to replace the movie IDs in our train and test sets then check how many reviews there are per movie and if there’s any overlap of movies between the train and test sets.</p><div class="no-row-height column-margin column-container"><span class="margin-aside">If you’d like to see details on how I did this check out this <a href="https://github.com/spenceforce/NLP-Simple-to-Spectacular/blob/main/chapter/01_data/README.md">README</a>.</span></div></div>
 <div id="0600c0bb-234d-4ec0-bb0f-c52f33ed01de" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file, dedup<span class="op">=</span><span class="va">False</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">def</span> get_review_data(reviews_dir, urls_file, dedup<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb27-2"><a href="#cb27-2"></a>    <span class="co">"""</span></span>
 <span id="cb27-3"><a href="#cb27-3"></a><span class="co">    Return a `pd.DataFrame` containing the review ID,</span></span>
 <span id="cb27-4"><a href="#cb27-4"></a><span class="co">    movie ID, rating, and review.</span></span>
@@ -958,11 +961,11 @@ Note
 <span id="cb27-26"><a href="#cb27-26"></a>    rv <span class="op">=</span> pd.DataFrame(data)</span>
 <span id="cb27-27"><a href="#cb27-27"></a>    <span class="cf">if</span> dedup:</span>
 <span id="cb27-28"><a href="#cb27-28"></a>        <span class="cf">return</span> rv.drop_duplicates(<span class="st">"review"</span>).copy()</span>
-<span id="cb27-29"><a href="#cb27-29"></a>    <span class="cf">return</span> rv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-29"><a href="#cb27-29"></a>    <span class="cf">return</span> rv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Are there any movies in the original train set with more than 30 reviews?</p>
 <div id="3d0b3952-26f5-4076-b4b0-75713ba14ca0" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>movie_id
 tt0235326    32
@@ -975,7 +978,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>Yes there is. And what about in the deduplicated train set?</p>
 <div id="b42724a4-146b-431e-bc3e-c20d6b4b32ad" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>get_train_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>movie_id
 tt0118480    30
@@ -988,7 +991,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>No there isn’t. So deduplication actually brings the maximum number of reviews per movie down to 30 which was the original intent of this dataset. Let’s repeat this for the test set.</p>
 <div id="1dd11035-6cd9-43f5-9809-b9369f60ee96" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">False</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>movie_id
 tt0239496    60
@@ -1001,7 +1004,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>By comparison that’s pretty dramatic. We see one movie with 60 reviews and a couple with over 40!</p>
 <div id="6472e920-e5eb-4419-84e1-c73bbb87d1f9" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a>get_test_data(dedup<span class="op">=</span><span class="va">True</span>)[<span class="st">"movie_id"</span>].value_counts().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>movie_id
 tt0365830    30
@@ -1015,32 +1018,32 @@ Name: count, dtype: int64</code></pre>
 <p>But it’s the same story when we deduplicate the reviews. It seems the movies with more than 30 reviews are due to duplicate reviews caused by movies with multiple movie IDs. This is good news because the deduplication takes care of the overrepresented movies for us.</p>
 <p>This leaves one more question about train test contamination though. Are there any movies with reviews in the train and test set?</p>
 <div id="2284f28c-7325-47ce-b599-fca2c2ce098e" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb36-2"><a href="#cb36-2"></a>test_df[<span class="st">"movie_id"</span>].isin(train_df[<span class="st">"movie_id"</span>]).<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
+<span id="cb36-2"><a href="#cb36-2"></a>test_df[<span class="st">"movie_id"</span>].isin(train_df[<span class="st">"movie_id"</span>]).<span class="bu">any</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>np.True_</code></pre>
 </div>
 </div>
 <p>That is unfortunate. After removing reviews from the test set that appear in the train set, we’re still left with reviews in the test set for at least one movie that is reviewed in the train set. Let’s dig in a little.</p>
 <div id="c4b939e6-e9d9-4042-8f01-96a39848f045" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>overlapping_movies <span class="op">=</span> test_df[</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>overlapping_movies <span class="op">=</span> test_df[</span>
 <span id="cb38-2"><a href="#cb38-2"></a>    test_df[<span class="st">"movie_id"</span>].isin(train_df[<span class="st">"movie_id"</span>])</span>
 <span id="cb38-3"><a href="#cb38-3"></a>]</span>
-<span id="cb38-4"><a href="#cb38-4"></a>overlapping_movies.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-4"><a href="#cb38-4"></a>overlapping_movies.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>(103, 5)</code></pre>
 </div>
 </div>
 <p>There’s 103 reviews in the test set that shouldn’t be there because their associated movie is reviewed in the train set. How many movies are we talking?</p>
 <div id="2d0b5763-7d89-446a-af32-0bdbcee256e1" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a><span class="bu">len</span>(overlapping_movies[<span class="st">"movie_id"</span>].unique())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a><span class="bu">len</span>(overlapping_movies[<span class="st">"movie_id"</span>].unique())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>7</code></pre>
 </div>
 </div>
 <p>103 reviews across 7 movies. Let’s also remove these from the test set as they can artificially inflate the benchmarking performance of our models. Instead of removing the duplicate training reviews from the test set, we can filter out reviews with the same movie ID. This will capture duplicates from the same movie.</p>
 <div id="a3a1e620-4d90-4106-9db9-8cd994febdf2" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">def</span> get_train_test_data():</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">def</span> get_train_test_data():</span>
 <span id="cb42-2"><a href="#cb42-2"></a>    <span class="co">"""Return train and test `pd.DataFrame`s."""</span></span>
 <span id="cb42-3"><a href="#cb42-3"></a>    train_df <span class="op">=</span> get_train_data()</span>
 <span id="cb42-4"><a href="#cb42-4"></a>    test_df <span class="op">=</span> get_test_data()</span>
@@ -1051,26 +1054,26 @@ Name: count, dtype: int64</code></pre>
 <span id="cb42-9"><a href="#cb42-9"></a></span>
 <span id="cb42-10"><a href="#cb42-10"></a></span>
 <span id="cb42-11"><a href="#cb42-11"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb42-12"><a href="#cb42-12"></a>train_df.shape, test_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-12"><a href="#cb42-12"></a>train_df.shape, test_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>((24904, 5), (24576, 5))</code></pre>
 </div>
 </div>
 <p>We now have 24,904 reviews in the train set and 24,576 in the test set. By removing all reviews from the test set with a movie ID seen in the train set, that should handle duplicate reviews across these groups as well as duplicate movies, but there’s still something wrong with our test set. Our original test set was 25k. We removed 199 duplicate reviews in the test set, then 123 reviews seen in the train set, then 103 reviews with movie IDs seen in the train set. Adding that up doesn’t give us 24,576…</p>
 <div id="53b36727-f795-4b4f-b9e7-96e3cb0ed807" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="dv">25000</span> <span class="op">-</span> <span class="dv">199</span> <span class="op">-</span> <span class="dv">123</span> <span class="op">-</span> <span class="dv">103</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="dv">25000</span> <span class="op">-</span> <span class="dv">199</span> <span class="op">-</span> <span class="dv">123</span> <span class="op">-</span> <span class="dv">103</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>24575</code></pre>
 </div>
 </div>
 <p>Our test set has one to many reviews. That’s because we didn’t actually remove all duplicate reviews in the test set seen in the train set, we just removed the reviews with the same movie IDs. There’s one duplicate review in the train and test sets, it’s just for <strong><em>different movies!</em></strong></p>
 <div id="04869f65-e1c7-4205-a534-4a544d80e3ff" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>test_df[test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>test_df[test_df[<span class="st">"review"</span>].isin(train_df[<span class="st">"review"</span>])]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1083,7 +1086,7 @@ Name: count, dtype: int64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">10020</td>
+<th data-quarto-table-cell-role="th">10020</th>
 <td>12159</td>
 <td>tt0182766</td>
 <td>8</td>
@@ -1097,12 +1100,12 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="61dd8597-6a1c-4f5d-9c8a-123df2d0815d" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>train_df[train_df[<span class="st">"review"</span>].isin(test_df[<span class="st">"review"</span>])]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>train_df[train_df[<span class="st">"review"</span>].isin(test_df[<span class="st">"review"</span>])]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1115,7 +1118,7 @@ Name: count, dtype: int64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">355</td>
+<th data-quarto-table-cell-role="th">355</th>
 <td>10643</td>
 <td>tt0184773</td>
 <td>8</td>
@@ -1130,7 +1133,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>It turns out these two movies are part of a documentary series. One documentary ended up in the train set, the other in the test set, and one reviewer happened to write the same review for both. All that’s left is for us to remove the reviews from the test set seen in the train set <em>and</em> the reviews from the test set with movie IDs in the train set.</p>
 <div id="934cbd28-9322-40fe-b20a-008f45771dfa" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">def</span> get_train_test_data():</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">def</span> get_train_test_data():</span>
 <span id="cb48-2"><a href="#cb48-2"></a>    <span class="co">"""Return train and test `pd.DataFrame`s."""</span></span>
 <span id="cb48-3"><a href="#cb48-3"></a>    train_df <span class="op">=</span> get_train_data()</span>
 <span id="cb48-4"><a href="#cb48-4"></a>    test_df <span class="op">=</span> get_test_data()</span>
@@ -1141,7 +1144,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb48-9"><a href="#cb48-9"></a></span>
 <span id="cb48-10"><a href="#cb48-10"></a></span>
 <span id="cb48-11"><a href="#cb48-11"></a>train_df, test_df <span class="op">=</span> get_train_test_data()</span>
-<span id="cb48-12"><a href="#cb48-12"></a>train_df.shape, test_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-12"><a href="#cb48-12"></a>train_df.shape, test_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>((24904, 5), (24575, 5))</code></pre>
 </div>
@@ -1172,7 +1175,7 @@ Name: count, dtype: int64</code></pre>
 <h2 data-number="10.4" class="anchored" data-anchor-id="unsupervised-learning-data"><span class="header-section-number">10.4</span> Unsupervised learning data</h2>
 <p>The IMDB dataset includes an unsupervised learning dataset. The unsupervised set has no ratings and no labels. It’s just reviews. Like the train and test set we’ve already gone over, the same principle of deduplication applies and that’s really all we need.</p>
 <div id="f33fce42-e663-458a-8a73-02f8c67dee98" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="kw">def</span> get_unsup_data(dedup<span class="op">=</span><span class="va">True</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="kw">def</span> get_unsup_data(dedup<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb50-2"><a href="#cb50-2"></a>    <span class="co">"""</span></span>
 <span id="cb50-3"><a href="#cb50-3"></a><span class="co">    Return a `pd.DataFrame` with the unsupervised data.</span></span>
 <span id="cb50-4"><a href="#cb50-4"></a><span class="co">    """</span></span>
@@ -1189,13 +1192,13 @@ Name: count, dtype: int64</code></pre>
 <span id="cb50-15"><a href="#cb50-15"></a></span>
 <span id="cb50-16"><a href="#cb50-16"></a></span>
 <span id="cb50-17"><a href="#cb50-17"></a>unsup_df <span class="op">=</span> get_unsup_data()</span>
-<span id="cb50-18"><a href="#cb50-18"></a>unsup_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-18"><a href="#cb50-18"></a>unsup_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>(49507, 3)</code></pre>
 </div>
 </div>
 <div id="cf9a465d-ed72-43af-b577-55b61d6c8545" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>unsup_df[<span class="st">"movie_id"</span>].value_counts().head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>unsup_df[<span class="st">"movie_id"</span>].value_counts().head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>movie_id
 tt0325596    30
@@ -1271,13 +1274,14 @@ Maas, Andrew L., Raymond E. Daly, Peter T. Pham, Dan Huang, Andrew Y. Ng, and Ch
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
