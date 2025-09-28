@@ -1,1 +1,1 @@
-from _nlp import nlp_array
+from ._nlp import nlp_array
