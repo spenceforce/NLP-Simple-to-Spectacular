@@ -15,7 +15,7 @@ class CharTokenizer:
         vocabulary = set()
         for x in X:
             vocabulary |= set(x)
-        self.tokens = list(vocabulary)
+        self.tokens = sorted(vocabulary)
         self.special_tokens = [
             self.unk_token,
             self.cls_token,
