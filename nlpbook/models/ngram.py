@@ -1,15 +1,13 @@
 """N-gram models for text generation."""
 import numpy as np
-from scipy.special import softmax
 
 
 class Unigram:
     """Unigram model for text generation."""
 
-    def __init__(self, tokenizer, seed=None, softmax=False):
+    def __init__(self, tokenizer, seed=None):
         self.tokenizer = tokenizer
         self.rng = np.random.default_rng(seed)
-        self.softmax = softmax
 
     def fit(self, X):
         """Fit the model to the data.
@@ -32,10 +30,7 @@ class Unigram:
             # Add each count to it's respective index.
             encoding_counts[unique] += counts
         # Convert the counts to frequencies.
-        if self.softmax:
-            self.probabilities_ = softmax(encoding_counts)
-        else:
-            self.probabilities_ = encoding_counts / encoding_counts.sum()
+        self.probabilities_ = encoding_counts / encoding_counts.sum()
 
         return self
 
