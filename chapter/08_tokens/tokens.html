@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -345,10 +345,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s make a vocabulary now.</p>
 <div id="0e0d9271-806a-4b2e-8152-4518f200f2f8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># The vocabulary is the unique characters in the text.</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(<span class="st">"Tokens"</span>))</span>
+<span id="cb3-2"><a href="#cb3-2"></a>vocabulary <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(<span class="st">"Tokens"</span>))</span>
 <span id="cb3-3"><a href="#cb3-3"></a>vocabulary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>['n', 'o', 'k', 's', 'T', 'e']</code></pre>
+<pre><code>['T', 'e', 'k', 'n', 'o', 's']</code></pre>
 </div>
 </div>
 <p>We have a vocabulary of 6 tokens. Let’s tokenize and encode “Tokens”.</p>
@@ -359,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4"></a>tokens_encoding <span class="op">=</span> [vocabulary.index(tok) <span class="cf">for</span> tok <span class="kw">in</span> tokens]</span>
 <span id="cb5-5"><a href="#cb5-5"></a>tokens_encoding</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>[4, 1, 2, 5, 0, 3]</code></pre>
+<pre><code>[0, 4, 2, 1, 3, 5]</code></pre>
 </div>
 </div>
 <p>This numeric representation is called an <em>encoding</em>.</p>
@@ -409,7 +409,7 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <span id="cb10-9"><a href="#cb10-9"></a>        vocabulary <span class="op">=</span> <span class="bu">set</span>()</span>
 <span id="cb10-10"><a href="#cb10-10"></a>        <span class="cf">for</span> x <span class="kw">in</span> X:</span>
 <span id="cb10-11"><a href="#cb10-11"></a>            vocabulary <span class="op">|=</span> <span class="bu">set</span>(x)</span>
-<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">list</span>(vocabulary)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>        <span class="va">self</span>.tokens <span class="op">=</span> <span class="bu">sorted</span>(vocabulary)</span>
 <span id="cb10-13"><a href="#cb10-13"></a>        <span class="va">self</span>.unk_token <span class="op">=</span> <span class="st">"&lt;unk&gt;"</span></span>
 <span id="cb10-14"><a href="#cb10-14"></a>        <span class="va">self</span>.cls_token <span class="op">=</span> <span class="st">"&lt;cls&gt;"</span></span>
 <span id="cb10-15"><a href="#cb10-15"></a>        <span class="va">self</span>.eos_token <span class="op">=</span> <span class="st">"&lt;eos&gt;"</span></span>
