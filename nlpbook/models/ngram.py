@@ -29,6 +29,7 @@ class Unigram:
             unique, counts = np.unique(encoding, return_counts=True)
             # Add each count to it's respective index.
             encoding_counts[unique] += counts
+        self.counts_ = encoding_counts
         # Convert the counts to frequencies.
         self.probabilities_ = encoding_counts / encoding_counts.sum()
 
