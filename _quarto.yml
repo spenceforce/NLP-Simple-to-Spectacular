@@ -28,6 +28,10 @@ book:
     - part: "Generative AI"
       chapters:
       - chapter/09_unigram/unigram.ipynb
+      - chapter/10_ngram/ngram.ipynb
+    - part: "Side Quest"
+      chapters:
+      - chapter/11_hyperparameters/hyperparameters.ipynb
     - part: "Bonus chapters"
       chapters:
       - chapter/bonus/cleaning_data/cleaning_data.ipynb
