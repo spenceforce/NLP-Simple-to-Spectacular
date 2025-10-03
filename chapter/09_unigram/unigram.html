@@ -580,39 +580,40 @@ Perplexity of 'A cat lounging in the sun.': 29.28760373083102</code></pre>
 <span id="cb34-6"><a href="#cb34-6"></a></span>
 <span id="cb34-7"><a href="#cb34-7"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X):</span>
 <span id="cb34-8"><a href="#cb34-8"></a>        <span class="co">"""Expects `X` to be a list of encodings, not a matrix."""</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a>        <span class="co"># Start with a count of 1 for every token.</span></span>
-<span id="cb34-10"><a href="#cb34-10"></a>        encoding_counts <span class="op">=</span> np.ones(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens))</span>
-<span id="cb34-11"><a href="#cb34-11"></a>        <span class="cf">for</span> encoding <span class="kw">in</span> X:</span>
-<span id="cb34-12"><a href="#cb34-12"></a>            <span class="co"># Get the encoding values and their counts.</span></span>
-<span id="cb34-13"><a href="#cb34-13"></a>            unique, counts <span class="op">=</span> np.unique(encoding, return_counts<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb34-14"><a href="#cb34-14"></a>            <span class="co"># Add each count to it's respective index.</span></span>
-<span id="cb34-15"><a href="#cb34-15"></a>            encoding_counts[unique] <span class="op">+=</span> counts</span>
+<span id="cb34-9"><a href="#cb34-9"></a>        encoding_counts <span class="op">=</span> np.zeros(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens))</span>
+<span id="cb34-10"><a href="#cb34-10"></a>        <span class="cf">for</span> encoding <span class="kw">in</span> X:</span>
+<span id="cb34-11"><a href="#cb34-11"></a>            <span class="co"># Get the encoding values and their counts.</span></span>
+<span id="cb34-12"><a href="#cb34-12"></a>            unique, counts <span class="op">=</span> np.unique(encoding, return_counts<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb34-13"><a href="#cb34-13"></a>            <span class="co"># Add each count to it's respective index.</span></span>
+<span id="cb34-14"><a href="#cb34-14"></a>            encoding_counts[unique] <span class="op">+=</span> counts</span>
+<span id="cb34-15"><a href="#cb34-15"></a>        <span class="va">self</span>.counts_ <span class="op">=</span> encoding_counts</span>
 <span id="cb34-16"><a href="#cb34-16"></a>        <span class="co"># Convert the counts to frequencies.</span></span>
-<span id="cb34-17"><a href="#cb34-17"></a>        <span class="va">self</span>.probabilities_ <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
-<span id="cb34-18"><a href="#cb34-18"></a></span>
-<span id="cb34-19"><a href="#cb34-19"></a>        <span class="cf">return</span> <span class="va">self</span></span>
-<span id="cb34-20"><a href="#cb34-20"></a></span>
-<span id="cb34-21"><a href="#cb34-21"></a>    <span class="kw">def</span> _sample(<span class="va">self</span>):</span>
-<span id="cb34-22"><a href="#cb34-22"></a>        values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens)))</span>
-<span id="cb34-23"><a href="#cb34-23"></a>        encoding <span class="op">=</span> [<span class="va">self</span>.tokenizer.cls_idx]</span>
-<span id="cb34-24"><a href="#cb34-24"></a>        <span class="cf">while</span> encoding[<span class="op">-</span><span class="dv">1</span>] <span class="op">!=</span> <span class="va">self</span>.tokenizer.eos_idx:</span>
-<span id="cb34-25"><a href="#cb34-25"></a>            encoding.append(</span>
-<span id="cb34-26"><a href="#cb34-26"></a>                <span class="va">self</span>.rng.choice(values, p<span class="op">=</span><span class="va">self</span>.probabilities_)</span>
-<span id="cb34-27"><a href="#cb34-27"></a>            )</span>
-<span id="cb34-28"><a href="#cb34-28"></a>        <span class="cf">return</span> encoding</span>
-<span id="cb34-29"><a href="#cb34-29"></a></span>
-<span id="cb34-30"><a href="#cb34-30"></a>    <span class="kw">def</span> sample(<span class="va">self</span>, n<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb34-31"><a href="#cb34-31"></a>        <span class="co">"""Generate encodings."""</span></span>
-<span id="cb34-32"><a href="#cb34-32"></a>        <span class="cf">assert</span> (</span>
-<span id="cb34-33"><a href="#cb34-33"></a>            n <span class="op">&gt;</span> <span class="dv">0</span></span>
-<span id="cb34-34"><a href="#cb34-34"></a>        ), <span class="st">"Cannot generate a nonpositive number of samples."</span></span>
-<span id="cb34-35"><a href="#cb34-35"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
-<span id="cb34-36"><a href="#cb34-36"></a>            <span class="cf">return</span> <span class="va">self</span>._sample()</span>
-<span id="cb34-37"><a href="#cb34-37"></a>        <span class="cf">return</span> [<span class="va">self</span>._sample() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
-<span id="cb34-38"><a href="#cb34-38"></a></span>
-<span id="cb34-39"><a href="#cb34-39"></a>    <span class="kw">def</span> probabilities(<span class="va">self</span>, encoding):</span>
-<span id="cb34-40"><a href="#cb34-40"></a>        <span class="co">"""Return probabilities of the encoding."""</span></span>
-<span id="cb34-41"><a href="#cb34-41"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>.probabilities_[x] <span class="cf">for</span> x <span class="kw">in</span> encoding])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb34-17"><a href="#cb34-17"></a>        encoding_counts <span class="op">+=</span> <span class="dv">1</span>  <span class="co"># Label smoothing</span></span>
+<span id="cb34-18"><a href="#cb34-18"></a>        <span class="va">self</span>.probabilities_ <span class="op">=</span> encoding_counts <span class="op">/</span> encoding_counts.<span class="bu">sum</span>()</span>
+<span id="cb34-19"><a href="#cb34-19"></a></span>
+<span id="cb34-20"><a href="#cb34-20"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb34-21"><a href="#cb34-21"></a></span>
+<span id="cb34-22"><a href="#cb34-22"></a>    <span class="kw">def</span> _sample(<span class="va">self</span>):</span>
+<span id="cb34-23"><a href="#cb34-23"></a>        values <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.tokenizer.tokens)))</span>
+<span id="cb34-24"><a href="#cb34-24"></a>        encoding <span class="op">=</span> [<span class="va">self</span>.tokenizer.cls_idx]</span>
+<span id="cb34-25"><a href="#cb34-25"></a>        <span class="cf">while</span> encoding[<span class="op">-</span><span class="dv">1</span>] <span class="op">!=</span> <span class="va">self</span>.tokenizer.eos_idx:</span>
+<span id="cb34-26"><a href="#cb34-26"></a>            encoding.append(</span>
+<span id="cb34-27"><a href="#cb34-27"></a>                <span class="va">self</span>.rng.choice(values, p<span class="op">=</span><span class="va">self</span>.probabilities_)</span>
+<span id="cb34-28"><a href="#cb34-28"></a>            )</span>
+<span id="cb34-29"><a href="#cb34-29"></a>        <span class="cf">return</span> encoding</span>
+<span id="cb34-30"><a href="#cb34-30"></a></span>
+<span id="cb34-31"><a href="#cb34-31"></a>    <span class="kw">def</span> sample(<span class="va">self</span>, n<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb34-32"><a href="#cb34-32"></a>        <span class="co">"""Generate encodings."""</span></span>
+<span id="cb34-33"><a href="#cb34-33"></a>        <span class="cf">assert</span> (</span>
+<span id="cb34-34"><a href="#cb34-34"></a>            n <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb34-35"><a href="#cb34-35"></a>        ), <span class="st">"Cannot generate a nonpositive number of samples."</span></span>
+<span id="cb34-36"><a href="#cb34-36"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb34-37"><a href="#cb34-37"></a>            <span class="cf">return</span> <span class="va">self</span>._sample()</span>
+<span id="cb34-38"><a href="#cb34-38"></a>        <span class="cf">return</span> [<span class="va">self</span>._sample() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n)]</span>
+<span id="cb34-39"><a href="#cb34-39"></a></span>
+<span id="cb34-40"><a href="#cb34-40"></a>    <span class="kw">def</span> probabilities(<span class="va">self</span>, encoding):</span>
+<span id="cb34-41"><a href="#cb34-41"></a>        <span class="co">"""Return probabilities of the encoding."""</span></span>
+<span id="cb34-42"><a href="#cb34-42"></a>        <span class="cf">return</span> np.array([<span class="va">self</span>.probabilities_[x] <span class="cf">for</span> x <span class="kw">in</span> encoding])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s give it a spin and generate some text.</p>
 <div id="db2dabf0-dbaa-4b74-abf6-97dc8eb58593" class="cell" data-execution_count="17">
